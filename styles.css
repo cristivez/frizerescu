@@ -43,6 +43,20 @@
 .footer-links i {
     font-size: 1.2em;
 }
+.footer-social-label {
+    color: #aaa;
+    font-size: clamp(0.95rem,2vw,1.05rem);
+    margin-right: 0.7em;
+    opacity: 0.85;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+.footer-lang-switcher {
+    display: flex;
+    gap: 0.5em;
+    margin-left: 1.5em;
+    align-items: center;
+}
 .footer-copy {
     text-align: center;
     color: #666;
@@ -54,42 +68,84 @@
     .footer-links {
         gap: 0.7rem;
         flex-direction: column;
+        align-items: flex-start;
+    }
+    .footer-lang-switcher {
+        margin-right: 0;
+        margin-top: 0.7em;
     }
 }
 
 /* =============================
    Dropdown Button Styles (Hero)
    ============================= */
-.dropdown-btn-group {
-    position: relative;
-    display: inline-block;
+.dropdown-btn-group.hero-lang-switcher {
+    position: absolute;
+    top: 2vw;
+    right: 2vw;
+    left: auto;
+    z-index: 1200;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    gap: 0;
 }
 .dropdown-menu {
     display: none;
     position: absolute;
-    left: 0;
+    right: 0;
     top: 110%;
-    min-width: 160px;
-    background: var(--secondary-color);
-    box-shadow: 0 8px 24px var(--shadow-color);
-    border-radius: 8px;
+    min-width: 7em;
+    background: rgba(0,0,0,0.0);
+    color: #fff;
+    box-shadow: none;
+    border-radius: 0.7em;
     z-index: 10;
-    padding: 0.5rem 0;
+    padding: 0.2rem 0;
     animation: fadeInUp 0.2s;
 }
-.dropdown-menu a {
-    display: block;
-    padding: 10px 20px;
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.2s;
+.dropdown-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
-.dropdown-menu a:hover {
-    background: var(--bg-light);
+.dropdown-menu .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    width: 100%;
+    padding: 0.3em 1em;
+    background: rgba(0,0,0,0.35);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    text-align: left;
+    transition: background 0.18s, color 0.18s;
+    border-radius: 0.5em;
+    letter-spacing: 0.04em;
+    font-size: 1em;
+    backdrop-filter: blur(2px);
+    cursor: pointer;
+}
+.dropdown-menu .lang-btn:hover, .dropdown-menu .lang-btn:focus {
+    background: rgba(255,255,255,0.13);
+    color: #fff;
+    outline: none;
 }
 .dropdown-menu.show {
     display: block;
+}
+.lang-flag {
+    width: 18px;
+    height: 14px;
+    border-radius: 2px;
+    margin-right: 0.3em;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 
 /* =============================
@@ -149,73 +205,6 @@ body {
     margin-inline: auto;
     padding-inline: clamp(0.5rem,4vw,2rem);
     box-sizing: border-box;
-}
-
-
-/* =============================
-   Header & Navigation (fluid)
-   ============================= */
-.header {
-    background-color: var(--primary-color); /* solid black */
-    box-shadow: 0 2px 10px var(--shadow-color);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-}
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.7em;
-}
-.logo-img {
-    height: clamp(2.5rem,8vw,5.5rem);
-    width: auto;
-    max-width: 30vw;
-    min-width: 2.5rem;
-    object-fit: contain;
-}
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--secondary-color); /* white */
-    letter-spacing: 2px;
-}
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: clamp(0.7rem,4vw,2rem);
-    flex-wrap: wrap;
-    justify-content: flex-end;
-}
-.nav-links a {
-    text-decoration: none;
-    color: var(--secondary-color); /* white */
-    font-weight: 500;
-    transition: var(--transition);
-    position: relative;
-}
-.nav-links a:hover {
-    color: #ffd700; /* gold on hover */
-}
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: #ffd700;
-    transition: var(--transition);
-}
-.nav-links a:hover::after {
-    width: 100%;
 }
 
 
@@ -338,7 +327,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: 5em;
-    height
+    height: 3px;
     background-color: var(--primary-color);
 }
 
@@ -814,31 +803,39 @@ html {
     outline-offset: 2px;
 }
 
-/* Language Switcher Button - Lighter Gray */
+/* Language Switcher Button - Hero */
 .lang-btn {
-  transition: background 0.2s, color 0.2s;
-  color: #222; /* Vizibil pe fundal negru */
-  background: #fdfdfd;
-  border: 1px solid #e0e0e0;
-  font-weight: 600;
-  font-size: 15px;
-  padding: 4px 12px 4px 8px;
-  border-radius: 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: 4px;
-  margin-right: 0;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    transition: background 0.18s, color 0.18s, border 0.18s;
+    color: #fff;
+    background: rgba(0,0,0,0.32);
+    border: 1.5px solid rgba(255,255,255,0.7);
+    font-weight: 700;
+    font-size: 1.08em;
+    padding: 0.22em 1.1em 0.22em 0.7em;
+    border-radius: 1.5em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    margin-left: 0;
+    margin-right: 0;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(2px);
+    outline: none;
+    cursor: pointer;
+    min-height: 2em;
+    min-width: 3.2em;
 }
 .lang-btn[aria-pressed="true"], .lang-btn.active {
-  background: #222;
-  color: #fff;
-  font-weight: bold;
-  border-color: #222;
+    background: rgba(255,255,255,0.13);
+    color: #fff;
+    font-weight: 800;
+    border-color: #fff;
 }
 .lang-btn img {
-  margin-right: 3px;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    margin-right: 0.3em;
+    border-radius: 2px;
+    box-shadow: none;
+    width: 18px;
+    height: 14px;
 }

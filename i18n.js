@@ -1,6 +1,7 @@
 // i18n translations for RO and EN
 const translations = {
   ro: {
+    'footer-follow': 'Urmărește-ne pe social media:',
     'nav-home': 'Acasă',
     'nav-services': 'Servicii',
     'nav-locations': 'Locații',
@@ -44,6 +45,7 @@ const translations = {
     'footer-copy': '&copy; 2025 Frizerescu Barber Shop. Toate drepturile rezervate.'
   },
   en: {
+    'footer-follow': 'Follow us on social media:',
     'nav-home': 'Home',
     'nav-services': 'Services',
     'nav-locations': 'Locations',

@@ -74,54 +74,20 @@
 </head>
 <body>
 
-    <!-- Dynamically set --header-height for hero padding -->
-    <script>
-      function setHeaderHeightVar() {
-        var header = document.querySelector('.header');
-        if (header) {
-          var h = header.offsetHeight;
-          document.documentElement.style.setProperty('--header-height', h + 'px');
-        }
-      }
-      window.addEventListener('DOMContentLoaded', setHeaderHeightVar);
-      window.addEventListener('resize', setHeaderHeightVar);
-    </script>
-
-    <!-- Language Switcher (top right, floating) -->
-    <div id="lang-switcher" style="position:fixed;top:18px;right:18px;z-index:2000;">
-      <button id="lang-ro" class="lang-btn" aria-label="Română" style="background:none;border:none;cursor:pointer;padding:4px 12px 4px 8px;border-radius:18px;font-weight:bold;font-size:15px;display:inline-flex;align-items:center;gap:6px;">
-        <img src="https://flagcdn.com/24x18/ro.png" alt="RO" style="width:22px;height:16px;vertical-align:middle;"> RO
-      </button>
-      <button id="lang-en" class="lang-btn" aria-label="English" style="background:none;border:none;cursor:pointer;padding:4px 12px 4px 8px;border-radius:18px;font-weight:bold;font-size:15px;display:inline-flex;align-items:center;gap:6px;">
-        <img src="https://flagcdn.com/24x18/gb.png" alt="EN" style="width:22px;height:16px;vertical-align:middle;"> EN
-      </button>
-    </div>
-
-    <!-- =============================
-         Header & Navigation
-         ============================= -->
-    <header class="header">
-        <div class="container">
-            <nav class="navbar" aria-label="Main navigation">
-                <div class="logo">
-                    <img src="logo.jpeg" alt="Frizerescu Logo" class="logo-img">
-                    <span class="logo-text">FRIZERESCU</span>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#home" data-i18n="nav-home">Acasă</a></li>
-                    <li><a href="#services" data-i18n="nav-services">Servicii</a></li>
-                    <li><a href="#locations" data-i18n="nav-locations">Locații</a></li>
-                    <li><a href="#reviews" data-i18n="nav-reviews">Recenzii</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-
     <!-- =============================
          Hero Section
          ============================= -->
     <section id="home" class="hero">
+        <!-- Language Switcher Dropdown in top-right corner of hero -->
+        <div class="dropdown-btn-group hero-lang-switcher">
+            <button class="lang-btn lang-dropdown-toggle" aria-label="Schimbă limba" aria-haspopup="listbox" aria-expanded="false">
+                <img src="https://flagcdn.com/24x18/ro.png" alt="RO" class="lang-flag" id="current-lang-flag" style="width:18px;height:14px;"> <span id="current-lang-label">RO</span>
+            </button>
+            <ul class="dropdown-menu lang-dropdown-menu" tabindex="-1" role="listbox" aria-label="Alege limba">
+                <li><button class="lang-btn lang-option" data-lang="ro" aria-label="Română"><img src="https://flagcdn.com/24x18/ro.png" alt="RO" class="lang-flag" style="width:18px;height:14px;"> RO</button></li>
+                <li><button class="lang-btn lang-option" data-lang="en" aria-label="English"><img src="https://flagcdn.com/24x18/gb.png" alt="EN" class="lang-flag" style="width:18px;height:14px;"> EN</button></li>
+            </ul>
+        </div>
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">FRIZERESCU</h1>
@@ -365,20 +331,26 @@
          Footer (Apple-style Minimalist)
          ============================= -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-links">
-                <a href="#home" data-i18n="footer-home">Acasă</a>
-                <a href="#services" data-i18n="footer-services">Servicii</a>
-                <a href="#locations" data-i18n="footer-locations">Locații</a>
-                <a href="#reviews" data-i18n="footer-reviews">Recenzii</a>
-                <!-- Social media links -->
-                <a href="https://www.facebook.com/Frizerescu" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/frizerescu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            </div>
-            <div class="footer-copy" data-i18n="footer-copy">
-                &copy; 2025 Frizerescu Barber Shop. Toate drepturile rezervate.
-            </div>
+      <div class="container">
+        <div class="footer-links">
+          <span class="footer-social-label" data-i18n="footer-follow">Follow us on social media:</span>
+          <span class="footer-social-icons">
+            <a href="https://www.facebook.com/Frizerescu" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/frizerescu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          </span>
+          <span class="footer-lang-switcher">
+            <button id="footer-lang-ro" class="lang-btn" aria-label="Română">
+              <img src="https://flagcdn.com/24x18/ro.png" alt="RO" style="width:22px;height:16px;vertical-align:middle;"> RO
+            </button>
+            <button id="footer-lang-en" class="lang-btn" aria-label="English">
+              <img src="https://flagcdn.com/24x18/gb.png" alt="EN" style="width:22px;height:16px;vertical-align:middle;"> EN
+            </button>
+          </span>
         </div>
+        <div class="footer-copy" data-i18n="footer-copy">
+          &copy; 2025 Frizerescu Barber Shop. Toate drepturile rezervate.
+        </div>
+      </div>
     </footer>
 
 
@@ -386,6 +358,55 @@
          Scripts
          ============================= -->
     <script src="script.js"></script>
+
+<script>
+// HERO LANGUAGE SWITCHER DROPDOWN LOGIC
+document.addEventListener('DOMContentLoaded', function() {
+  var group = document.querySelector('.dropdown-btn-group.hero-lang-switcher');
+  if (!group) return;
+  var toggle = group.querySelector('.lang-dropdown-toggle');
+  var menu = group.querySelector('.dropdown-menu');
+  var label = document.getElementById('current-lang-label');
+  var flag = document.getElementById('current-lang-flag');
+  var langBtns = group.querySelectorAll('.lang-option');
+
+  function closeDropdown() {
+    menu.classList.remove('show');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+  function setDropdown(lang) {
+    if (lang === 'ro') {
+      label.textContent = 'RO';
+      flag.src = 'https://flagcdn.com/24x18/ro.png';
+      flag.alt = 'RO';
+    } else {
+      label.textContent = 'EN';
+      flag.src = 'https://flagcdn.com/24x18/gb.png';
+      flag.alt = 'EN';
+    }
+  }
+  toggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    menu.classList.toggle('show');
+    toggle.setAttribute('aria-expanded', menu.classList.contains('show') ? 'true' : 'false');
+  });
+  langBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      var lang = btn.getAttribute('data-lang');
+      setLanguage(lang);
+      localStorage.setItem('frizerescu-lang', lang);
+      setDropdown(lang);
+      closeDropdown();
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!group.contains(e.target)) closeDropdown();
+  });
+  // Set initial label/flag
+  var savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
+  setDropdown(savedLang);
+});
+</script>
     
     <style>
     /* Modern language switcher styles for both header and footer */
@@ -419,6 +440,54 @@
     .footer-lang-switcher {
       margin-left: 16px;
       font-size: 15px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: clamp(0.5rem, 2vw, 1.5rem);
+      font-size: 1rem;
+    }
+    .footer-social-label {
+      margin-right: 0.5em;
+      white-space: nowrap;
+    }
+    .footer-social-icons {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-right: 0.5em;
+    }
+    .footer-social-icons a {
+      color: #fff;
+      background: #222;
+      border-radius: 50%;
+      width: 2.2em;
+      height: 2.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .footer-social-icons a:hover {
+      background: #fff;
+      color: #222;
+    }
+    @media (max-width: 600px) {
+      .footer-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.7em;
+      }
+      .footer-lang-switcher {
+        margin-left: 0;
+      }
+      .footer-social-label, .footer-social-icons {
+        margin-right: 0;
+      }
     }
     </style>
     <script>
@@ -466,11 +535,12 @@
     <!-- Inline script: Language Switcher Logic for i18n -->
     <script src="i18n.js"></script>
     <script>
+    // Set language and update all [data-i18n] elements
     function setLanguage(lang) {
       document.documentElement.lang = lang;
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) {
+        if (translations[lang] && translations[lang][key]) {
           if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
             el.placeholder = translations[lang][key];
           } else if (el.classList.contains('footer-copy')) {
@@ -480,25 +550,40 @@
           }
         }
       });
-      // Update active button style
-      document.getElementById('lang-ro').style.fontWeight = lang === 'ro' ? 'bold' : 'normal';
-      document.getElementById('lang-en').style.fontWeight = lang === 'en' ? 'bold' : 'normal';
     }
 
-    // Language switcher event listeners
-    document.getElementById('lang-ro').addEventListener('click', function() {
-      setLanguage('ro');
-      localStorage.setItem('frizerescu-lang', 'ro');
-    });
-    document.getElementById('lang-en').addEventListener('click', function() {
-      setLanguage('en');
-      localStorage.setItem('frizerescu-lang', 'en');
-    });
-
-    // On page load, set language from localStorage or default to RO
+    // Footer language switcher logic (syncs with main switcher)
     document.addEventListener('DOMContentLoaded', function() {
-      const savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
+      var footerRo = document.getElementById('footer-lang-ro');
+      var footerEn = document.getElementById('footer-lang-en');
+      // If you have header switcher, add them here
+      var headerRo = document.getElementById('lang-ro');
+      var headerEn = document.getElementById('lang-en');
+      function updateActiveLang(lang) {
+        [footerRo, headerRo].forEach(function(btn) {
+          if (btn) btn.setAttribute('aria-pressed', lang === 'ro' ? 'true' : 'false');
+        });
+        [footerEn, headerEn].forEach(function(btn) {
+          if (btn) btn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+        });
+      }
+      function switchLang(lang) {
+        setLanguage(lang);
+        localStorage.setItem('frizerescu-lang', lang);
+        updateActiveLang(lang);
+      }
+      if (footerRo && footerEn) {
+        footerRo.addEventListener('click', function() { switchLang('ro'); });
+        footerEn.addEventListener('click', function() { switchLang('en'); });
+      }
+      if (headerRo && headerEn) {
+        headerRo.addEventListener('click', function() { switchLang('ro'); });
+        headerEn.addEventListener('click', function() { switchLang('en'); });
+      }
+      // On load, set language from localStorage or default to RO
+      var savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
       setLanguage(savedLang);
+      updateActiveLang(savedLang);
     });
     </script>
     <!-- Inline script: scroll to locations from hero buttons -->
