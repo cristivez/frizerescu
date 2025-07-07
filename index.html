@@ -1,0 +1,508 @@
+<!--
+    Frizerescu Barber Shop Website
+    index.html
+    -----------------------------------
+    Modern, minimalist barbershop website for Pipera & Kaufland locations.
+    - Clean, semantic HTML5
+    - Responsive, accessible, SEO-optimized
+    - All main sections documented in English for maintainability
+    - See styles.css for detailed CSS documentation
+-->
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frizerescu Barber Shop - Frizerie Pipera, Voluntari</title>
+    <meta name="description" content="Frizerescu Barber Shop - Frizerie modernă în Pipera, Voluntari. Servicii profesionale de tuns și barbă. Programări online prin MERO.">
+    <meta name="keywords" content="frizerie, barbershop, tuns, barbă, Pipera, Voluntari, București">
+    <!-- English SEO tags for i18n -->
+    <link rel="alternate" hreflang="en" href="https://frizerescu.ro/en" />
+    <meta name="description" lang="en" content="Frizerescu Barber Shop - Modern barbershop in Pipera, Voluntari. Professional hair and beard services. Online booking via MERO.">
+    <meta name="keywords" lang="en" content="barbershop, haircut, beard, Pipera, Voluntari, Bucharest">
+    <!-- Structured Data JSON-LD for Pipera location -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HairSalon",
+      "name": "Frizerescu Barber Shop",
+      "description": "Frizerie modernă în Pipera, Voluntari",
+      "url": "https://frizerescu.ro",
+      "telephone": "+40758720970",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bulevardul Pipera, nr 36",
+        "addressLocality": "Pipera",
+        "addressRegion": "Ilfov",
+        "postalCode": "077190",
+        "addressCountry": "RO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "44.5046616",
+        "longitude": "26.1367048"
+      },
+      "openingHours": [
+        "Mo-Fr 09:00-20:00",
+        "Sa 09:00-18:00"
+      ],
+      "priceRange": "$$",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.99",
+        "reviewCount": "4364"
+      }
+    }
+    </script>
+    <!-- Open Graph & Twitter Cards for SEO/social -->
+    <meta property="og:title" content="Frizerescu Barber Shop - Frizerie Pipera">
+    <meta property="og:description" content="Frizerie modernă în Pipera, Voluntari. Servicii profesionale de tuns și barbă.">
+    <meta property="og:image" content="https://frizerescu.ro/logo.png">
+    <meta property="og:url" content="https://frizerescu.ro">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ro_RO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Frizerescu Barber Shop">
+    <meta name="twitter:description" content="Frizerie modernă în Pipera, Voluntari">
+    <meta name="twitter:image" content="https://frizerescu.ro/logo.png">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Language Switcher (top right, floating) -->
+    <div id="lang-switcher" style="position:fixed;top:18px;right:18px;z-index:2000;">
+      <button id="lang-ro" class="lang-btn" aria-label="Română" style="background:none;border:none;cursor:pointer;padding:4px 12px 4px 8px;border-radius:18px;font-weight:bold;font-size:15px;display:inline-flex;align-items:center;gap:6px;">
+        <img src="https://flagcdn.com/24x18/ro.png" alt="RO" style="width:22px;height:16px;vertical-align:middle;"> RO
+      </button>
+      <button id="lang-en" class="lang-btn" aria-label="English" style="background:none;border:none;cursor:pointer;padding:4px 12px 4px 8px;border-radius:18px;font-weight:bold;font-size:15px;display:inline-flex;align-items:center;gap:6px;">
+        <img src="https://flagcdn.com/24x18/gb.png" alt="EN" style="width:22px;height:16px;vertical-align:middle;"> EN
+      </button>
+    </div>
+
+    <!-- =============================
+         Header & Navigation
+         ============================= -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar" aria-label="Main navigation">
+                <div class="logo">
+                    <img src="logo.jpeg" alt="Frizerescu Logo" class="logo-img">
+                    <span class="logo-text">FRIZERESCU</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home" data-i18n="nav-home">Acasă</a></li>
+                    <li><a href="#services" data-i18n="nav-services">Servicii</a></li>
+                    <li><a href="#locations" data-i18n="nav-locations">Locații</a></li>
+                    <li><a href="#reviews" data-i18n="nav-reviews">Recenzii</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- =============================
+         Hero Section
+         ============================= -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">FRIZERESCU</h1>
+                <p class="hero-subtitle" data-i18n="hero-subtitle">BARBER SHOP</p>
+                <p class="hero-description" data-i18n="hero-desc">Experiență autentică de barbershop în Pipera, Voluntari</p>
+                <div class="hero-buttons">
+                    <!-- Scrolls to locations section -->
+                    <button class="btn btn-primary hero-scroll-locatii" data-i18n="hero-book">
+                        <i class="fas fa-calendar-alt"></i> <span data-i18n="hero-book">Programează-te</span>
+                    </button>
+                    <button class="btn btn-secondary hero-scroll-locatii" data-i18n="hero-call">
+                        <i class="fas fa-phone"></i> <span data-i18n="hero-call">Sună</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =============================
+         Services Section
+         ============================= -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title" data-i18n="services-title">Serviciile Noastre</h2>
+            <div class="services-grid">
+                <!-- Each card represents a service offered -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 data-i18n="service-beard">Barbă</h3>
+                    <p class="service-duration">30 min</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shower"></i>
+                    </div>
+                    <h3 data-i18n="service-wash">Spălat și frecție</h3>
+                    <p class="service-duration">30 min</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cut"></i>
+                    </div>
+                    <h3 data-i18n="service-haircut">Tuns</h3>
+                    <p class="service-duration">30-45 min</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-scissors"></i>
+                    </div>
+                    <h3 data-i18n="service-haircut-beard">Tuns + Barbă</h3>
+                    <p class="service-duration">1 h</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-spray-can"></i>
+                    </div>
+                    <h3 data-i18n="service-haircut-wash">Tuns + Spălat</h3>
+                    <p class="service-duration">1 h</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bath"></i>
+                    </div>
+                    <h3 data-i18n="service-haircut-beard-wash">Tuns + Barbă + Spălat</h3>
+                    <p class="service-duration">1 h 10 min</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =============================
+         Locations Section
+         ============================= -->
+    <section id="locations" class="locations">
+        <div class="container">
+            <h2 class="section-title" data-i18n="locations-title">Locațiile Noastre</h2>
+            <div class="locations-grid">
+                <!-- Location 1: Frizerescu Pipera -->
+                <div class="location-card">
+                    <div class="location-header">
+                        <h3 data-i18n="location1-name">Frizerescu Pipera</h3>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-score">4.99</span>
+                            <span class="rating-count" data-i18n="location1-reviews">(4364 recenzii)</span>
+                        </div>
+                    </div>
+                    <div class="location-info">
+                        <p class="address" data-i18n="location1-address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Bulevardul Pipera, nr 36, Pipera (Voluntari)
+                        </p>
+                        <p class="landmark" data-i18n="location1-landmark">Lângă Biserica Adormirea Maicii Domnului</p>
+                        <p class="phone">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:0758720970">0758 720 970</a>
+                        </p>
+                    </div>
+                    <div class="location-hours">
+                        <h4 data-i18n="location1-hours">Program de lucru:</h4>
+                        <ul>
+                            <li data-i18n="location1-weekdays">Luni - Vineri: 9:00 - 20:00</li>
+                            <li data-i18n="location1-saturday">Sâmbătă: 9:00 - 18:00</li>
+                            <li data-i18n="location1-sunday">Duminică: Închis</li>
+                        </ul>
+                    </div>
+                    <div class="location-actions">
+                        <!-- Booking and directions buttons -->
+                        <a href="https://mero.ro/p/frizerescu" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-calendar-alt"></i> <span data-i18n="location1-book">Programare</span>
+                        </a>
+                        <a href="https://maps.app.goo.gl/Z9QD9q46qRpDf7e28" class="btn btn-secondary" target="_blank">
+                            <i class="fas fa-map"></i> <span data-i18n="location1-directions">Direcții</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Location 2: Frizerescu Kaufland -->
+                <div class="location-card">
+                    <div class="location-header">
+                        <h3 data-i18n="location2-name">Frizerescu Kaufland Pipera</h3>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-score">4.97</span>
+                            <span class="rating-count" data-i18n="location2-reviews">(378 recenzii)</span>
+                        </div>
+                    </div>
+                    <div class="location-info">
+                        <p class="address" data-i18n="location2-address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Bulevardul Pipera 2/IX, Voluntari
+                        </p>
+                        <p class="landmark" data-i18n="location2-landmark">KAUFLAND Pipera, lângă reprezentanța Volkswagen</p>
+                        <p class="phone">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:0750235222">0750 235 222</a>
+                        </p>
+                    </div>
+                    <div class="location-hours">
+                        <h4 data-i18n="location2-hours">Program de lucru:</h4>
+                        <ul>
+                            <li data-i18n="location2-week">Luni - Sâmbătă: 9:00 - 20:00</li>
+                            <li data-i18n="location2-sunday">Duminică: 9:00 - 17:00</li>
+                        </ul>
+                    </div>
+                    <div class="location-actions">
+                        <a href="https://mero.ro/p/frizerescu-kaufland" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-calendar-alt"></i> <span data-i18n="location2-book">Programare</span>
+                        </a>
+                        <a href="https://maps.app.goo.gl/CNMmHybu19wTyam49" class="btn btn-secondary" target="_blank">
+                            <i class="fas fa-map"></i> <span data-i18n="location2-directions">Direcții</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =============================
+         Reviews Section
+         ============================= -->
+    <section id="reviews" class="reviews">
+        <div class="container">
+            <h2 class="section-title" data-i18n="reviews-title">Ce spun clienții noștri</h2>
+            <div class="reviews-grid">
+                <!-- Each review card is a client testimonial -->
+                <!-- Frizerescu Pipera -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <span class="reviewer-name">Andrei M.</span>
+                            <span class="review-rating">★★★★★</span>
+                        </div>
+                        <span class="review-location" data-i18n="location-pipera">Frizerescu Pipera</span>
+                    </div>
+                    <p class="review-text">"Cea mai bună experiență la frizerie! Personal amabil, atmosferă relaxantă și atenție la detalii. Recomand cu încredere tuturor celor care vor un look modern!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <span class="reviewer-name">Madalina P.</span>
+                            <span class="review-rating">★★★★★</span>
+                        </div>
+                        <span class="review-location" data-i18n="location-pipera">Frizerescu Pipera</span>
+                    </div>
+                    <p class="review-text">"Profesionalism la superlativ! Băieții sunt foarte atenți, folosesc produse de calitate și mereu ies mulțumit. Locația este curată și primitoare."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <span class="reviewer-name">Vlad C.</span>
+                            <span class="review-rating">★★★★★</span>
+                        </div>
+                        <span class="review-location" data-i18n="location-pipera">Frizerescu Pipera</span>
+                    </div>
+                    <p class="review-text">"Servicii excelente, programare rapidă online și tunsori pe gustul fiecăruia. Recomand cu drag!"</p>
+                </div>
+                <!-- Frizerescu Kaufland Pipera -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <span class="reviewer-name">Robert D.</span>
+                            <span class="review-rating">★★★★★</span>
+                        </div>
+                        <span class="review-location" data-i18n="location-kaufland">Frizerescu Kaufland Pipera</span>
+                    </div>
+                    <p class="review-text">"Foarte mulțumit de serviciile primite! Frizerii sunt talentați, atmosfera prietenoasă, iar rezultatul final a depășit așteptările. Voi reveni cu siguranță!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <span class="reviewer-name">Cristina S.</span>
+                            <span class="review-rating">★★★★★</span>
+                        </div>
+                        <span class="review-location" data-i18n="location-kaufland">Frizerescu Kaufland Pipera</span>
+                    </div>
+                    <p class="review-text">"Recomand cu drag! Am venit cu băiețelul meu și am fost impresionați de răbdarea și atenția frizerului. Locație modernă și curată."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <span class="reviewer-name">Mihai T.</span>
+                            <span class="review-rating">★★★★★</span>
+                        </div>
+                        <span class="review-location" data-i18n="location-kaufland">Frizerescu Kaufland Pipera</span>
+                    </div>
+                    <p class="review-text">"Servicii rapide, personal prietenos și rezultate impecabile. O alegere excelentă pentru oricine locuiește în zonă!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- =============================
+         Footer (Apple-style Minimalist)
+         ============================= -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#home" data-i18n="footer-home">Acasă</a>
+                <a href="#services" data-i18n="footer-services">Servicii</a>
+                <a href="#locations" data-i18n="footer-locations">Locații</a>
+                <a href="#reviews" data-i18n="footer-reviews">Recenzii</a>
+                <!-- Social media links -->
+                <a href="https://www.facebook.com/Frizerescu" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/frizerescu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-copy" data-i18n="footer-copy">
+                &copy; 2025 Frizerescu Barber Shop. Toate drepturile rezervate.
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- =============================
+         Scripts
+         ============================= -->
+    <script src="script.js"></script>
+    
+    <style>
+    /* Modern language switcher styles for both header and footer */
+    .lang-btn {
+      transition: background 0.2s, color 0.2s;
+      color: #222;
+      background: #fff;
+      border: 1px solid #ddd;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 4px 10px 4px 6px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin-left: 4px;
+      margin-right: 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .lang-btn[aria-pressed="true"], .lang-btn.active {
+      background: #222;
+      color: #fff;
+      font-weight: bold;
+      border-color: #222;
+    }
+    .lang-btn img {
+      margin-right: 3px;
+      border-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .footer-lang-switcher {
+      margin-left: 16px;
+      font-size: 15px;
+    }
+    </style>
+    <script>
+    // Footer language switcher logic (syncs with main switcher)
+    document.addEventListener('DOMContentLoaded', function() {
+      var footerRo = document.getElementById('footer-lang-ro');
+      var footerEn = document.getElementById('footer-lang-en');
+      var headerRo = document.getElementById('lang-ro');
+      var headerEn = document.getElementById('lang-en');
+      function updateActiveLang(lang) {
+        [footerRo, headerRo].forEach(function(btn) {
+          if (btn) btn.setAttribute('aria-pressed', lang === 'ro' ? 'true' : 'false');
+        });
+        [footerEn, headerEn].forEach(function(btn) {
+          if (btn) btn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+        });
+      }
+      if (footerRo && footerEn && headerRo && headerEn) {
+        footerRo.addEventListener('click', function() {
+          setLanguage('ro');
+          localStorage.setItem('frizerescu-lang', 'ro');
+          updateActiveLang('ro');
+        });
+        footerEn.addEventListener('click', function() {
+          setLanguage('en');
+          localStorage.setItem('frizerescu-lang', 'en');
+          updateActiveLang('en');
+        });
+        headerRo.addEventListener('click', function() {
+          setLanguage('ro');
+          localStorage.setItem('frizerescu-lang', 'ro');
+          updateActiveLang('ro');
+        });
+        headerEn.addEventListener('click', function() {
+          setLanguage('en');
+          localStorage.setItem('frizerescu-lang', 'en');
+          updateActiveLang('en');
+        });
+        // On load, set active
+        var savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
+        updateActiveLang(savedLang);
+      }
+    });
+    </script>
+    <!-- Inline script: Language Switcher Logic for i18n -->
+    <script src="i18n.js"></script>
+    <script>
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = translations[lang][key];
+          } else if (el.classList.contains('footer-copy')) {
+            el.innerHTML = translations[lang][key];
+          } else {
+            el.textContent = translations[lang][key];
+          }
+        }
+      });
+      // Update active button style
+      document.getElementById('lang-ro').style.fontWeight = lang === 'ro' ? 'bold' : 'normal';
+      document.getElementById('lang-en').style.fontWeight = lang === 'en' ? 'bold' : 'normal';
+    }
+
+    // Language switcher event listeners
+    document.getElementById('lang-ro').addEventListener('click', function() {
+      setLanguage('ro');
+      localStorage.setItem('frizerescu-lang', 'ro');
+    });
+    document.getElementById('lang-en').addEventListener('click', function() {
+      setLanguage('en');
+      localStorage.setItem('frizerescu-lang', 'en');
+    });
+
+    // On page load, set language from localStorage or default to RO
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
+      setLanguage(savedLang);
+    });
+    </script>
+    <!-- Inline script: scroll to locations from hero buttons -->
+    <script>
+    // Scroll to locations section from hero buttons (for accessibility and UX)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.hero-scroll-locatii').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const locatiiSection = document.getElementById('locations');
+                if (locatiiSection) {
+                    locatiiSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    });
+    </script>
+
+</body>
+</html>
