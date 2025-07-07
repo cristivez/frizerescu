@@ -74,6 +74,19 @@
 </head>
 <body>
 
+    <!-- Dynamically set --header-height for hero padding -->
+    <script>
+      function setHeaderHeightVar() {
+        var header = document.querySelector('.header');
+        if (header) {
+          var h = header.offsetHeight;
+          document.documentElement.style.setProperty('--header-height', h + 'px');
+        }
+      }
+      window.addEventListener('DOMContentLoaded', setHeaderHeightVar);
+      window.addEventListener('resize', setHeaderHeightVar);
+    </script>
+
     <!-- Language Switcher (top right, floating) -->
     <div id="lang-switcher" style="position:fixed;top:18px;right:18px;z-index:2000;">
       <button id="lang-ro" class="lang-btn" aria-label="Română" style="background:none;border:none;cursor:pointer;padding:4px 12px 4px 8px;border-radius:18px;font-weight:bold;font-size:15px;display:inline-flex;align-items:center;gap:6px;">
