@@ -192,7 +192,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // =============================
     document.querySelectorAll('a[href*="mero.ro"]').forEach(function (button) {
         button.addEventListener('click', function () {
-            const location = this.href.includes('kaufland') ? 'kaufland' : 'pipera';
+            const location = this.href.includes('mega-mall') ? 'mega-mall' :
+                             this.href.includes('kaufland') ? 'kaufland' : 'pipera';
             console.log('Booking clicked for: ' + location);
         });
     });

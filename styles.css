@@ -257,6 +257,18 @@ html {
     transform: translateY(-2px);
 }
 
+.btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
 .btn:active {
     transform: translateY(0);
 }
@@ -377,6 +389,33 @@ html {
     margin-bottom: 0.5rem;
 }
 
+/* "NOU" / "NEW" badge for new locations */
+.badge-new {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #ffd700;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15em 0.6em;
+    border-radius: 0.3em;
+    border: 1.5px solid #ffd700;
+    margin-left: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+    animation: badgePulse 1.5s ease-in-out 3;
+}
+
+@keyframes badgePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Subtle gold accent for new location card */
+.location-new {
+    border-left: 3px solid #ffd700;
+}
+
 .rating {
     display: flex;
     align-items: center;
@@ -461,9 +500,47 @@ html {
 }
 
 .location-actions .btn {
-    flex: 1;
+    flex: 1 1 7em;
     justify-content: center;
-    min-width: 8em;
+    min-width: 7em;
+    padding: 0.6em 1em;
+}
+
+/* In 3-column grid (desktop), stack buttons vertically for clean look */
+@media (min-width: 901px) {
+    .location-actions {
+        flex-direction: column;
+    }
+
+    .location-actions .btn {
+        flex: 0 0 auto;
+    }
+}
+
+/* Location CTA: Programare — dark filled, primary action */
+.location-actions .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.location-actions .btn-primary:hover {
+    background-color: var(--hover-color);
+    border-color: var(--hover-color);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+/* Location CTA: Direcții — light gray, secondary action */
+.location-actions .btn-secondary {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    border: 2px solid var(--border-color);
+}
+
+.location-actions .btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-color: var(--primary-color);
 }
 
 
@@ -723,7 +800,7 @@ html {
         align-items: center;
     }
 
-    .btn {
+    .hero-buttons .btn {
         width: 100%;
         max-width: 250px;
     }
@@ -735,10 +812,6 @@ html {
     .services-grid,
     .locations-grid {
         grid-template-columns: 1fr;
-    }
-
-    .location-actions {
-        flex-direction: column;
     }
 
     /* Mobile Navigation */
