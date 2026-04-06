@@ -48,7 +48,7 @@ The site owner is NOT a developer. Follow these rules in every response:
 - `styles.css` — all styles, mobile-first responsive design with clamp()
 - `script.js` — hamburger menu, smooth scrolling, scroll animations, booking tracking, lazy loading, service worker stub
 - `i18n.js` — translation strings for Romanian and English
-- `logo.jpeg` — barbershop logo
+- `images/` — all images (logo, favicons, OG share image)
 - `CNAME` — custom domain (frizerescu.ro)
 - `SEO_CONFIG.md` — SEO configuration reference
 - `deploy.yml` — GitHub Actions deployment workflow
@@ -108,7 +108,7 @@ Before making any change, run through this mental checklist:
 
 ## Known Issues
 
-- The `og:image` meta tag references `logo.png` but the actual file is `logo.jpeg` — this should be fixed
+- Images are in the `images/` folder; `favicon.ico` and `apple-touch-icon.png` stay in root (browser convention)
 - Only the Pipera location has JSON-LD structured data; Kaufland location is missing
 - No `robots.txt` or `sitemap.xml` exists
 - No canonical URL tag

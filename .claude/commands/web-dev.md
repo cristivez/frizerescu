@@ -15,7 +15,7 @@ You are a senior web developer specializing in static sites, HTML5, CSS3, and va
 - `styles.css` — all styles, mobile-first responsive with clamp(), breakpoints at 480px, 600px, 900px
 - `script.js` — hamburger menu, smooth scrolling, scroll animations, Intersection Observer, booking tracking, lazy loading, service worker stub
 - `i18n.js` — RO/EN translation strings using data-i18n attributes with localStorage persistence
-- `logo.jpeg` — barbershop logo
+- `images/` — all images (logo.jpeg, favicons, og-image.jpg)
 - `CNAME` — custom domain frizerescu.ro
 - `deploy.yml` — GitHub Actions deployment
 

@@ -20,7 +20,7 @@ You are an SEO specialist optimizing the Frizerescu Barber Shop website for loca
 ## Known Issues
 
 - Missing canonical URL tag
-- og:image references `logo.png` but actual file is `logo.jpeg`
+- Images are in `images/` folder; `favicon.ico` and `apple-touch-icon.png` in root
 - Only Pipera location has JSON-LD structured data (Kaufland location is missing)
 - No `robots.txt` or `sitemap.xml`
 - No `preconnect` hints for external resources (Google Fonts, Font Awesome CDN)

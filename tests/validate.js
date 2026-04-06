@@ -54,12 +54,12 @@ check('i18n.js exists', fs.existsSync(path.join(ROOT, 'i18n.js')));
 check('robots.txt exists', fs.existsSync(path.join(ROOT, 'robots.txt')));
 check('sitemap.xml exists', fs.existsSync(path.join(ROOT, 'sitemap.xml')));
 check('CNAME exists', fs.existsSync(path.join(ROOT, 'CNAME')));
-check('logo.jpeg exists', fs.existsSync(path.join(ROOT, 'logo.jpeg')));
+check('logo.jpeg exists', fs.existsSync(path.join(ROOT, 'images', 'logo.jpeg')));
 check('favicon.ico exists', fs.existsSync(path.join(ROOT, 'favicon.ico')));
-check('favicon-32x32.png exists', fs.existsSync(path.join(ROOT, 'favicon-32x32.png')));
-check('favicon-16x16.png exists', fs.existsSync(path.join(ROOT, 'favicon-16x16.png')));
+check('favicon-32x32.png exists', fs.existsSync(path.join(ROOT, 'images', 'favicon-32x32.png')));
+check('favicon-16x16.png exists', fs.existsSync(path.join(ROOT, 'images', 'favicon-16x16.png')));
 check('apple-touch-icon.png exists', fs.existsSync(path.join(ROOT, 'apple-touch-icon.png')));
-check('og-image.jpg exists', fs.existsSync(path.join(ROOT, 'og-image.jpg')));
+check('og-image.jpg exists', fs.existsSync(path.join(ROOT, 'images', 'og-image.jpg')));
 
 // =============================
 // 2. HTML Structure
@@ -95,7 +95,7 @@ console.log('\n📱 Social Sharing (OG + Twitter)');
 check('og:title present', html.includes('og:title'));
 check('og:description present', html.includes('og:description'));
 check('og:image present', html.includes('og:image'));
-check('og:image points to og-image.jpg', /og:image.*og-image\.jpg/.test(html));
+check('og:image points to images/og-image.jpg', /og:image.*images\/og-image\.jpg/.test(html));
 check('og:image:width present', html.includes('og:image:width'));
 check('og:image:height present', html.includes('og:image:height'));
 check('og:url present', html.includes('og:url'));
@@ -103,15 +103,15 @@ check('og:type present', html.includes('og:type'));
 check('og:locale present', html.includes('og:locale'));
 check('og:site_name present', html.includes('og:site_name'));
 check('Twitter card present', html.includes('twitter:card'));
-check('Twitter image points to og-image.jpg', /twitter:image.*og-image\.jpg/.test(html));
+check('Twitter image points to images/og-image.jpg', /twitter:image.*images\/og-image\.jpg/.test(html));
 
 // =============================
 // 5. Favicon
 // =============================
 console.log('\n🖼️  Favicon');
 check('Favicon .ico link present', html.includes('href="favicon.ico"'));
-check('Favicon 32x32 link present', html.includes('favicon-32x32.png'));
-check('Favicon 16x16 link present', html.includes('favicon-16x16.png'));
+check('Favicon 32x32 link present', html.includes('images/favicon-32x32.png'));
+check('Favicon 16x16 link present', html.includes('images/favicon-16x16.png'));
 check('Apple touch icon link present', html.includes('apple-touch-icon.png'));
 
 // =============================
