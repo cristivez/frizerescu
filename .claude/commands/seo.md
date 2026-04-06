@@ -2,28 +2,23 @@ You are an SEO specialist optimizing the Frizerescu Barber Shop website for loca
 
 ## Context
 
-- Business: Frizerescu Barber Shop — barbershop with 2 locations in Pipera/Voluntari, near Bucharest
+- Business: Frizerescu Barber Shop — barbershop with 3 locations: Pipera (Voluntari), Kaufland Pipera (Voluntari), and Kaufland Mega Mall (București/Pantelimon)
 - Domain: frizerescu.ro (hosted on GitHub Pages)
-- Target keywords (RO): frizerie Pipera, frizerie Voluntari, barbershop Pipera, tuns Pipera, barbă Pipera, frizerie București nord, frizerie lângă mine Pipera, salon bărbați Voluntari, tuns și barbă Pipera
-- Target keywords (EN): barbershop Pipera, barber Voluntari, haircut Pipera Bucharest
+- Target keywords (RO): frizerie Pipera, frizerie Voluntari, frizerie București, barbershop Pipera, barbershop București, tuns Pipera, tuns Pantelimon, barbă Pipera, frizerie lângă mine Pipera, frizerie Mega Mall, frizerie Pantelimon, salon bărbați Voluntari, frizerie Kaufland, tuns și barbă București
+- Target keywords (EN): barbershop Pipera, barber Voluntari, haircut Pipera Bucharest, barbershop Mega Mall Bucharest
 - Language: Romanian (primary), English (secondary via i18n)
-- Audience: men searching for barbershop/haircut services in Pipera, Voluntari, and northern Bucharest
+- Audience: men searching for barbershop/haircut services in Pipera, Voluntari, Pantelimon, and Bucharest
 - Booking platform: MERO (mero.ro)
 
 ## Current SEO Setup
 
-- `index.html` has: title tag, meta description, meta keywords, Open Graph tags, HairSalon JSON-LD structured data, Twitter Cards
-- Dual language: hreflang tags for RO/EN
-- Single-page static site (no SSR, no dynamic content)
-- Custom domain with CNAME
-
-## Known Issues
-
-- Missing canonical URL tag
-- Images are in `images/` folder; `favicon.ico` and `apple-touch-icon.png` in root
-- Only Pipera location has JSON-LD structured data (Kaufland location is missing)
-- No `robots.txt` or `sitemap.xml`
-- No `preconnect` hints for external resources (Google Fonts, Font Awesome CDN)
+- `index.html` has: title tag, meta description, meta keywords, canonical URL, Open Graph tags, Twitter Cards
+- 3 separate HairSalon JSON-LD blocks (one per location) with full address, phone, geo, hours, rating
+- Favicon (ico + png sizes), apple-touch-icon, OG share image (1200x630)
+- Preconnect hints for Google Fonts, gstatic, cdnjs
+- `robots.txt` and `sitemap.xml` in place
+- Dual language: hreflang tag for RO
+- Images in `images/` folder; `favicon.ico` and `apple-touch-icon.png` in root
 
 ## SEO Audit Checklist
 
@@ -31,24 +26,24 @@ When auditing, check:
 1. **Title tag** — unique, under 60 chars, includes primary keyword and location
 2. **Meta description** — compelling, under 155 chars, includes CTA and booking mention
 3. **Heading hierarchy** — single H1 (FRIZERESCU), logical H2/H3 structure
-4. **Structured data** — valid HairSalon schema with all required fields (name, address, phone, geo, hours, priceRange, aggregateRating) for BOTH locations
-5. **Open Graph** — og:title, og:description, og:image (correct file!), og:url, og:locale
-6. **Canonical URL** — must be present and self-referencing
+4. **Structured data** — valid HairSalon schema with all required fields (name, address, phone, geo, hours, priceRange, aggregateRating) for ALL 3 locations
+5. **Open Graph** — og:title, og:description, og:image, og:url, og:locale, og:site_name
+6. **Canonical URL** — present and self-referencing
 7. **Image optimization** — alt tags, width/height attributes, file size
-8. **hreflang tags** — proper RO/EN alternate links
+8. **hreflang tags** — proper RO alternate link
 9. **Mobile-friendliness** — viewport meta, responsive design, Core Web Vitals
-10. **Page speed** — render-blocking resources (Google Fonts, Font Awesome), font-display: swap
-11. **Local SEO signals** — NAP consistency (Name, Address, Phone) across both locations, Google Maps links, review ratings in structured data
+10. **Page speed** — preconnect hints, font-display: swap, render-blocking resources
+11. **Local SEO signals** — NAP consistency (Name, Address, Phone) across all 3 locations, Google Maps links, review ratings in structured data
 12. **Content quality** — sufficient text content per section, natural keyword usage in Romanian
-13. **Multi-location SEO** — separate JSON-LD for each location (currently only Pipera has structured data)
+13. **Multi-location SEO** — separate JSON-LD for each location, keywords covering all 3 geographic areas
 
 ## Local SEO Focus Areas
 
-- Pipera / Voluntari / Ilfov county area
-- Northern Bucharest corridor
-- Competitor keywords: other barbershops in Pipera area
-- Google Business Profile alignment (NAP must match)
-- Review signals: 4.99/5 (4364 reviews) for Pipera, 4.97/5 (378 reviews) for Kaufland
+- **Pipera / Voluntari / Ilfov** — primary established market (2 locations)
+- **Pantelimon / Mega Mall / eastern Bucharest** — new market (Kaufland Mega Mall location)
+- **București** — city-wide coverage
+- Google Business Profile alignment (NAP must match for all 3 locations)
+- Review signals: 4.99/5 (4364 reviews) Pipera, 4.97/5 (378 reviews) Kaufland Pipera, 5.0/5 (25 reviews) Kaufland Mega Mall
 
 ## Output Format
 

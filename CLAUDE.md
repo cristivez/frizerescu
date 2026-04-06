@@ -29,9 +29,9 @@ The site owner is NOT a developer. Follow these rules in every response:
 ## Project Overview
 
 - **Domain**: frizerescu.ro (hosted on GitHub Pages)
-- **Business**: Barber shop with 2 locations in Pipera/Voluntari, Romania
-- **Booking platform**: MERO — mero.ro/p/frizerescu (Pipera) and mero.ro/p/frizerescu-kaufland (Kaufland)
-- **Phone**: +40758720970 (Pipera), +40750235222 (Kaufland Pipera)
+- **Business**: Barber shop with 3 locations — Pipera, Kaufland Pipera, and Kaufland Mega Mall (București)
+- **Booking platform**: MERO — mero.ro/p/frizerescu (Pipera), mero.ro/p/frizerescu-kaufland (Kaufland Pipera), mero.ro/p/frizerescu-kaufland-mega-mall (Mega Mall)
+- **Phone**: +40758720970 (Pipera), +40750235222 (Kaufland Pipera), +40750265228 (Kaufland Mega Mall)
 - **Social**: facebook.com/Frizerescu, instagram.com/frizerescu
 
 ## Tech Stack
@@ -64,13 +64,13 @@ The site owner is NOT a developer. Follow these rules in every response:
 
 ## Locations
 
-| | Frizerescu Pipera | Frizerescu Kaufland Pipera |
-|---|---|---|
-| Address | Bulevardul Pipera nr 36, Pipera (Voluntari) | Bulevardul Pipera 2/IX, Voluntari |
-| Rating | 4.99/5 (4364 reviews) | 4.97/5 (378 reviews) |
-| Hours | Mon-Fri 9-20, Sat 9-18, Sun closed | Mon-Sat 9-20, Sun 9-17 |
-| MERO | mero.ro/p/frizerescu | mero.ro/p/frizerescu-kaufland |
-| Phone | +40758720970 | +40750235222 |
+| | Frizerescu Pipera | Frizerescu Kaufland Pipera | Frizerescu Kaufland Mega Mall |
+|---|---|---|---|
+| Address | Bulevardul Pipera nr 36, Pipera (Voluntari) | Bulevardul Pipera 2/IX, Voluntari | Șos. Pantelimon 244-246, București |
+| Rating | 4.99/5 (4364 reviews) | 4.97/5 (378 reviews) | 5.0/5 (25 reviews) |
+| Hours | Mon-Fri 9-20, Sat 9-18, Sun closed | Mon-Sat 9-20, Sun 9-17 | Mon-Sat 9-20, Sun 9-18 |
+| MERO | mero.ro/p/frizerescu | mero.ro/p/frizerescu-kaufland | mero.ro/p/frizerescu-kaufland-mega-mall |
+| Phone | +40758720970 | +40750235222 | +40750265228 |
 
 ## Services
 
@@ -106,10 +106,9 @@ Before making any change, run through this mental checklist:
 - **Text/content change?** → "Are both RO and EN translations updated in i18n.js?"
 - **Any change?** → "Can I test this locally before pushing to the live site?"
 
-## Known Issues
+## Notes
 
 - Images are in the `images/` folder; `favicon.ico` and `apple-touch-icon.png` stay in root (browser convention)
-- Only the Pipera location has JSON-LD structured data; Kaufland location is missing
-- No `robots.txt` or `sitemap.xml` exists
-- No canonical URL tag
-- No `preconnect` hints for external resources (Google Fonts, Font Awesome CDN)
+- All 3 locations have JSON-LD structured data (HairSalon schema)
+- `robots.txt` and `sitemap.xml` are in place
+- Canonical URL, preconnect hints, and OG/Twitter tags are configured

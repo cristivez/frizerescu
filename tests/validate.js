@@ -120,7 +120,7 @@ check('Apple touch icon link present', html.includes('apple-touch-icon.png'));
 console.log('\n📊 Structured Data (JSON-LD)');
 const jsonLdBlocks = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g) || [];
 check('JSON-LD blocks present', jsonLdBlocks.length >= 1);
-check('Two JSON-LD blocks (both locations)', jsonLdBlocks.length === 2, `Found ${jsonLdBlocks.length}`);
+check('Three JSON-LD blocks (all locations)', jsonLdBlocks.length === 3, `Found ${jsonLdBlocks.length}`);
 
 jsonLdBlocks.forEach((block, i) => {
     const jsonStr = block.replace(/<script type="application\/ld\+json">/, '').replace(/<\/script>/, '');
@@ -205,10 +205,12 @@ anchorLinks.forEach(id => {
 // Check MERO booking links
 check('MERO Pipera link present', html.includes('mero.ro/p/frizerescu'));
 check('MERO Kaufland link present', html.includes('mero.ro/p/frizerescu-kaufland'));
+check('MERO Mega Mall link present', html.includes('mero.ro/p/frizerescu-kaufland-mega-mall'));
 
 // Check phone links
 check('Phone link (Pipera) present', html.includes('tel:0758720970'));
 check('Phone link (Kaufland) present', html.includes('tel:0750235222'));
+check('Phone link (Mega Mall) present', html.includes('tel:0750265228'));
 
 // =============================
 // 11. Preconnect Hints

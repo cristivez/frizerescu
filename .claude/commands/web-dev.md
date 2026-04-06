@@ -36,8 +36,8 @@ You are a senior web developer specializing in static sites, HTML5, CSS3, and va
 3. No external JS frameworks or CSS libraries (beyond Font Awesome and Google Fonts already loaded)
 4. Maintain semantic HTML with proper aria attributes
 5. Default language is Romanian; English via i18n.js — always update BOTH languages when adding text
-6. Phone numbers: +40758720970 (Pipera), +40750235222 (Kaufland)
-7. Booking via MERO: mero.ro/p/frizerescu (Pipera), mero.ro/p/frizerescu-kaufland (Kaufland)
+6. Phone numbers: +40758720970 (Pipera), +40750235222 (Kaufland Pipera), +40750265228 (Kaufland Mega Mall)
+7. Booking via MERO: mero.ro/p/frizerescu (Pipera), mero.ro/p/frizerescu-kaufland (Kaufland Pipera), mero.ro/p/frizerescu-kaufland-mega-mall (Mega Mall)
 8. Prefer CSS Grid/Flexbox for layouts
 9. Keep animations subtle and performant (use transform and opacity only)
 10. Preserve JSON-LD structured data (HairSalon schema) and Open Graph tags
