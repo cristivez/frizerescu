@@ -38,11 +38,9 @@ const translations = {
     'location2-sunday': 'Duminică: 9:00 - 17:00',
     'location2-directions': 'Direcții',
     'reviews-title': 'Ce spun clienții noștri',
-    'footer-home': 'Acasă',
-    'footer-services': 'Servicii',
-    'footer-locations': 'Locații',
-    'footer-reviews': 'Recenzii',
-    'footer-copy': '&copy; 2025 Frizerescu Barber Shop. Toate drepturile rezervate.'
+    'footer-copy': '&copy; 2026 Frizerescu Barber Shop. Toate drepturile rezervate.',
+    'location-pipera': 'Frizerescu Pipera',
+    'location-kaufland': 'Frizerescu Kaufland Pipera'
   },
   en: {
     'footer-follow': 'Follow us on social media:',
@@ -82,10 +80,8 @@ const translations = {
     'location2-sunday': 'Sunday: 9:00 AM - 5:00 PM',
     'location2-directions': 'Directions',
     'reviews-title': 'What our clients say',
-    'footer-home': 'Home',
-    'footer-services': 'Services',
-    'footer-locations': 'Locations',
-    'footer-reviews': 'Reviews',
-    'footer-copy': '&copy; 2025 Frizerescu Barber Shop. All rights reserved.'
+    'footer-copy': '&copy; 2026 Frizerescu Barber Shop. All rights reserved.',
+    'location-pipera': 'Frizerescu Pipera',
+    'location-kaufland': 'Frizerescu Kaufland Pipera'
   }
 };

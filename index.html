@@ -1,13 +1,3 @@
-<!--
-    Frizerescu Barber Shop Website
-    index.html
-    -----------------------------------
-    Modern, minimalist barbershop website for Pipera & Kaufland locations.
-    - Clean, semantic HTML5
-    - Responsive, accessible, SEO-optimized
-    - All main sections documented in English for maintainability
-    - See styles.css for detailed CSS documentation
--->
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -15,24 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frizerescu Barber Shop - Frizerie Pipera, Voluntari</title>
     <meta name="description" content="Frizerescu Barber Shop - Frizerie modernă în Pipera, Voluntari. Servicii profesionale de tuns și barbă. Programări online prin MERO.">
-    <meta name="keywords" content="frizerie, barbershop, tuns, barbă, Pipera, Voluntari, București">
-    <!-- English SEO tags for i18n -->
-    <link rel="alternate" hreflang="en" href="https://frizerescu.ro/en" />
-    <meta name="description" lang="en" content="Frizerescu Barber Shop - Modern barbershop in Pipera, Voluntari. Professional hair and beard services. Online booking via MERO.">
-    <meta name="keywords" lang="en" content="barbershop, haircut, beard, Pipera, Voluntari, Bucharest">
-    <!-- Structured Data JSON-LD for Pipera location -->
+    <meta name="keywords" content="frizerie, barbershop, tuns, barbă, Pipera, Voluntari, București, frizerie Pipera, barbershop Voluntari">
+
+    <!-- Canonical & hreflang -->
+    <link rel="canonical" href="https://frizerescu.ro/">
+    <link rel="alternate" hreflang="ro" href="https://frizerescu.ro/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+    <!-- Structured Data JSON-LD: Frizerescu Pipera -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "HairSalon",
-      "name": "Frizerescu Barber Shop",
+      "name": "Frizerescu Pipera",
       "description": "Frizerie modernă în Pipera, Voluntari",
       "url": "https://frizerescu.ro",
       "telephone": "+40758720970",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Bulevardul Pipera, nr 36",
-        "addressLocality": "Pipera",
+        "addressLocality": "Voluntari",
         "addressRegion": "Ilfov",
         "postalCode": "077190",
         "addressCountry": "RO"
@@ -42,11 +39,22 @@
         "latitude": "44.5046616",
         "longitude": "26.1367048"
       },
-      "openingHours": [
-        "Mo-Fr 09:00-20:00",
-        "Sa 09:00-18:00"
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "20:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "09:00",
+          "closes": "18:00"
+        }
       ],
       "priceRange": "$$",
+      "image": "https://frizerescu.ro/og-image.jpg",
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.99",
@@ -54,58 +62,136 @@
       }
     }
     </script>
-    <!-- Open Graph & Twitter Cards for SEO/social -->
-    <meta property="og:title" content="Frizerescu Barber Shop - Frizerie Pipera">
-    <meta property="og:description" content="Frizerie modernă în Pipera, Voluntari. Servicii profesionale de tuns și barbă.">
-    <meta property="og:image" content="https://frizerescu.ro/logo.png">
+
+    <!-- Structured Data JSON-LD: Frizerescu Kaufland Pipera -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HairSalon",
+      "name": "Frizerescu Kaufland Pipera",
+      "description": "Frizerie modernă în Kaufland Pipera, Voluntari",
+      "url": "https://frizerescu.ro",
+      "telephone": "+40750235222",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bulevardul Pipera 2/IX",
+        "addressLocality": "Voluntari",
+        "addressRegion": "Ilfov",
+        "addressCountry": "RO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "44.4983",
+        "longitude": "26.1271"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "09:00",
+          "closes": "20:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "09:00",
+          "closes": "17:00"
+        }
+      ],
+      "priceRange": "$$",
+      "image": "https://frizerescu.ro/og-image.jpg",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.97",
+        "reviewCount": "378"
+      }
+    }
+    </script>
+
+    <!-- Open Graph (Facebook, WhatsApp, Instagram) -->
+    <meta property="og:title" content="Frizerescu Barber Shop - Frizerie Pipera, Voluntari">
+    <meta property="og:description" content="Frizerie modernă în Pipera, Voluntari. Servicii profesionale de tuns și barbă. Programări online prin MERO.">
+    <meta property="og:image" content="https://frizerescu.ro/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
     <meta property="og:url" content="https://frizerescu.ro">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ro_RO">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Frizerescu Barber Shop">
-    <meta name="twitter:description" content="Frizerie modernă în Pipera, Voluntari">
-    <meta name="twitter:image" content="https://frizerescu.ro/logo.png">
-    <!-- Main stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <meta property="og:site_name" content="Frizerescu Barber Shop">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Frizerescu Barber Shop - Frizerie Pipera">
+    <meta name="twitter:description" content="Frizerie modernă în Pipera, Voluntari. Servicii profesionale de tuns și barbă.">
+    <meta name="twitter:image" content="https://frizerescu.ro/og-image.jpg">
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
     <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <!-- =============================
+         Header & Navigation
+         ============================= -->
+    <header class="header">
+        <div class="container navbar">
+            <div class="logo">
+                <a href="#home" aria-label="Acasă">
+                    <img src="logo.jpeg" alt="Frizerescu Barber Shop Logo" class="logo-img" width="60" height="60">
+                </a>
+            </div>
+            <!-- Mobile Menu Toggle -->
+            <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <!-- Navigation Links -->
+            <nav class="nav-links" aria-label="Main Navigation">
+                <a href="#home" class="active" data-i18n="nav-home">Acasă</a>
+                <a href="#services" data-i18n="nav-services">Servicii</a>
+                <a href="#locations" data-i18n="nav-locations">Locații</a>
+                <a href="#reviews" data-i18n="nav-reviews">Recenzii</a>
+
+                <!-- Language Switcher -->
+                <div class="header-lang-switcher" id="lang-switcher">
+                    <button id="lang-ro" class="lang-btn active" aria-pressed="true" aria-label="Română"><img src="https://flagcdn.com/24x18/ro.png" alt="RO" class="lang-flag" width="24" height="18">RO</button>
+                    <button id="lang-en" class="lang-btn" aria-pressed="false" aria-label="English"><img src="https://flagcdn.com/24x18/gb.png" alt="EN" class="lang-flag" width="24" height="18">EN</button>
+                </div>
+            </nav>
+        </div>
+    </header>
 
     <!-- =============================
          Hero Section
          ============================= -->
     <section id="home" class="hero">
-        <!-- Language Switcher Dropdown in top-right corner of hero -->
-        <div class="dropdown-btn-group hero-lang-switcher">
-            <button class="lang-btn lang-dropdown-toggle" aria-label="Schimbă limba" aria-haspopup="listbox" aria-expanded="false">
-                <img src="https://flagcdn.com/24x18/ro.png" alt="RO" class="lang-flag" id="current-lang-flag" style="width:18px;height:14px;"> <span id="current-lang-label">RO</span>
-            </button>
-            <ul class="dropdown-menu lang-dropdown-menu" tabindex="-1" role="listbox" aria-label="Alege limba">
-                <li><button class="lang-btn lang-option" data-lang="ro" aria-label="Română"><img src="https://flagcdn.com/24x18/ro.png" alt="RO" class="lang-flag" style="width:18px;height:14px;"> RO</button></li>
-                <li><button class="lang-btn lang-option" data-lang="en" aria-label="English"><img src="https://flagcdn.com/24x18/gb.png" alt="EN" class="lang-flag" style="width:18px;height:14px;"> EN</button></li>
-            </ul>
-        </div>
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">FRIZERESCU</h1>
                 <p class="hero-subtitle" data-i18n="hero-subtitle">BARBER SHOP</p>
                 <p class="hero-description" data-i18n="hero-desc">Experiență autentică de barbershop în Pipera, Voluntari</p>
                 <div class="hero-buttons">
-                    <!-- Scrolls to locations section -->
-                    <button class="btn btn-primary hero-scroll-locatii" data-i18n="hero-book">
+                    <button class="btn btn-primary hero-scroll-locatii">
                         <i class="fas fa-calendar-alt"></i> <span data-i18n="hero-book">Programează-te</span>
                     </button>
-                    <button class="btn btn-secondary hero-scroll-locatii" data-i18n="hero-call">
+                    <button class="btn btn-secondary hero-scroll-locatii">
                         <i class="fas fa-phone"></i> <span data-i18n="hero-call">Sună</span>
                     </button>
                 </div>
             </div>
         </div>
     </section>
-
 
     <!-- =============================
          Services Section
@@ -114,53 +200,39 @@
         <div class="container">
             <h2 class="section-title" data-i18n="services-title">Serviciile Noastre</h2>
             <div class="services-grid">
-                <!-- Each card represents a service offered -->
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-user-tie"></i></div>
                     <h3 data-i18n="service-beard">Barbă</h3>
                     <p class="service-duration">30 min</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-shower"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-shower"></i></div>
                     <h3 data-i18n="service-wash">Spălat și frecție</h3>
                     <p class="service-duration">30 min</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-cut"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-cut"></i></div>
                     <h3 data-i18n="service-haircut">Tuns</h3>
                     <p class="service-duration">30-45 min</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-scissors"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-scissors"></i></div>
                     <h3 data-i18n="service-haircut-beard">Tuns + Barbă</h3>
                     <p class="service-duration">1 h</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-spray-can"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-spray-can"></i></div>
                     <h3 data-i18n="service-haircut-wash">Tuns + Spălat</h3>
                     <p class="service-duration">1 h</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-bath"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-bath"></i></div>
                     <h3 data-i18n="service-haircut-beard-wash">Tuns + Barbă + Spălat</h3>
                     <p class="service-duration">1 h 10 min</p>
                 </div>
             </div>
         </div>
     </section>
-
 
     <!-- =============================
          Locations Section
@@ -180,9 +252,9 @@
                         </div>
                     </div>
                     <div class="location-info">
-                        <p class="address" data-i18n="location1-address">
+                        <p class="address">
                             <i class="fas fa-map-marker-alt"></i>
-                            Bulevardul Pipera, nr 36, Pipera (Voluntari)
+                            <span data-i18n="location1-address">Bulevardul Pipera, nr 36, Pipera (Voluntari)</span>
                         </p>
                         <p class="landmark" data-i18n="location1-landmark">Lângă Biserica Adormirea Maicii Domnului</p>
                         <p class="phone">
@@ -199,11 +271,10 @@
                         </ul>
                     </div>
                     <div class="location-actions">
-                        <!-- Booking and directions buttons -->
-                        <a href="https://mero.ro/p/frizerescu" class="btn btn-primary" target="_blank">
+                        <a href="https://mero.ro/p/frizerescu" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                             <i class="fas fa-calendar-alt"></i> <span data-i18n="location1-book">Programare</span>
                         </a>
-                        <a href="https://maps.app.goo.gl/Z9QD9q46qRpDf7e28" class="btn btn-secondary" target="_blank">
+                        <a href="https://maps.app.goo.gl/Z9QD9q46qRpDf7e28" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                             <i class="fas fa-map"></i> <span data-i18n="location1-directions">Direcții</span>
                         </a>
                     </div>
@@ -220,9 +291,9 @@
                         </div>
                     </div>
                     <div class="location-info">
-                        <p class="address" data-i18n="location2-address">
+                        <p class="address">
                             <i class="fas fa-map-marker-alt"></i>
-                            Bulevardul Pipera 2/IX, Voluntari
+                            <span data-i18n="location2-address">Bulevardul Pipera 2/IX, Voluntari</span>
                         </p>
                         <p class="landmark" data-i18n="location2-landmark">KAUFLAND Pipera, lângă reprezentanța Volkswagen</p>
                         <p class="phone">
@@ -238,10 +309,10 @@
                         </ul>
                     </div>
                     <div class="location-actions">
-                        <a href="https://mero.ro/p/frizerescu-kaufland" class="btn btn-primary" target="_blank">
+                        <a href="https://mero.ro/p/frizerescu-kaufland" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                             <i class="fas fa-calendar-alt"></i> <span data-i18n="location2-book">Programare</span>
                         </a>
-                        <a href="https://maps.app.goo.gl/CNMmHybu19wTyam49" class="btn btn-secondary" target="_blank">
+                        <a href="https://maps.app.goo.gl/CNMmHybu19wTyam49" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                             <i class="fas fa-map"></i> <span data-i18n="location2-directions">Direcții</span>
                         </a>
                     </div>
@@ -250,7 +321,6 @@
         </div>
     </section>
 
-
     <!-- =============================
          Reviews Section
          ============================= -->
@@ -258,8 +328,6 @@
         <div class="container">
             <h2 class="section-title" data-i18n="reviews-title">Ce spun clienții noștri</h2>
             <div class="reviews-grid">
-                <!-- Each review card is a client testimonial -->
-                <!-- Frizerescu Pipera -->
                 <div class="review-card">
                     <div class="review-header">
                         <div class="reviewer">
@@ -273,7 +341,7 @@
                 <div class="review-card">
                     <div class="review-header">
                         <div class="reviewer">
-                            <span class="reviewer-name">Madalina P.</span>
+                            <span class="reviewer-name">Mădălina P.</span>
                             <span class="review-rating">★★★★★</span>
                         </div>
                         <span class="review-location" data-i18n="location-pipera">Frizerescu Pipera</span>
@@ -290,7 +358,6 @@
                     </div>
                     <p class="review-text">"Servicii excelente, programare rapidă online și tunsori pe gustul fiecăruia. Recomand cu drag!"</p>
                 </div>
-                <!-- Frizerescu Kaufland Pipera -->
                 <div class="review-card">
                     <div class="review-header">
                         <div class="reviewer">
@@ -325,274 +392,27 @@
         </div>
     </section>
 
-
-
     <!-- =============================
-         Footer (Apple-style Minimalist)
+         Footer
          ============================= -->
     <footer class="footer">
       <div class="container">
         <div class="footer-links">
-          <span class="footer-social-label" data-i18n="footer-follow">Follow us on social media:</span>
+          <span class="footer-social-label" data-i18n="footer-follow">Urmărește-ne pe social media:</span>
           <span class="footer-social-icons">
-            <a href="https://www.facebook.com/Frizerescu" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/frizerescu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/Frizerescu" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/frizerescu" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
           </span>
         </div>
         <div class="footer-copy" data-i18n="footer-copy">
-          &copy; 2025 Frizerescu Barber Shop. Toate drepturile rezervate.
+          &copy; 2026 Frizerescu Barber Shop. Toate drepturile rezervate.
         </div>
       </div>
     </footer>
 
-
-    <!-- =============================
-         Scripts
-         ============================= -->
-    <script src="script.js"></script>
-
-<script>
-// HERO LANGUAGE SWITCHER DROPDOWN LOGIC
-document.addEventListener('DOMContentLoaded', function() {
-  var group = document.querySelector('.dropdown-btn-group.hero-lang-switcher');
-  if (!group) return;
-  var toggle = group.querySelector('.lang-dropdown-toggle');
-  var menu = group.querySelector('.dropdown-menu');
-  var label = document.getElementById('current-lang-label');
-  var flag = document.getElementById('current-lang-flag');
-  var langBtns = group.querySelectorAll('.lang-option');
-
-  function closeDropdown() {
-    menu.classList.remove('show');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
-  function setDropdown(lang) {
-    if (lang === 'ro') {
-      label.textContent = 'RO';
-      flag.src = 'https://flagcdn.com/24x18/ro.png';
-      flag.alt = 'RO';
-    } else {
-      label.textContent = 'EN';
-      flag.src = 'https://flagcdn.com/24x18/gb.png';
-      flag.alt = 'EN';
-    }
-  }
-  toggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    menu.classList.toggle('show');
-    toggle.setAttribute('aria-expanded', menu.classList.contains('show') ? 'true' : 'false');
-  });
-  langBtns.forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      var lang = btn.getAttribute('data-lang');
-      setLanguage(lang);
-      localStorage.setItem('frizerescu-lang', lang);
-      setDropdown(lang);
-      closeDropdown();
-    });
-  });
-  document.addEventListener('click', function(e) {
-    if (!group.contains(e.target)) closeDropdown();
-  });
-  // Set initial label/flag
-  var savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
-  setDropdown(savedLang);
-});
-</script>
-    
-    <style>
-    /* Modern language switcher styles for both header and footer */
-    .lang-btn {
-      transition: background 0.2s, color 0.2s;
-      color: #222;
-      background: #fff;
-      border: 1px solid #ddd;
-      font-weight: 500;
-      font-size: 14px;
-      padding: 4px 10px 4px 6px;
-      border-radius: 16px;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      margin-left: 4px;
-      margin-right: 0;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-    }
-    .lang-btn[aria-pressed="true"], .lang-btn.active {
-      background: #222;
-      color: #fff;
-      font-weight: bold;
-      border-color: #222;
-    }
-    .lang-btn img {
-      margin-right: 3px;
-      border-radius: 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    }
-    .footer-lang-switcher {
-      margin-left: 16px;
-      font-size: 15px;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: clamp(0.5rem, 2vw, 1.5rem);
-      font-size: 1rem;
-    }
-    .footer-social-label {
-      margin-right: 0.5em;
-      white-space: nowrap;
-    }
-    .footer-social-icons {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5em;
-      margin-right: 0.5em;
-    }
-    .footer-social-icons a {
-      color: #fff;
-      background: #222;
-      border-radius: 50%;
-      width: 2.2em;
-      height: 2.2em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2em;
-      transition: background 0.2s, color 0.2s;
-      text-decoration: none;
-    }
-    .footer-social-icons a:hover {
-      background: #fff;
-      color: #222;
-    }
-    @media (max-width: 600px) {
-      .footer-links {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.7em;
-      }
-      .footer-lang-switcher {
-        margin-left: 0;
-      }
-      .footer-social-label, .footer-social-icons {
-        margin-right: 0;
-      }
-    }
-    </style>
-    <script>
-    // Footer language switcher logic (syncs with main switcher)
-    document.addEventListener('DOMContentLoaded', function() {
-      var footerRo = document.getElementById('footer-lang-ro');
-      var footerEn = document.getElementById('footer-lang-en');
-      var headerRo = document.getElementById('lang-ro');
-      var headerEn = document.getElementById('lang-en');
-      function updateActiveLang(lang) {
-        [footerRo, headerRo].forEach(function(btn) {
-          if (btn) btn.setAttribute('aria-pressed', lang === 'ro' ? 'true' : 'false');
-        });
-        [footerEn, headerEn].forEach(function(btn) {
-          if (btn) btn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
-        });
-      }
-      if (footerRo && footerEn && headerRo && headerEn) {
-        footerRo.addEventListener('click', function() {
-          setLanguage('ro');
-          localStorage.setItem('frizerescu-lang', 'ro');
-          updateActiveLang('ro');
-        });
-        footerEn.addEventListener('click', function() {
-          setLanguage('en');
-          localStorage.setItem('frizerescu-lang', 'en');
-          updateActiveLang('en');
-        });
-        headerRo.addEventListener('click', function() {
-          setLanguage('ro');
-          localStorage.setItem('frizerescu-lang', 'ro');
-          updateActiveLang('ro');
-        });
-        headerEn.addEventListener('click', function() {
-          setLanguage('en');
-          localStorage.setItem('frizerescu-lang', 'en');
-          updateActiveLang('en');
-        });
-        // On load, set active
-        var savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
-        updateActiveLang(savedLang);
-      }
-    });
-    </script>
-    <!-- Inline script: Language Switcher Logic for i18n -->
+    <!-- Scripts -->
     <script src="i18n.js"></script>
-    <script>
-    // Set language and update all [data-i18n] elements
-    function setLanguage(lang) {
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-i18n]').forEach(function(el) {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            el.placeholder = translations[lang][key];
-          } else if (el.classList.contains('footer-copy')) {
-            el.innerHTML = translations[lang][key];
-          } else {
-            el.textContent = translations[lang][key];
-          }
-        }
-      });
-    }
-
-    // Footer language switcher logic (syncs with main switcher)
-    document.addEventListener('DOMContentLoaded', function() {
-      var footerRo = document.getElementById('footer-lang-ro');
-      var footerEn = document.getElementById('footer-lang-en');
-      // If you have header switcher, add them here
-      var headerRo = document.getElementById('lang-ro');
-      var headerEn = document.getElementById('lang-en');
-      function updateActiveLang(lang) {
-        [footerRo, headerRo].forEach(function(btn) {
-          if (btn) btn.setAttribute('aria-pressed', lang === 'ro' ? 'true' : 'false');
-        });
-        [footerEn, headerEn].forEach(function(btn) {
-          if (btn) btn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
-        });
-      }
-      function switchLang(lang) {
-        setLanguage(lang);
-        localStorage.setItem('frizerescu-lang', lang);
-        updateActiveLang(lang);
-      }
-      if (footerRo && footerEn) {
-        footerRo.addEventListener('click', function() { switchLang('ro'); });
-        footerEn.addEventListener('click', function() { switchLang('en'); });
-      }
-      if (headerRo && headerEn) {
-        headerRo.addEventListener('click', function() { switchLang('ro'); });
-        headerEn.addEventListener('click', function() { switchLang('en'); });
-      }
-      // On load, set language from localStorage or default to RO
-      var savedLang = localStorage.getItem('frizerescu-lang') || 'ro';
-      setLanguage(savedLang);
-      updateActiveLang(savedLang);
-    });
-    </script>
-    <!-- Inline script: scroll to locations from hero buttons -->
-    <script>
-    // Scroll to locations section from hero buttons (for accessibility and UX)
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.hero-scroll-locatii').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const locatiiSection = document.getElementById('locations');
-                if (locatiiSection) {
-                    locatiiSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    });
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
