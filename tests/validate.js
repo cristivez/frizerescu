@@ -60,6 +60,8 @@ check('favicon-32x32.png exists', fs.existsSync(path.join(ROOT, 'images', 'favic
 check('favicon-16x16.png exists', fs.existsSync(path.join(ROOT, 'images', 'favicon-16x16.png')));
 check('apple-touch-icon.png exists', fs.existsSync(path.join(ROOT, 'apple-touch-icon.png')));
 check('og-image.jpg exists', fs.existsSync(path.join(ROOT, 'images', 'og-image.jpg')));
+check('favicon-192x192.png exists', fs.existsSync(path.join(ROOT, 'images', 'favicon-192x192.png')));
+check('site.webmanifest exists', fs.existsSync(path.join(ROOT, 'site.webmanifest')));
 
 // =============================
 // 2. HTML Structure
@@ -109,10 +111,13 @@ check('Twitter image points to images/og-image.jpg', /twitter:image.*images\/og-
 // 5. Favicon
 // =============================
 console.log('\n🖼️  Favicon');
-check('Favicon .ico link present', html.includes('href="favicon.ico"'));
-check('Favicon 32x32 link present', html.includes('images/favicon-32x32.png'));
-check('Favicon 16x16 link present', html.includes('images/favicon-16x16.png'));
-check('Apple touch icon link present', html.includes('apple-touch-icon.png'));
+check('Favicon .ico link present (absolute URL)', html.includes('href="https://frizerescu.ro/favicon.ico"'));
+check('Favicon 192x192 link present (absolute URL)', html.includes('https://frizerescu.ro/images/favicon-192x192.png'));
+check('Favicon 32x32 link present (absolute URL)', html.includes('https://frizerescu.ro/images/favicon-32x32.png'));
+check('Favicon 16x16 link present (absolute URL)', html.includes('https://frizerescu.ro/images/favicon-16x16.png'));
+check('Apple touch icon link present (absolute URL)', html.includes('https://frizerescu.ro/apple-touch-icon.png'));
+check('Web manifest link present', html.includes('site.webmanifest'));
+check('Largest favicon (192x192) listed first', html.indexOf('192x192') < html.indexOf('32x32'));
 
 // =============================
 // 6. Structured Data (JSON-LD)
