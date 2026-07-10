@@ -46,5 +46,9 @@ export function Reveal({
     { scope: ref },
   );
 
-  return <div ref={ref} className={className}>{children}</div>;
+  return (
+    <div ref={ref} data-reveal className={className}>
+      {children}
+    </div>
+  );
 }
