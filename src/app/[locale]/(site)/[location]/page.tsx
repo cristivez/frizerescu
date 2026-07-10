@@ -37,10 +37,25 @@ export async function generateMetadata({
   if (!shop) return {};
   const t = await getTranslations({ locale, namespace: "meta.location" });
 
+  const title = t("title", { name: shop.name });
+  const description = t("description", { name: shop.name, landmark: shop.landmark[locale] });
+
   return {
-    title: t("title", { name: shop.name }),
-    description: t("description", { name: shop.name, landmark: shop.landmark[locale] }),
+    title,
+    description,
     alternates: alternates(locale, `/${shop.slug}`),
+    // Per-shop share preview: a link to this location on WhatsApp/Facebook
+    // shows the shop's own name and description, not the generic root card.
+    openGraph: {
+      title,
+      description,
+      url: alternates(locale, `/${shop.slug}`).canonical,
+      siteName: "Frizerescu Barber Shop",
+      locale: locale === "ro" ? "ro_RO" : "en_GB",
+      type: "website",
+      images: [{ url: "/images/og-image.jpg", width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image" },
   };
 }
 
