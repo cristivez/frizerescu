@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/Container";
 import { SectionLink } from "@/components/layout/SectionLink";
 import { Reveal } from "@/components/motion/Reveal";
-import { HeroLogo } from "@/components/motion/HeroLogo";
+import { Logo3D } from "@/components/motion/Logo3D";
 
 /**
  * Logo-forward hero: the real Frizerescu logo, turning in 3D, is the
@@ -17,8 +17,9 @@ export function Hero() {
       <Container className="relative flex min-h-[88svh] flex-col items-center justify-center gap-8 py-[calc(var(--header-h)+2rem)] text-center">
         <h1 className="sr-only">{t("h1")}</h1>
 
-        <Reveal className="w-[min(86vw,540px)]">
-          <HeroLogo />
+        <Reveal className="w-[min(86vw,560px)]">
+          {/* aspect matches the logo box so the WebGL canvas gets a size. */}
+          <Logo3D className="aspect-[560/300]" />
         </Reveal>
 
         <p className="text-[0.8125rem] uppercase tracking-[0.2em] text-ink-secondary">
