@@ -2,25 +2,31 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { Logo } from "@/components/ui/Logo";
 import { RazorWipe } from "@/components/motion/RazorWipe";
 
 /**
- * Full-bleed hero. Photo slot: public/images/hero.jpg (2560x1440). Until it
- * exists next/image 404s gracefully to the surface-muted background beneath;
- * the razor mark placeholder lives in the empty state below.
+ * The hero photograph. Set to a path under /public once the real shot lands
+ * (2560x1440, per docs/design/DESIGN-SYSTEM.md §12). While it is null the hero
+ * shows an intentional empty state — a faint razor-blade watermark on the
+ * surface-muted band — instead of next/image's broken-image icon.
  */
+const HERO_IMAGE: string | null = null;
+
 export function Hero({ meroUrl }: { meroUrl: string }) {
   const t = useTranslations("hero");
   return (
     <section className="relative flex min-h-[85svh] items-end overflow-hidden bg-surface-muted">
-      <Image
-        src="/images/hero.jpg"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
+      {HERO_IMAGE ? (
+        <Image src={HERO_IMAGE} alt="" fill priority sizes="100vw" className="object-cover" />
+      ) : (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        >
+          <Logo className="w-[min(70%,720px)] text-line" />
+        </div>
+      )}
       {/* Scrim: bottom-up so the wordmark and CTAs stay legible over any photo. */}
       <div
         aria-hidden="true"

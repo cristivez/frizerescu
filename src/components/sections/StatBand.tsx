@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { verifiedTotals } from "@/data/locations";
 import { CountUp } from "@/components/motion/CountUp";

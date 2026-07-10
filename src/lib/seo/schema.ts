@@ -8,6 +8,17 @@ const SAME_AS = [
 ];
 
 /**
+ * Serialize a JSON-LD object for injection into a <script type="application/ld+json">.
+ * The only XSS vector for JSON-LD built from trusted data is a literal "</script>"
+ * inside a string value breaking out of the tag — so escape "<" as "<" (a valid
+ * JSON escape that parses back identically). Callers pass the result straight to
+ * dangerouslySetInnerHTML; this function is the sanitizer.
+ */
+export function jsonLd(schema: object): string {
+  return JSON.stringify(schema).replace(/</g, "\\u003c");
+}
+
+/**
  * The stable node id for a salon, shared by hairSalonSchema and organizationSchema's
  * subOrganization entries. If these two ever disagree, the JSON-LD graph stops linking.
  */

@@ -96,6 +96,11 @@ test("under reduced motion, the count-up never mutates its text", async ({ page 
   await expect(stat).toBeVisible();
 
   const mutations = await page.evaluate(() => (window as unknown as { __countupMutations: string[] }).__countupMutations);
+  // The real guard: under reduced motion the tween never runs, so CountUp never
+  // mutates the text node. A broken guard records at least one mutation.
   expect(mutations).toEqual([]);
-  await expect(stat).toHaveText("42");
+  // And the server-rendered final value stays put — a non-zero number, never the
+  // "0" a running count-up would flash. Data-independent (no hard-coded total).
+  await expect(stat).not.toHaveText("0");
+  await expect(stat).toHaveText(/[1-9]/);
 });
