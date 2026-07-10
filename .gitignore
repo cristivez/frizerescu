@@ -1,1 +1,10 @@
 .claude/settings.local.json
+.superpowers/
+
+node_modules/
+.next/
+.open-next/
+.wrangler/
+test-results/
+*.tsbuildinfo
+.env*.local
