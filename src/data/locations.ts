@@ -133,21 +133,43 @@ export function getLocation(slug: string): Location | undefined {
 }
 
 /**
- * Stat-band figures. Reviews and rating come only from locations whose counts
- * were verified; the location count is all three, because all three exist
- * regardless of whether we have checked their review totals.
+ * Pure arithmetic behind `verifiedTotals()`, extracted so it can be tested
+ * against arrays that don't require reaching into the module-level
+ * `locations` const (e.g. an all-unverified fixture).
+ *
+ * Reviews and rating come only from locations whose counts were verified;
+ * the location count is all of `ls`, because all shops exist regardless of
+ * whether we have checked their review totals.
  *
  * The rating is review-WEIGHTED. A naive mean of 4.99/4.97/5.00 would let a
  * 25-review shop pull as hard as a 4,988-review one.
+ */
+export function totalsFrom(ls: Location[]): {
+  reviews: number;
+  rating: number;
+  locations: number;
+} {
+  const verified = ls.filter((l) => l.reviewsVerifiedOn !== null);
+  const reviews = verified.reduce((sum, l) => sum + l.reviewCount, 0);
+  if (reviews === 0) {
+    throw new Error(
+      "verifiedTotals(): no location has a verified review count. " +
+        "Refusing to render a rating we cannot stand behind. " +
+        "Set reviewsVerifiedOn in src/data/locations.ts after checking MERO.",
+    );
+  }
+  const rating =
+    verified.reduce((sum, l) => sum + l.rating * l.reviewCount, 0) / reviews;
+  return { reviews, rating, locations: ls.length };
+}
+
+/**
+ * Stat-band figures. See `totalsFrom()` for the underlying computation.
  */
 export function verifiedTotals(): {
   reviews: number;
   rating: number;
   locations: number;
 } {
-  const verified = locations.filter((l) => l.reviewsVerifiedOn !== null);
-  const reviews = verified.reduce((sum, l) => sum + l.reviewCount, 0);
-  const rating =
-    verified.reduce((sum, l) => sum + l.rating * l.reviewCount, 0) / reviews;
-  return { reviews, rating, locations: locations.length };
+  return totalsFrom(locations);
 }
