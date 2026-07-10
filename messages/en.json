@@ -64,13 +64,18 @@
     "book": "Book now",
     "call": "Call"
   },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist. One of our locations might help:",
+    "home": "Back home"
+  },
   "meta": {
     "home": {
       "title": "Frizerescu — Barber Shop in Kaufland Mega Mall, Kaufland Pipera & Bvd Pipera",
       "description": "Frizerescu Barber Shop — barbershop in Kaufland Pantelimon (next to Mega Mall), Kaufland Pipera and Bvd Pipera, Voluntari. Haircut, beard, wash. Online booking via MERO."
     },
     "location": {
-      "title": "{name} — Online booking",
+      "title": "{name} — Barber Shop · Online booking",
       "description": "{name} — {landmark}. Haircuts, beard work and grooming. Quick online booking via MERO."
     }
   }

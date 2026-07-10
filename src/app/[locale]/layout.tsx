@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider, useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -17,6 +17,11 @@ import "../globals.css";
 // real domain. Cascades to every page's generateMetadata.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+};
+
+// Colours the mobile browser chrome to match the canvas (old-site parity).
+export const viewport: Viewport = {
+  themeColor: "#0b0b0c",
 };
 
 export function generateStaticParams() {

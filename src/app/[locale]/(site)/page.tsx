@@ -4,7 +4,7 @@ import { getLocation, locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { reviews } from "@/data/reviews";
 import { alternates } from "@/lib/seo/metadata";
-import { jsonLd, organizationSchema } from "@/lib/seo/schema";
+import { jsonLd, organizationSchema, websiteSchema } from "@/lib/seo/schema";
 import type { Locale } from "@/i18n/routing";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -53,6 +53,10 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(organizationSchema(locale)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(websiteSchema(locale)) }}
       />
 
       <Hero meroUrl={flagship.meroUrl} />

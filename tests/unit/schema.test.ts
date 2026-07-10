@@ -76,11 +76,27 @@ describe("organizationSchema", () => {
 });
 
 describe("salonId", () => {
-  it("builds the stable node id from the localized URL plus #salon", () => {
-    expect(salonId("ro", "pipera")).toBe("https://frizerescu.ro/pipera#salon");
-    expect(salonId("en", "pipera")).toBe(
-      "https://frizerescu.ro/en/pipera#salon",
-    );
+  it("is locale-neutral: one physical shop, one entity id (the ro URL)", () => {
+    expect(salonId("pipera")).toBe("https://frizerescu.ro/pipera#salon");
+  });
+
+  it("both locales' hairSalonSchema name the SAME entity, with localized urls", () => {
+    const pipera = locations.find((l) => l.slug === "pipera")!;
+    const ro = hairSalonSchema(pipera, "ro") as Record<string, any>;
+    const en = hairSalonSchema(pipera, "en") as Record<string, any>;
+    // Same identity — splitting @id per locale would tell Google the two
+    // pages describe different businesses.
+    expect(ro["@id"]).toBe(en["@id"]);
+    // Different page urls — each locale's node points at its own page.
+    expect(ro.url).toBe("https://frizerescu.ro/pipera");
+    expect(en.url).toBe("https://frizerescu.ro/en/pipera");
+  });
+
+  it("links the salon to its map and its parent organization", () => {
+    const pipera = locations.find((l) => l.slug === "pipera")!;
+    const schema = hairSalonSchema(pipera, "ro") as Record<string, any>;
+    expect(schema.hasMap).toBe(pipera.mapsUrl);
+    expect(schema.parentOrganization["@id"]).toBe("https://frizerescu.ro#org");
   });
 });
 

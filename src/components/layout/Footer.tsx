@@ -54,7 +54,9 @@ export function Footer({ locale }: { locale: "ro" | "en" }) {
   const t = useTranslations("footer");
 
   return (
-    <footer className="border-t border-line bg-bg">
+    // pb-16 on mobile: the fixed BookingBar (md:hidden) would otherwise sit
+    // over the copyright/socials at the bottom of the page.
+    <footer className="border-t border-line bg-bg pb-16 md:pb-0">
       <Container className="py-compact">
         <div className="grid gap-10 md:grid-cols-3">
           {locations.map((l) => (

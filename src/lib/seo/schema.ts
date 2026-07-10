@@ -21,9 +21,14 @@ export function jsonLd(schema: object): string {
 /**
  * The stable node id for a salon, shared by hairSalonSchema and organizationSchema's
  * subOrganization entries. If these two ever disagree, the JSON-LD graph stops linking.
+ *
+ * LOCALE-NEUTRAL by design: one physical shop is one entity, so both the ro and
+ * en pages name the same @id (the ro URL — the canonical/x-default locale).
+ * The node's `url` stays localized; only the identity is shared. Splitting the
+ * @id per locale would tell Google the two pages describe different businesses.
  */
-export function salonId(locale: Locale, slug: LocationSlug): string {
-  return `${localizedUrl(locale, `/${slug}`)}#salon`;
+export function salonId(slug: LocationSlug): string {
+  return `${localizedUrl("ro", `/${slug}`)}#salon`;
 }
 
 /**
@@ -37,12 +42,16 @@ export function hairSalonSchema(loc: Location, locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "HairSalon",
-    "@id": salonId(locale, loc.slug),
+    "@id": salonId(loc.slug),
     name: loc.name,
     description: loc.landmark[locale],
     // Each salon points at its OWN page. The old site pointed all three at "/".
     url: localizedUrl(locale, `/${loc.slug}`),
     sameAs: SAME_AS,
+    // Links the entity to its Google Maps presence — the association that
+    // actually drives local-pack ranking.
+    hasMap: loc.mapsUrl,
+    parentOrganization: { "@id": `${SITE_URL}#org` },
     telephone: loc.phone,
     address: {
       "@type": "PostalAddress",
@@ -85,9 +94,22 @@ export function organizationSchema(locale: Locale) {
     sameAs: SAME_AS,
     subOrganization: locations.map((l) => ({
       "@type": "HairSalon",
-      "@id": salonId(locale, l.slug),
+      "@id": salonId(l.slug),
       name: l.name,
     })),
+  };
+}
+
+/** The WebSite node the spec (§7) pairs with Organization on the homepage. */
+export function websiteSchema(locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}#website`,
+    name: "Frizerescu Barber Shop",
+    url: localizedUrl(locale, ""),
+    inLanguage: locale,
+    publisher: { "@id": `${SITE_URL}#org` },
   };
 }
 

@@ -64,13 +64,18 @@
     "book": "Programează-te",
     "call": "Sună"
   },
+  "notFound": {
+    "title": "Pagina nu există",
+    "description": "Pagina pe care o cauți nu a fost găsită. Poate te ajută una dintre locațiile noastre:",
+    "home": "Înapoi acasă"
+  },
   "meta": {
     "home": {
       "title": "Frizerescu — Frizerie Kaufland Mega Mall, Kaufland Pipera și Bvd Pipera",
       "description": "Frizerescu Barber Shop — frizerie în Kaufland Pantelimon (lângă Mega Mall), Kaufland Pipera și Bvd Pipera, Voluntari. Tuns, barbă, spălat. Programări online MERO."
     },
     "location": {
-      "title": "{name} — Programări online",
+      "title": "{name} — Frizerie · Programări online",
       "description": "{name} — {landmark}. Tuns, barbă și îngrijire. Programare online rapidă prin MERO."
     }
   }

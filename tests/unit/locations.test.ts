@@ -151,6 +151,25 @@ describe("locations data", () => {
     }
   });
 
+  it("keeps every hours group a contiguous, ordered run of weekdays", () => {
+    // The UI renders each group as "first – last" (dayRange in LocationCard
+    // and the location page). A non-contiguous or unordered set — e.g.
+    // Mon/Wed/Fri — would silently mislabel as "Monday – Friday". Guard the
+    // DATA here, which is cheaper than generalizing the renderer.
+    const WEEK_ORDER = [
+      "Monday", "Tuesday", "Wednesday", "Thursday",
+      "Friday", "Saturday", "Sunday",
+    ];
+    for (const l of locations) {
+      for (const h of l.hours) {
+        const indices = h.days.map((d) => WEEK_ORDER.indexOf(d));
+        for (let i = 1; i < indices.length; i++) {
+          expect(indices[i], `${l.slug}: ${h.days.join(",")}`).toBe(indices[i - 1] + 1);
+        }
+      }
+    }
+  });
+
   it("gives open specs a valid HH:MM range", () => {
     for (const l of locations) {
       for (const h of l.hours) {

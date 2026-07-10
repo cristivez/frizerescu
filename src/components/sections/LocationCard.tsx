@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { MapPin, Phone } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { isOpenSpec, type Location, type Weekday } from "@/data/locations";
 import { Button } from "@/components/ui/Button";
 import { RatingStars } from "@/components/ui/RatingStars";
@@ -27,7 +28,15 @@ export function LocationCard({ location, locale }: { location: Location; locale:
     <article className="flex flex-col border border-line bg-bg-elevated p-6 transition-colors duration-200 hover:border-line-strong">
       <header>
         <h3 className="text-h3 font-semibold text-ink">
-          {location.name}
+          {/* The name links to the location's own page — those pages are the
+              redesign's core SEO asset, and footer-only internal links give
+              them the weakest possible crawl signal. */}
+          <Link
+            href={`/${location.slug}`}
+            className="hover:text-accent-strong transition-colors duration-200"
+          >
+            {location.name}
+          </Link>
           {location.isNew && (
             <span className="ml-3 border border-accent px-2 py-0.5 align-middle text-[0.6875rem] uppercase tracking-[0.14em] text-accent">
               {t("new")}

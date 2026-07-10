@@ -35,13 +35,15 @@ export function StatBand() {
     <Container>
       <dl className="grid grid-cols-1 gap-10 border-y border-line py-compact sm:grid-cols-3">
         {items.map((item) => (
-          <div key={item.label} className="text-center">
+          // HTML requires dt before dd within a group; flex-col-reverse keeps
+          // the number visually on top without invalid element order.
+          <div key={item.label} className="flex flex-col-reverse gap-2 text-center">
+            <dt className="text-[0.8125rem] uppercase tracking-[0.14em] text-ink-secondary">
+              {item.label}
+            </dt>
             <dd className="font-display text-h1 tracking-[-0.015em] text-ink">
               <CountUp value={item.value} format={item.format} />
             </dd>
-            <dt className="mt-2 text-[0.8125rem] uppercase tracking-[0.14em] text-ink-secondary">
-              {item.label}
-            </dt>
           </div>
         ))}
       </dl>
