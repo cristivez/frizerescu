@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 
@@ -21,6 +21,21 @@ const SIZES: Record<Size, string> = {
   lg: "min-h-12 px-8 text-base",
 };
 
+/**
+ * Extra DOM attributes a caller may pass through — onClick (e.g. booking-click
+ * tracking), aria-label, id, title, data-*, etc. `href` is Button's own
+ * controlled prop, so it's excluded here. `type` and `disabled` are also
+ * excluded: AnchorHTMLAttributes and ButtonHTMLAttributes disagree on what
+ * `type` means (MIME-type hint on <a> vs submit/reset/button on <button>),
+ * and `disabled` isn't a valid <a> attribute at all — both are declared as
+ * explicit props below instead and are only ever applied to the native
+ * <button> branch, never spread onto an anchor.
+ */
+type ExtraProps = Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement> & ButtonHTMLAttributes<HTMLButtonElement>,
+  "href" | "type" | "disabled"
+>;
+
 export function Button({
   children,
   href,
@@ -28,6 +43,8 @@ export function Button({
   variant = "primary",
   size = "md",
   className,
+  type = "button",
+  disabled,
   ...rest
 }: {
   children: ReactNode;
@@ -36,7 +53,13 @@ export function Button({
   variant?: Variant;
   size?: Size;
   className?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  /** Native <button> only. Defaults to "button" so a Button nested in a
+   * future <form> never accidentally submits it. */
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  /** Native <button> only — not a valid <a> attribute, so it's never spread
+   * onto the link-flavored branches. */
+  disabled?: boolean;
+} & ExtraProps) {
   const classes = cn(
     "inline-flex items-center justify-center gap-2 rounded-none",
     "font-medium transition-colors duration-200 ease-[var(--ease-out)]",
@@ -45,21 +68,35 @@ export function Button({
     className,
   );
 
-  // tel: must be a plain anchor. It is not `external` — opening a dialer in a
-  // new tab leaves a dead blank tab behind on desktop. This branch comes first
-  // so a caller cannot get it wrong by passing `external`.
+  // tel: must be a plain anchor, and this check must come before `external`:
+  // a tel: link opened with target="_blank" leaves a dead blank tab behind on
+  // desktop (the OS hands off to the dialer app; there is nothing to render
+  // in the new tab). This branch comes first so a caller cannot get it wrong
+  // by passing `external`.
   if (href?.startsWith("tel:")) {
-    return <a href={href} className={classes}>{children}</a>;
+    return (
+      <a href={href} className={classes} {...rest}>
+        {children}
+      </a>
+    );
   }
   if (href && external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={classes} {...rest}>
         {children}
       </a>
     );
   }
   if (href) {
-    return <Link href={href} className={classes}>{children}</Link>;
+    return (
+      <Link href={href} className={classes} {...rest}>
+        {children}
+      </Link>
+    );
   }
-  return <button className={classes} {...rest}>{children}</button>;
+  return (
+    <button type={type} disabled={disabled} className={classes} {...rest}>
+      {children}
+    </button>
+  );
 }
