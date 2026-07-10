@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getLocation, locations } from "@/data/locations";
+import { locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { reviews } from "@/data/reviews";
 import { alternates } from "@/lib/seo/metadata";
@@ -16,7 +16,6 @@ import { StatBand } from "@/components/sections/StatBand";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { ServiceRow } from "@/components/sections/ServiceRow";
 import { ReviewCard } from "@/components/sections/ReviewCard";
-import { BookingBar } from "@/components/layout/BookingBar";
 
 export async function generateMetadata({
   params,
@@ -46,7 +45,6 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "home" });
-  const flagship = getLocation("pipera")!;
 
   return (
     <>
@@ -59,7 +57,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         dangerouslySetInnerHTML={{ __html: jsonLd(websiteSchema(locale)) }}
       />
 
-      <Hero meroUrl={flagship.meroUrl} />
+      <Hero />
 
       <Section className="pb-0 pt-compact">
         <StatBand />
@@ -111,7 +109,8 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         </Container>
       </Section>
 
-      <BookingBar meroUrl={flagship.meroUrl} phone={flagship.phone} />
+      {/* No BookingBar here: on the homepage it would silently book Pipera.
+          It renders on location pages, where the shop is unambiguous. */}
     </>
   );
 }

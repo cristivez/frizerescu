@@ -35,6 +35,17 @@ describe("hairSalonSchema", () => {
     expect(schema.aggregateRating.reviewCount).toBe(4988);
   });
 
+  it("omits aggregateRating for a location whose count was never verified", () => {
+    // Owner policy: don't publish machine-readable numbers we can't stand
+    // behind. Mega Mall's count is reviewsVerifiedOn: null until checked.
+    const unverified = locations.filter((l) => l.reviewsVerifiedOn === null);
+    expect(unverified.length).toBeGreaterThan(0); // policy is actually exercised
+    for (const loc of unverified) {
+      const s = hairSalonSchema(loc, "ro") as Record<string, any>;
+      expect(s.aggregateRating).toBeUndefined();
+    }
+  });
+
   it("uses an E.164 telephone", () => {
     expect(schema.telephone).toBe("+40758720970");
   });

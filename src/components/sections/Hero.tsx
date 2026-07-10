@@ -13,7 +13,7 @@ import { RazorWipe } from "@/components/motion/RazorWipe";
  */
 const HERO_IMAGE: string | null = null;
 
-export function Hero({ meroUrl }: { meroUrl: string }) {
+export function Hero() {
   const t = useTranslations("hero");
   return (
     <section className="relative flex min-h-[85svh] items-end overflow-hidden bg-surface-muted">
@@ -41,11 +41,12 @@ export function Hero({ meroUrl }: { meroUrl: string }) {
         </p>
         <p className="mt-6 max-w-[48ch] text-body-lg text-ink-secondary">{t("description")}</p>
         <div className="mt-10 flex flex-wrap gap-4">
-          <Button href={meroUrl} external variant="primary" size="lg">
+          {/* Scrolls to the location cards (owner decision, matching the old
+              site): with three shops, a homepage CTA that silently books one
+              of them sends Mega Mall customers 23km to Pipera. Each card
+              carries its own correct booking button. */}
+          <Button href="/#locations" variant="primary" size="lg">
             {t("book")}
-          </Button>
-          <Button href="/#locations" variant="secondary" size="lg">
-            {t("locations")}
           </Button>
         </div>
       </Container>

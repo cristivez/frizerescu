@@ -75,11 +75,17 @@ export function hairSalonSchema(loc: Location, locale: Locale) {
     })),
     priceRange: "$$",
     image: `${SITE_URL}/images/og-image.jpg`,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: loc.rating,
-      reviewCount: loc.reviewCount,
-    },
+    // Owner policy: a location whose review count was never verified against
+    // MERO publishes NO machine-readable rating — same stance as the stat
+    // band, which excludes unverified counts from its totals. Restores itself
+    // the moment reviewsVerifiedOn is set in src/data/locations.ts.
+    ...(loc.reviewsVerifiedOn !== null && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: loc.rating,
+        reviewCount: loc.reviewCount,
+      },
+    }),
   };
 }
 

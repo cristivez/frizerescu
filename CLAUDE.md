@@ -67,6 +67,15 @@ The site owner is NOT a developer. In every response:
 9. **Accessibility contract:** 44×44px min touch targets, visible focus rings, one H1 per page, strict H1→H2→H3 hierarchy. `npm run test:e2e` runs axe on every route × both locales; zero violations is the gate.
 10. **Do not migrate `middleware.ts` to `proxy.ts`** despite Next 16's deprecation warning — `@opennextjs/cloudflare` does not support it yet (opennextjs/opennextjs-cloudflare#962) and it would break the deploy.
 
+## ⚠️ Do NOT merge this branch into `main` until Cloudflare serves frizerescu.ro
+
+GitHub Pages deploys the LIVE site from the `main` branch, and this branch deletes
+`index.html`. Merging before the DNS cutover takes frizerescu.ro down (verified
+against the GitHub Pages API: `build_type: legacy`, `source: main`). Owner decision
+2026-07-10: leave Pages as-is and simply do not merge until Cloudflare is live.
+A `legacy-static` branch (cut at 549129c, byte-identical to production) exists
+locally as the fallback if Pages ever needs repointing.
+
 ## Before declaring work done
 
 Run `npm run typecheck && npm run test:unit && npm run test:e2e`. All green, output pristine. When you change something visual, actually look at it in the browser (`npm run dev`, port 3003) — screenshots catch what tests can't.
