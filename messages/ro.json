@@ -8,12 +8,70 @@
     "closeMenu": "Închide meniul",
     "skipToContent": "Sari la conținut"
   },
+  "hero": {
+    "tagline": "Frizerie · Barber Shop",
+    "description": "Tuns, barbă și îngrijire, cu grijă pentru detalii. Trei locații în București și Voluntari, programare online rapidă.",
+    "book": "Programează-te",
+    "locations": "Vezi locațiile"
+  },
+  "stats": {
+    "reviews": "Recenzii verificate",
+    "rating": "Rating mediu",
+    "locations": "Locații"
+  },
+  "location": {
+    "new": "NOU",
+    "hours": "Program",
+    "closed": "Închis",
+    "book": "Programare",
+    "directions": "Direcții",
+    "call": "Sună",
+    "ratingLabel": "{rating} din 5, {count} de recenzii",
+    "otherLocations": "Celelalte locații"
+  },
+  "days": {
+    "mon": "Luni",
+    "tue": "Marți",
+    "wed": "Miercuri",
+    "thu": "Joi",
+    "fri": "Vineri",
+    "sat": "Sâmbătă",
+    "sun": "Duminică"
+  },
+  "services": {
+    "duration": "{minutes} min"
+  },
+  "home": {
+    "breadcrumbHome": "Acasă",
+    "locations": {
+      "overline": "Locații",
+      "title": "Unde ne găsești"
+    },
+    "services": {
+      "overline": "Servicii",
+      "title": "Ce facem",
+      "lead": "Servicii clasice de frizerie, executate cu grijă. Programarea și prețurile sunt pe MERO."
+    },
+    "reviews": {
+      "overline": "Recenzii",
+      "title": "Ce spun clienții"
+    }
+  },
   "footer": {
     "copyright": "© 2026 Frizerescu Barber Shop. Toate drepturile rezervate."
   },
   "cta": {
     "book": "Programează-te",
     "call": "Sună"
+  },
+  "meta": {
+    "home": {
+      "title": "Frizerescu — Frizerie Kaufland Mega Mall, Kaufland Pipera și Bvd Pipera",
+      "description": "Frizerescu Barber Shop — frizerie în Kaufland Pantelimon (lângă Mega Mall), Kaufland Pipera și Bvd Pipera, Voluntari. Tuns, barbă, spălat. Programări online MERO."
+    },
+    "location": {
+      "title": "{name} — Programări online",
+      "description": "{name} — {landmark}. Tuns, barbă și îngrijire. Programare online rapidă prin MERO."
+    }
   }
 }
-
