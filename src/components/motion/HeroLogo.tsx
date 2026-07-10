@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Logo } from "@/components/ui/Logo";
+import { ExtrudedLogo } from "@/components/ui/ExtrudedLogo";
 
 gsap.registerPlugin(useGSAP);
 
@@ -39,7 +39,7 @@ export function HeroLogo({ className }: { className?: string }) {
   return (
     <div className={className} style={{ perspective: 1200 }}>
       <div ref={ref} style={{ transformStyle: "preserve-3d", willChange: "transform" }}>
-        <Logo className="w-full text-accent drop-shadow-[0_12px_28px_rgba(0,0,0,0.55)]" />
+        <ExtrudedLogo depth={14} className="drop-shadow-[0_18px_34px_rgba(0,0,0,0.6)]" />
       </div>
     </div>
   );

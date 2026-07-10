@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Logo } from "@/components/ui/Logo";
+import { ExtrudedLogo } from "@/components/ui/ExtrudedLogo";
 
 /**
  * The header logo, turning in 3D as the page scrolls — a small echo of the
@@ -38,7 +38,8 @@ export function HeaderLogo() {
         ref={ref}
         style={{ transformStyle: "preserve-3d", transform: "rotateX(8deg)", willChange: "transform" }}
       >
-        <Logo className="h-8 w-auto text-ink" />
+        {/* Small extruded logo — thickness scaled down for the header. */}
+        <ExtrudedLogo depth={5} className="w-[3.5rem]" />
       </div>
     </div>
   );
