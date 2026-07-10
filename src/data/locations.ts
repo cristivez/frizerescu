@@ -78,7 +78,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland-mega-mall",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=44.442743,26.153322",
-    image: null,
+    image: "/images/locations/kaufland-mega-mall.jpg",
   },
   {
     slug: "pipera",
@@ -106,7 +106,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu",
     mapsUrl: "https://maps.app.goo.gl/Z9QD9q46qRpDf7e28",
-    image: null,
+    image: "/images/locations/pipera.jpg",
   },
   {
     slug: "kaufland-pipera",
@@ -133,7 +133,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland",
     mapsUrl: "https://maps.app.goo.gl/CNMmHybu19wTyam49",
-    image: null,
+    image: "/images/locations/kaufland-pipera.jpg",
   },
 ];
 
