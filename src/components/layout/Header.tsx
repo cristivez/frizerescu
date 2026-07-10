@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
-import { Logo } from "@/components/ui/Logo";
+import { HeaderLogo } from "@/components/motion/HeaderLogo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { SectionLink } from "./SectionLink";
 import { cn } from "@/lib/cn";
@@ -40,9 +40,9 @@ export function Header() {
             logo mark alone renders ~32px wide (h-8 on a square viewBox), under
             the 44px touch-target minimum. min-w-11 pads the link's hit area
             without moving the mark, which stays left-aligned. */}
-        <Link href="/" className="flex min-h-11 min-w-11 items-center">
-          {/* Inline SVG: fill="currentColor" inherits --ink from this class. */}
-          <Logo className="h-8 w-auto text-ink" />
+        <Link href="/" aria-label="Frizerescu — acasă" className="flex min-h-11 min-w-11 items-center">
+          {/* 3D logo that turns with scroll — a small echo of the hero mark. */}
+          <HeaderLogo />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
