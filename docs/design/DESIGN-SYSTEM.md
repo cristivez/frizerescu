@@ -96,7 +96,13 @@ Constants are `rem`-only (zoom-safe, WCAG 1.4.4); only the slope is `vw`. min→
 **Rules**
 - Bodoni Moda is **display-only**, never below `1.5rem`. Its hairlines disappear at small
   sizes and on low-DPI screens. Card titles and everything smaller are Inter.
-- Set `opsz` proportionally: high `opsz` (~72–96) on `display`, low (~16) never used.
+- **Display renders at `wght` ~640 with `opsz` ~40 — always together** (set globally on
+  `.font-display` in `globals.css`). Corrected 2026-07-10 after the owner couldn't read
+  the titles: at regular weight and high optical size, Bodoni's hairline strokes thin to
+  near-invisibility as white-on-black (light text on dark erodes rather than blooms).
+  High `opsz` (72–96) *maximises* stroke contrast — the opposite of what the dark canvas
+  needs. Never raise `opsz` or lower `wght` for display text without checking legibility
+  on `--bg` first.
 - Running text `max-width: 68ch`. Negative tracking `-0.015em` on large Bodoni only, never body.
 - Test wrapping on long Romanian compounds: `Programează-te`, `Duminică`, `Recenzii`.
 

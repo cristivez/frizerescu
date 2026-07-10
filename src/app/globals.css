@@ -81,6 +81,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Display legibility on the dark canvas: Bodoni is a Didone — at regular
+   weight its hairline strokes thin to near-invisibility as white-on-black
+   (dark adaptation makes light text erode, not bloom). Every use of the
+   display face therefore renders semibold+ with a MODERATE optical size:
+   high opsz (72+) maximises stroke contrast, which is exactly what kills
+   legibility here. Weight and opsz travel together — don't "fix" one
+   without the other. */
+.font-display {
+  font-weight: 640;
+  font-variation-settings: "opsz" 40;
+}
+
 /* Anchors must not land under the sticky header (WCAG 2.4.11). */
 [id] {
   scroll-margin-top: var(--header-h);
