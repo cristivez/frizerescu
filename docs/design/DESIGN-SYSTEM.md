@@ -56,10 +56,25 @@ and creates uncomfortable halation against pure-white text.
 
 ### Romanian diacritics — a hard gate
 
-`ș` (U+0219) and `ț` (U+021B) take a **comma below**, not a cedilla. Both families declare
-`latin-ext` (verified against the Google Fonts metadata API, 2026-07-10), which covers
-U+0218–U+021B. A visual regression test renders `Frizerie și barber shop · Programează-te`
-in both faces and fails on a missing or cedilla-shaped glyph.
+`ș` (U+0219) and `ț` (U+021B) take a **comma below**, not a cedilla. Both families cover
+them (verified against the Google Fonts metadata API, 2026-07-10).
+
+**The regression to guard against is a font swap, not a subset change.** Measured
+empirically 2026-07-10: `next/font/google`'s `subsets` option is a *preload hint*, not a
+coverage filter — the build self-hosts every `unicode-range` block Google returns
+(11 woff2 files, including cyrillic and greek we never asked for). Removing `latin-ext`
+from `subsets` therefore changes nothing about which glyphs render. What *does* break
+Romanian is choosing a family without the coverage — and Google Fonts is full of popular
+`latin`-only candidates (Arvo, Abel, Orbitron, Lobster Two).
+
+`document.fonts.check()` cannot detect this: it returns `true` for
+`check('32px "Arvo"', 'ș')` because Chrome counts the system fallback as available.
+
+The gate that works is **canvas advance-width**: a comma-below glyph has the same advance
+as its base letter when it comes from the same face, and a different one when the browser
+falls back. Measured: Inter `s` = `ș` = 16.89px (covered); Arvo `s` = 15.52px vs
+`ș` = 12.45px (fallback). `tests/e2e/diacritics-render.spec.ts` asserts this, and is
+falsified by temporarily swapping a face to Arvo — never by touching `subsets`.
 
 **Never** substitute `ş`/`ţ` (cedilla, Turkish) for `ș`/`ț` (comma, Romanian) in copy.
 
