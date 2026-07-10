@@ -9,7 +9,7 @@ test("skip link is the first focusable element and targets #main", async ({ page
 
 // Skipped: /pipera doesn't exist until Task 10 (location pages). Written now
 // per the brief so it's ready to unskip once that route lands.
-test.fixme("language switch preserves the current route", async ({ page }) => {
+test("language switch preserves the current route", async ({ page }) => {
   await page.goto("/pipera");
   await page.getByRole("link", { name: "English" }).click();
   await expect(page).toHaveURL("/en/pipera");
