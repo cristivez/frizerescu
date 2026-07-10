@@ -1,11 +1,19 @@
 import type { Locale } from "@/i18n/routing";
-import { isOpenSpec, locations, type Location } from "@/data/locations";
+import { isOpenSpec, locations, type Location, type LocationSlug } from "@/data/locations";
 import { localizedUrl, SITE_URL } from "./metadata";
 
 const SAME_AS = [
   "https://www.facebook.com/Frizerescu",
   "https://www.instagram.com/frizerescu",
 ];
+
+/**
+ * The stable node id for a salon, shared by hairSalonSchema and organizationSchema's
+ * subOrganization entries. If these two ever disagree, the JSON-LD graph stops linking.
+ */
+export function salonId(locale: Locale, slug: LocationSlug): string {
+  return `${localizedUrl(locale, `/${slug}`)}#salon`;
+}
 
 /**
  * Note on aggregateRating: Google removed LocalBusiness/Organization from
@@ -18,7 +26,7 @@ export function hairSalonSchema(loc: Location, locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "HairSalon",
-    "@id": `${localizedUrl(locale, `/${loc.slug}`)}#salon`,
+    "@id": salonId(locale, loc.slug),
     name: loc.name,
     description: loc.landmark[locale],
     // Each salon points at its OWN page. The old site pointed all three at "/".
@@ -66,7 +74,7 @@ export function organizationSchema(locale: Locale) {
     sameAs: SAME_AS,
     subOrganization: locations.map((l) => ({
       "@type": "HairSalon",
-      "@id": `${localizedUrl(locale, `/${l.slug}`)}#salon`,
+      "@id": salonId(locale, l.slug),
       name: l.name,
     })),
   };

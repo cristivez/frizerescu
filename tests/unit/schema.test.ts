@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { locations } from "@/data/locations";
-import { hairSalonSchema, organizationSchema, breadcrumbSchema } from "@/lib/seo/schema";
-import { localizedUrl } from "@/lib/seo/metadata";
+import { hairSalonSchema, organizationSchema, breadcrumbSchema, salonId } from "@/lib/seo/schema";
+import { localizedUrl, alternates } from "@/lib/seo/metadata";
 
 describe("localizedUrl", () => {
   it("serves ro unprefixed and en under /en", () => {
@@ -45,6 +45,43 @@ describe("organizationSchema", () => {
     const org = organizationSchema("ro") as Record<string, any>;
     expect(org.subOrganization).toHaveLength(3);
   });
+
+  it.each(["ro", "en"] as const)(
+    "gives each subOrganization entry the SAME @id as that salon's own hairSalonSchema (%s)",
+    (locale) => {
+      const org = organizationSchema(locale) as Record<string, any>;
+      for (const loc of locations) {
+        const ownSchema = hairSalonSchema(loc, locale) as Record<string, any>;
+        // Match by name, not array index — index coupling would hide a reordering bug.
+        const subEntry = org.subOrganization.find(
+          (s: any) => s.name === loc.name,
+        );
+        expect(subEntry).toBeDefined();
+        expect(subEntry["@id"]).toBe(ownSchema["@id"]);
+      }
+    },
+  );
+
+  it("gives every subOrganization entry @type HairSalon and a matching name", () => {
+    const org = organizationSchema("ro") as Record<string, any>;
+    for (const loc of locations) {
+      const subEntry = org.subOrganization.find(
+        (s: any) => s.name === loc.name,
+      );
+      expect(subEntry).toBeDefined();
+      expect(subEntry["@type"]).toBe("HairSalon");
+      expect(subEntry.name).toBe(loc.name);
+    }
+  });
+});
+
+describe("salonId", () => {
+  it("builds the stable node id from the localized URL plus #salon", () => {
+    expect(salonId("ro", "pipera")).toBe("https://frizerescu.ro/pipera#salon");
+    expect(salonId("en", "pipera")).toBe(
+      "https://frizerescu.ro/en/pipera#salon",
+    );
+  });
 });
 
 describe("breadcrumbSchema", () => {
@@ -54,5 +91,25 @@ describe("breadcrumbSchema", () => {
       { name: "Frizerescu Pipera", path: "/pipera" },
     ]) as Record<string, any>;
     expect(bc.itemListElement.map((i: any) => i.position)).toEqual([1, 2]);
+  });
+});
+
+describe("alternates", () => {
+  it("builds canonical + hreflang links for the homepage", () => {
+    expect(alternates("")).toEqual({
+      canonical: "https://frizerescu.ro/",
+      languages: {
+        ro: "https://frizerescu.ro/",
+        en: "https://frizerescu.ro/en",
+        "x-default": "https://frizerescu.ro/",
+      },
+    });
+  });
+
+  it("builds canonical + hreflang links for a location page", () => {
+    const result = alternates("/pipera");
+    expect(result.canonical).toBe("https://frizerescu.ro/pipera");
+    expect(result.languages.en).toBe("https://frizerescu.ro/en/pipera");
+    expect(result.languages["x-default"]).toBe("https://frizerescu.ro/pipera");
   });
 });
