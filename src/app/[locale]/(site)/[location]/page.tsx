@@ -107,66 +107,63 @@ export default async function LocationPage({
         dangerouslySetInnerHTML={{ __html: jsonLd(crumbs) }}
       />
 
-      {shop.image && (
-        // Full-bleed photo of the shop; the fixed transparent header floats over
-        // it, and the scrim keeps the header + top edge legible.
-        <div className="relative h-[42svh] min-h-[300px] w-full overflow-hidden">
-          <Image
-            src={shop.image}
-            alt={`${shop.name} — ${shop.landmark[locale]}`}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-bg/60 via-transparent to-bg"
-          />
-        </div>
-      )}
-
-      <Section
-        className={
-          shop.image ? "pt-compact" : "pt-[calc(var(--header-h)+var(--spacing-compact))]"
-        }
-      >
+      <Section className="pt-[calc(var(--header-h)+var(--spacing-compact))]">
         <Container>
-          <RazorWipe>
-            <h1 className="font-display text-h1 tracking-[-0.015em] text-ink">{shop.name}</h1>
-          </RazorWipe>
-          <div className="mt-6">
-            <RatingStars
-              value={shop.rating}
-              count={shop.reviewCount}
-              label={t("ratingLabel", { rating: shop.rating, count: shop.reviewCount })}
-            />
-          </div>
-          <p className="mt-6 max-w-[68ch] text-body-lg text-ink-secondary">
-            {shop.address.street}, {shop.address.locality} · {shop.landmark[locale]}
-          </p>
-
-          <dl className="mt-10 max-w-md border-t border-line">
-            {shop.hours.map((h) => (
-              <div key={h.days.join()} className="flex justify-between border-b border-line py-3">
-                <dt className="text-ink-secondary">{dayRange(h.days)}</dt>
-                <dd className="text-ink">
-                  {isOpenSpec(h) ? `${h.opens} – ${h.closes}` : t("closed")}
-                </dd>
+          <div className="grid gap-10 lg:grid-cols-[1fr_minmax(0,440px)] lg:items-start">
+            <div>
+              <RazorWipe>
+                <h1 className="font-display text-h1 tracking-[-0.015em] text-ink">{shop.name}</h1>
+              </RazorWipe>
+              <div className="mt-6">
+                <RatingStars
+                  value={shop.rating}
+                  count={shop.reviewCount}
+                  label={t("ratingLabel", { rating: shop.rating, count: shop.reviewCount })}
+                />
               </div>
-            ))}
-          </dl>
+              <p className="mt-6 max-w-[60ch] text-body-lg text-ink-secondary">
+                {shop.address.street}, {shop.address.locality} · {shop.landmark[locale]}
+              </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Button href={shop.meroUrl} external variant="primary" size="lg">
-              {t("book")}
-            </Button>
-            <Button href={shop.mapsUrl} external variant="secondary" size="lg">
-              {t("directions")}
-            </Button>
-            <Button href={`tel:${shop.phone}`} variant="outline" size="lg">
-              {t("call")}
-            </Button>
+              <dl className="mt-10 max-w-md border-t border-line">
+                {shop.hours.map((h) => (
+                  <div key={h.days.join()} className="flex justify-between border-b border-line py-3">
+                    <dt className="text-ink-secondary">{dayRange(h.days)}</dt>
+                    <dd className="text-ink">
+                      {isOpenSpec(h) ? `${h.opens} – ${h.closes}` : t("closed")}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Button href={shop.meroUrl} external variant="primary" size="lg">
+                  {t("book")}
+                </Button>
+                <Button href={shop.mapsUrl} external variant="secondary" size="lg">
+                  {t("directions")}
+                </Button>
+                <Button href={`tel:${shop.phone}`} variant="outline" size="lg">
+                  {t("call")}
+                </Button>
+              </div>
+            </div>
+
+            {shop.image && (
+              // Contained, size-capped photo (column max 440px) — never wider
+              // than the source, so it stays crisp. object-cover into a fixed
+              // frame handles the mixed portrait/landscape source ratios.
+              <div className="relative aspect-[4/5] overflow-hidden border border-line">
+                <Image
+                  src={shop.image}
+                  alt={`${shop.name} — ${shop.landmark[locale]}`}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 440px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            )}
           </div>
         </Container>
       </Section>

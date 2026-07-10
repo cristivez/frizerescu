@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getLocation, locations } from "@/data/locations";
+import { locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { reviews } from "@/data/reviews";
 import { alternates } from "@/lib/seo/metadata";
@@ -46,8 +46,6 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "home" });
-  // Homepage hero uses the flagship shop's photo when one exists.
-  const heroImage = getLocation("pipera")?.image ?? null;
 
   return (
     <>
@@ -62,7 +60,10 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
 
       <ScrollOnArrival />
 
-      <Hero image={heroImage} />
+      {/* Razor-mark hero, not a photo: the source photos are too small to fill
+          a full-bleed hero without going soft. Photos live in the location
+          cards and on the location pages, where they display at native size. */}
+      <Hero />
 
       <Section className="pb-0 pt-compact">
         <StatBand />

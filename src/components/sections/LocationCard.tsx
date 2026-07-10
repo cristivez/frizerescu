@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -30,7 +31,21 @@ export function LocationCard({ location, locale }: { location: Location; locale:
     // location page, while the phone link and the action buttons — raised with
     // `relative z-10` — stay independently clickable. A card can't be a single
     // <a> because it already contains four links.
-    <article className="group relative flex flex-col border border-line bg-bg-elevated p-6 transition-colors duration-200 hover:border-line-strong">
+    <article className="group relative flex flex-col overflow-hidden border border-line bg-bg-elevated transition-colors duration-200 hover:border-line-strong">
+      {location.image && (
+        // Thumbnail: the card is ~420px wide, so these small photos display
+        // crisp. Sits under the stretched-link overlay, so tapping it navigates.
+        <div className="relative aspect-[3/2] w-full overflow-hidden border-b border-line">
+          <Image
+            src={location.image}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 420px, (min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+        </div>
+      )}
+      <div className="flex flex-1 flex-col p-6">
       <header>
         <h3 className="flex items-start justify-between gap-3 text-h3 font-semibold text-ink">
           <span>
@@ -103,8 +118,9 @@ export function LocationCard({ location, locale }: { location: Location; locale:
       </div>
 
       {/* relative z-10: the action buttons stay clickable above the card's
-          stretched-link overlay. */}
-      <div className="relative z-10 mt-8 flex flex-wrap gap-3">
+          stretched-link overlay. mt-auto keeps them bottom-aligned so cards of
+          different text heights line up in the grid. */}
+      <div className="relative z-10 mt-auto flex flex-wrap gap-3 pt-8">
         <Button href={location.meroUrl} external variant="primary" size="sm">
           {t("book")}
         </Button>
@@ -114,6 +130,7 @@ export function LocationCard({ location, locale }: { location: Location; locale:
         <Button href={`tel:${location.phone}`} variant="outline" size="sm">
           {t("call")}
         </Button>
+      </div>
       </div>
     </article>
   );
