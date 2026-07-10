@@ -40,7 +40,7 @@ export async function generateMetadata({
   return {
     title: t("title", { name: shop.name }),
     description: t("description", { name: shop.name, landmark: shop.landmark[locale] }),
-    alternates: alternates(`/${shop.slug}`),
+    alternates: alternates(locale, `/${shop.slug}`),
   };
 }
 

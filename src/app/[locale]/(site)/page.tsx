@@ -28,11 +28,11 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
-    alternates: alternates(""),
+    alternates: alternates(locale, ""),
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: alternates("").canonical,
+      url: alternates(locale, "").canonical,
       siteName: "Frizerescu Barber Shop",
       locale: locale === "ro" ? "ro_RO" : "en_GB",
       type: "website",

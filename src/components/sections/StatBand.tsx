@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { verifiedTotals } from "@/data/locations";
 import { CountUp } from "@/components/motion/CountUp";
 import { Container } from "@/components/ui/Container";
@@ -13,12 +13,21 @@ import { Container } from "@/components/ui/Container";
  */
 export function StatBand() {
   const t = useTranslations("stats");
+  const locale = useLocale();
   const { reviews, rating, locations } = verifiedTotals();
-  const nf = new Intl.NumberFormat("ro-RO");
+  // Format numbers in the page's own locale: ro renders "5.801" / "4,99",
+  // en renders "5,801" / "4.99". A fixed ro-RO formatter on /en makes an
+  // English reader misread the thousands separator.
+  const intlLocale = locale === "ro" ? "ro-RO" : "en-GB";
+  const nf = new Intl.NumberFormat(intlLocale);
+  const rf = new Intl.NumberFormat(intlLocale, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   const items = [
     { value: reviews, format: (n: number) => nf.format(Math.round(n)), label: t("reviews") },
-    { value: rating, format: (n: number) => n.toFixed(2).replace(".", ","), label: t("rating") },
+    { value: rating, format: (n: number) => rf.format(n), label: t("rating") },
     { value: locations, format: (n: number) => String(Math.round(n)), label: t("locations") },
   ];
 

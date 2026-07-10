@@ -95,8 +95,8 @@ describe("breadcrumbSchema", () => {
 });
 
 describe("alternates", () => {
-  it("builds canonical + hreflang links for the homepage", () => {
-    expect(alternates("")).toEqual({
+  it("builds canonical + hreflang links for the ro homepage", () => {
+    expect(alternates("ro", "")).toEqual({
       canonical: "https://frizerescu.ro/",
       languages: {
         ro: "https://frizerescu.ro/",
@@ -106,10 +106,20 @@ describe("alternates", () => {
     });
   });
 
-  it("builds canonical + hreflang links for a location page", () => {
-    const result = alternates("/pipera");
-    expect(result.canonical).toBe("https://frizerescu.ro/pipera");
-    expect(result.languages.en).toBe("https://frizerescu.ro/en/pipera");
-    expect(result.languages["x-default"]).toBe("https://frizerescu.ro/pipera");
+  it("self-canonicalizes each locale — the en page canonicals to ITSELF, not ro", () => {
+    // The bug this guards: a shared canonical pointing every locale at the ro
+    // URL drops the /en/* pages from Google's English index.
+    expect(alternates("en", "").canonical).toBe("https://frizerescu.ro/en");
+    expect(alternates("en", "/pipera").canonical).toBe("https://frizerescu.ro/en/pipera");
+    expect(alternates("ro", "/pipera").canonical).toBe("https://frizerescu.ro/pipera");
+  });
+
+  it("keeps hreflang alternates and x-default (ro) locale-independent", () => {
+    for (const locale of ["ro", "en"] as const) {
+      const result = alternates(locale, "/pipera");
+      expect(result.languages.ro).toBe("https://frizerescu.ro/pipera");
+      expect(result.languages.en).toBe("https://frizerescu.ro/en/pipera");
+      expect(result.languages["x-default"]).toBe("https://frizerescu.ro/pipera");
+    }
   });
 });

@@ -9,9 +9,17 @@ export function localizedUrl(locale: Locale, path: string): string {
   return `${SITE_URL}${prefix}${suffix}`;
 }
 
-export function alternates(path: string) {
+/**
+ * Metadata alternates for a page. `canonical` is SELF-referencing — each
+ * locale points at its own URL, never at the ro version. A page that
+ * canonicalizes to a different locale gets dropped from the index for that
+ * language (Google requires every language version to self-canonicalize),
+ * which is exactly how the /en/* pages would vanish from English results.
+ * `x-default` stays ro, the default locale.
+ */
+export function alternates(locale: Locale, path: string) {
   return {
-    canonical: localizedUrl("ro", path),
+    canonical: localizedUrl(locale, path),
     languages: {
       ro: localizedUrl("ro", path),
       en: localizedUrl("en", path),
