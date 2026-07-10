@@ -9,7 +9,6 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["tests/unit/**/*.test.{ts,tsx}"],
-    passWithNoTests: true,
+    include: ["tests/unit/**/*.test.ts"],
   },
 });
