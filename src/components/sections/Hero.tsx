@@ -6,19 +6,16 @@ import { SectionLink } from "@/components/layout/SectionLink";
 import { RazorWipe } from "@/components/motion/RazorWipe";
 
 /**
- * The hero photograph. Set to a path under /public once the real shot lands
- * (2560x1440, per docs/design/DESIGN-SYSTEM.md §12). While it is null the hero
- * shows an intentional empty state — a faint razor-blade watermark on the
- * surface-muted band — instead of next/image's broken-image icon.
+ * The hero photograph, passed from the homepage (the flagship shop's photo).
+ * While it is null the hero shows an intentional empty state — a faint
+ * razor-blade watermark — instead of next/image's broken-image icon.
  */
-const HERO_IMAGE: string | null = null;
-
-export function Hero() {
+export function Hero({ image = null }: { image?: string | null }) {
   const t = useTranslations("hero");
   return (
     <section className="relative flex min-h-[85svh] items-end overflow-hidden bg-surface-muted">
-      {HERO_IMAGE ? (
-        <Image src={HERO_IMAGE} alt="" fill priority sizes="100vw" className="object-cover" />
+      {image ? (
+        <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" />
       ) : (
         <div
           aria-hidden="true"

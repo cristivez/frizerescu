@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getLocation, isOpenSpec, locations, type Weekday } from "@/data/locations";
@@ -106,7 +107,30 @@ export default async function LocationPage({
         dangerouslySetInnerHTML={{ __html: jsonLd(crumbs) }}
       />
 
-      <Section className="pt-[calc(var(--header-h)+var(--spacing-compact))]">
+      {shop.image && (
+        // Full-bleed photo of the shop; the fixed transparent header floats over
+        // it, and the scrim keeps the header + top edge legible.
+        <div className="relative h-[42svh] min-h-[300px] w-full overflow-hidden">
+          <Image
+            src={shop.image}
+            alt={`${shop.name} — ${shop.landmark[locale]}`}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-b from-bg/60 via-transparent to-bg"
+          />
+        </div>
+      )}
+
+      <Section
+        className={
+          shop.image ? "pt-compact" : "pt-[calc(var(--header-h)+var(--spacing-compact))]"
+        }
+      >
         <Container>
           <RazorWipe>
             <h1 className="font-display text-h1 tracking-[-0.015em] text-ink">{shop.name}</h1>

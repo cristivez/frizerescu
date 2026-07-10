@@ -38,6 +38,12 @@ export interface Location {
   hours: OpeningHours[];
   meroUrl: string;
   mapsUrl: string;
+  /**
+   * Path under /public to a real photo of this shop (interior or storefront),
+   * or null. When null, the location hero shows the razor-mark empty state.
+   * Set once the owner supplies photos (see source-content/location-photos).
+   */
+  image: string | null;
 }
 
 const WEEK: Weekday[] = [
@@ -72,6 +78,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland-mega-mall",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=44.442743,26.153322",
+    image: null,
   },
   {
     slug: "pipera",
@@ -99,6 +106,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu",
     mapsUrl: "https://maps.app.goo.gl/Z9QD9q46qRpDf7e28",
+    image: null,
   },
   {
     slug: "kaufland-pipera",
@@ -125,6 +133,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland",
     mapsUrl: "https://maps.app.goo.gl/CNMmHybu19wTyam49",
+    image: null,
   },
 ];
 

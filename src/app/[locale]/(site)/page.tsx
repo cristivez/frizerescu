@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { locations } from "@/data/locations";
+import { getLocation, locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { reviews } from "@/data/reviews";
 import { alternates } from "@/lib/seo/metadata";
@@ -46,6 +46,8 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "home" });
+  // Homepage hero uses the flagship shop's photo when one exists.
+  const heroImage = getLocation("pipera")?.image ?? null;
 
   return (
     <>
@@ -60,7 +62,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
 
       <ScrollOnArrival />
 
-      <Hero />
+      <Hero image={heroImage} />
 
       <Section className="pb-0 pt-compact">
         <StatBand />
