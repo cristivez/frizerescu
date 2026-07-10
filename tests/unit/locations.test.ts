@@ -27,6 +27,10 @@ describe("locations data", () => {
     ]);
   });
 
+  /** Helper: build a regex that matches a standalone number token (not preceded/followed by digit or decimal). */
+  const literalRe = (lit: string) =>
+    new RegExp(String.raw`(?<![\d.])${lit}(?![\d.])`);
+
   it("no review count is hard-coded outside src/data/locations.ts", () => {
     // The regression this guards: the old site hard-coded review counts
     // (e.g. 4364) in three separate places, two of which went stale by
@@ -47,9 +51,9 @@ describe("locations data", () => {
       if (resolve(file) === locationsFile) continue;
       const lines = readFileSync(file, "utf8").split("\n");
       for (const literal of forbidden) {
-        // Word-boundary on digits only: matches a standalone "25" but not
-        // the "25" inside "1025" or "0.25.0".
-        const re = new RegExp(String.raw`(?<!\d)${literal}(?!\d)`);
+        // Matches a standalone number token: rejects when preceded/followed
+        // by a digit or decimal point (so 1025, 1.25, 0.25, v0.25.0 are not matches).
+        const re = literalRe(literal);
         lines.forEach((line, i) => {
           if (re.test(line)) {
             offenses.push(
@@ -61,6 +65,23 @@ describe("locations data", () => {
     }
 
     expect(offenses, offenses.join("\n")).toEqual([]);
+  });
+
+  it("regex rejects number tokens adjacent to digits or decimals", () => {
+    const re = literalRe("25");
+
+    // Should NOT match when adjacent to digit or decimal point
+    expect(re.test("1025")).toBe(false);
+    expect(re.test("1.25")).toBe(false);
+    expect(re.test("0.25")).toBe(false);
+    expect(re.test("transition: 0.25s")).toBe(false);
+    expect(re.test("v0.25.0")).toBe(false);
+    expect(re.test("250")).toBe(false);
+
+    // Should match when it's a standalone token
+    expect(re.test("reviewCount: 25")).toBe(true);
+    expect(re.test("(25 recenzii)")).toBe(true);
+    expect(re.test("25")).toBe(true);
   });
 
   it("totals only the locations whose counts were actually verified", () => {
