@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
+import { SectionLink } from "@/components/layout/SectionLink";
 import { RazorWipe } from "@/components/motion/RazorWipe";
 
 /**
@@ -41,13 +41,16 @@ export function Hero() {
         </p>
         <p className="mt-6 max-w-[48ch] text-body-lg text-ink-secondary">{t("description")}</p>
         <div className="mt-10 flex flex-wrap gap-4">
-          {/* Scrolls to the location cards (owner decision, matching the old
-              site): with three shops, a homepage CTA that silently books one
-              of them sends Mega Mall customers 23km to Pipera. Each card
+          {/* Smooth-scrolls to the location cards (owner decision, matching the
+              old site): with three shops, a homepage CTA that silently books
+              one of them sends Mega Mall customers 23km to Pipera. Each card
               carries its own correct booking button. */}
-          <Button href="/#locations" variant="primary" size="lg">
+          <SectionLink
+            section="locations"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-none bg-accent px-8 text-base font-medium text-ink-on-accent transition-colors duration-200 hover:bg-accent-strong"
+          >
             {t("book")}
-          </Button>
+          </SectionLink>
         </div>
       </Container>
     </section>

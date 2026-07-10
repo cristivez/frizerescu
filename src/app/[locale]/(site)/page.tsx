@@ -16,6 +16,7 @@ import { StatBand } from "@/components/sections/StatBand";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { ServiceRow } from "@/components/sections/ServiceRow";
 import { ReviewCard } from "@/components/sections/ReviewCard";
+import { ScrollOnArrival } from "@/components/layout/ScrollOnArrival";
 
 export async function generateMetadata({
   params,
@@ -56,6 +57,8 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(websiteSchema(locale)) }}
       />
+
+      <ScrollOnArrival />
 
       <Hero />
 

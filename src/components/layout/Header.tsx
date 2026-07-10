@@ -7,12 +7,13 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { SectionLink } from "./SectionLink";
 import { cn } from "@/lib/cn";
 
 const LINKS = [
-  { href: "/#locations", key: "locations" },
-  { href: "/#services", key: "services" },
-  { href: "/#reviews", key: "reviews" },
+  { section: "locations", key: "locations" },
+  { section: "services", key: "services" },
+  { section: "reviews", key: "reviews" },
 ] as const;
 
 export function Header() {
@@ -46,13 +47,13 @@ export function Header() {
 
         <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
           {LINKS.map((l) => (
-            <Link
+            <SectionLink
               key={l.key}
-              href={l.href}
+              section={l.section}
               className="inline-flex min-h-11 items-center text-sm text-ink-secondary hover:text-ink"
             >
               {t(l.key)}
-            </Link>
+            </SectionLink>
           ))}
           <LanguageSwitcher />
         </nav>
@@ -72,14 +73,14 @@ export function Header() {
         <div className="border-t border-line bg-bg-elevated md:hidden" style={{ borderRadius: "var(--radius-md)" }}>
           <Container className="flex flex-col py-4">
             {LINKS.map((l) => (
-              <Link
+              <SectionLink
                 key={l.key}
-                href={l.href}
-                onClick={() => setOpen(false)}
+                section={l.section}
+                onNavigate={() => setOpen(false)}
                 className="inline-flex min-h-11 items-center text-ink"
               >
                 {t(l.key)}
-              </Link>
+              </SectionLink>
             ))}
             <div className="mt-4 border-t border-line pt-4">
               <LanguageSwitcher />

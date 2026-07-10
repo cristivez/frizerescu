@@ -9,6 +9,28 @@ test("skip link is the first focusable element and targets #main", async ({ page
 
 // The language-switch-preserves-route test lives in location.spec.ts.
 
+test("section nav smooth-scrolls on the homepage without putting # in the URL", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Locații" }).click();
+  await page.waitForTimeout(800); // let the smooth scroll settle
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(200);
+  // The owner's complaint: routes should not carry a "#locations" fragment.
+  expect(new URL(page.url()).hash).toBe("");
+});
+
+test("section nav from a location page returns home and scrolls, still hash-free", async ({ page }) => {
+  await page.goto("/pipera");
+  await page.getByRole("link", { name: "Servicii" }).click();
+  await page.waitForURL("/");
+  await page.waitForTimeout(800);
+  const servicesTop = await page.evaluate(
+    () => document.getElementById("services")!.getBoundingClientRect().top,
+  );
+  // Services section is scrolled to just under the sticky header, not at page top.
+  expect(servicesTop).toBeLessThan(200);
+  expect(new URL(page.url()).hash).toBe("");
+});
+
 test("the current language is marked aria-current", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Română" })).toHaveAttribute("aria-current", "true");

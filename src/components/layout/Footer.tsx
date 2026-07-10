@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { ArrowUpRight } from "lucide-react";
 import { locations } from "@/data/locations";
 import { Container } from "@/components/ui/Container";
 import { Link } from "@/i18n/navigation";
@@ -52,6 +53,7 @@ function Instagram({ size = 24, strokeWidth = 2 }: { size?: number; strokeWidth?
 
 export function Footer({ locale }: { locale: "ro" | "en" }) {
   const t = useTranslations("footer");
+  const tl = useTranslations("location");
 
   return (
     // pb-16 on mobile: the fixed BookingBar (md:hidden) would otherwise sit
@@ -71,12 +73,26 @@ export function Footer({ locale }: { locale: "ro" | "en" }) {
                 <br />
                 {l.landmark[locale]}
               </address>
-              <a
-                href={`tel:${l.phone}`}
-                className="mt-3 inline-flex min-h-11 items-center text-sm text-accent hover:text-accent-strong"
-              >
-                {l.phone}
-              </a>
+              {/* Phone and booking stacked (not inline) so they don't run
+                  together. The footer previously had no way to book, unlike
+                  the location cards. */}
+              <div className="mt-2 flex flex-col items-start">
+                <a
+                  href={`tel:${l.phone}`}
+                  className="inline-flex min-h-11 items-center text-sm text-ink-secondary hover:text-ink"
+                >
+                  {l.phone}
+                </a>
+                <a
+                  href={l.meroUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-accent hover:text-accent-strong"
+                >
+                  {tl("book")}
+                  <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" />
+                </a>
+              </div>
             </div>
           ))}
         </div>
