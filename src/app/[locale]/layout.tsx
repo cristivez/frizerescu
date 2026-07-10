@@ -1,14 +1,23 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider, useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import { routing } from "@/i18n/routing";
+import { SITE_URL } from "@/lib/seo/metadata";
 import { bodoni, inter } from "../fonts";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "../globals.css";
+
+// Resolves relative OG/Twitter image URLs (e.g. /images/og-image.jpg) against
+// the production origin instead of localhost, so social shares point at the
+// real domain. Cascades to every page's generateMetadata.
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
