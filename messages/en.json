@@ -11,7 +11,8 @@
   "hero": {
     "tagline": "Barber Shop",
     "description": "Haircuts, beard work and grooming, with real attention to detail. Three locations across Bucharest and Voluntari, quick online booking.",
-    "book": "Book now"
+    "book": "Book now",
+    "h1": "Frizerescu Barber Shop — barbershop in Bucharest and Voluntari"
   },
   "stats": {
     "reviews": "Verified reviews",
