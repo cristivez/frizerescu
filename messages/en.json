@@ -1,1 +1,19 @@
-{ "nav": { "home": "Home", "locations": "Locations", "services": "Services", "reviews": "Reviews" } }
+{
+  "nav": {
+    "home": "Home",
+    "locations": "Locations",
+    "services": "Services",
+    "reviews": "Reviews",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skipToContent": "Skip to content"
+  },
+  "footer": {
+    "copyright": "© 2026 Frizerescu Barber Shop. All rights reserved."
+  },
+  "cta": {
+    "book": "Book now",
+    "call": "Call"
+  }
+}
+

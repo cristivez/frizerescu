@@ -1,1 +1,19 @@
-{ "nav": { "home": "Acasă", "locations": "Locații", "services": "Servicii", "reviews": "Recenzii" } }
+{
+  "nav": {
+    "home": "Acasă",
+    "locations": "Locații",
+    "services": "Servicii",
+    "reviews": "Recenzii",
+    "openMenu": "Deschide meniul",
+    "closeMenu": "Închide meniul",
+    "skipToContent": "Sari la conținut"
+  },
+  "footer": {
+    "copyright": "© 2026 Frizerescu Barber Shop. Toate drepturile rezervate."
+  },
+  "cta": {
+    "book": "Programează-te",
+    "call": "Sună"
+  }
+}
+
