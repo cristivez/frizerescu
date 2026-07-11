@@ -30,9 +30,11 @@ describe("hairSalonSchema", () => {
 
   it("carries aggregateRating even though Google will not render stars for it", () => {
     // Self-serving reviews on LocalBusiness are ineligible for rich results
-    // (Google, 2019). Kept because it still feeds AI Overviews.
-    expect(schema.aggregateRating.ratingValue).toBe(4.99);
-    expect(schema.aggregateRating.reviewCount).toBe(4988);
+    // (Google, 2019). Kept because it still feeds AI Overviews. Asserted
+    // against the data (not copied literals) so re-verifying counts against
+    // MERO never breaks this test.
+    expect(schema.aggregateRating.ratingValue).toBe(pipera.rating);
+    expect(schema.aggregateRating.reviewCount).toBe(pipera.reviewCount);
   });
 
   it("publishes aggregateRating only for a verified count (the reviewsVerifiedOn gate)", () => {

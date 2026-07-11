@@ -20,8 +20,13 @@ export const metadata: Metadata = {
 };
 
 // Colours the mobile browser chrome to match the canvas (old-site parity).
+// viewportFit "cover" lets the page extend to the physical screen edges on
+// iPhones, which is what makes env(safe-area-inset-*) non-zero — the fixed
+// BookingBar/Header pad by those insets so the home indicator and the notch
+// never sit on top of the controls.
 export const viewport: Viewport = {
   themeColor: "#0b0b0c",
+  viewportFit: "cover",
 };
 
 export function generateStaticParams() {

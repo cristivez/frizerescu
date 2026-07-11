@@ -8,6 +8,10 @@
   // Explicit: adding custom-domain routes silently disables workers.dev
   // otherwise (bit us on the first cutover attempt). Keep both live.
   "workers_dev": true,
+  // The image loader checks this at RUNTIME too: pages re-rendered at the edge
+  // (prerender cache MISS) would otherwise fall back to unoptimised image URLs
+  // even though the build was made with the flag. Build-time env is not enough.
+  "vars": { "NEXT_PUBLIC_CF_IMAGE_RESIZING": "1" },
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   // Custom domains: Cloudflare manages the DNS records + certs for both.
   "routes": [

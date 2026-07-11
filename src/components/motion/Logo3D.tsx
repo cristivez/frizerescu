@@ -89,9 +89,14 @@ export function Logo3D({
       const bb = geometry.boundingBox!;
       const cx = (bb.max.x + bb.min.x) / 2;
       const cy = (bb.max.y + bb.min.y) / 2;
+      // Center in z too (extrusion runs 0→depth): otherwise the mesh rotates
+      // around its BACK plane instead of its middle (asymmetric swing) and the
+      // whole body sits in front of the plane the frustum fit is computed at.
+      const cz = (bb.max.z + bb.min.z) / 2;
       const geoW = bb.max.x - bb.min.x;
       const geoH = bb.max.y - bb.min.y;
-      geometry.translate(-cx, -cy, 0);
+      const geoD = bb.max.z - bb.min.z;
+      geometry.translate(-cx, -cy, -cz);
 
       const material = new THREE.MeshStandardMaterial({
         color: 0xcaa96a,
@@ -116,13 +121,39 @@ export function Logo3D({
       const FILL = mode === "scroll" ? 0.47 : 0.69;
       const visH = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
       const visW = visH * (width / height);
-      const fit = Math.min(visW / geoW, visH / geoH) * FILL;
+      const fitBase = Math.min(visW / geoW, visH / geoH) * FILL;
+      // Perspective correction: the mesh has depth, and front-faced its widest
+      // cross-section (the bevel base) sits ~(geoD/2 − bevelThickness) in front
+      // of the z=0 plane the frustum fit was computed at — so it projects ~2%
+      // larger than the flat fallback, a visible size pop at the crossfade.
+      // Shrink fit so the projected silhouette matches the fallback exactly.
+      const frontZ = (geoD / 2 - 4) * fitBase; // 4 = bevelThickness
+      const fit = fitBase * ((camera.position.z - frontZ) / camera.position.z);
       group.scale.set(fit, -fit, fit); // flip Y: SVG is y-down
-      group.rotation.x = mode === "scroll" ? 0.14 : 0.16;
       scene.add(group);
 
-      // Reveal once WebGL has a frame up.
+      // The mesh enters EXACTLY as the flat fallback looks — front-faced, no
+      // tilt, same on-screen size — and the fallback only starts fading after
+      // this first frame is painted, so the crossfade swaps two identical
+      // silhouettes (invisible). The resting tilt then eases in below and the
+      // logo "wakes up", instead of jump-cutting between two projections.
+      renderer.render(scene, camera);
       if (fallbackRef.current) fallbackRef.current.style.opacity = "0";
+
+      const TILT = mode === "scroll" ? 0.14 : 0.16;
+      const SETTLE_S = 1.2;
+      // 0→1 easeOutCubic over the first SETTLE_S seconds. Scales the resting
+      // tilt AND (in scroll mode) the scroll angle, so the mesh always STARTS
+      // front-faced — matching the fallback even when the page loads
+      // mid-scroll — and swings to its real pose from there.
+      const easedAt = (t: number) => {
+        const s = Math.min(1, t / SETTLE_S);
+        return 1 - (1 - s) ** 3;
+      };
+      // Calibration hook: ?logo3d-freeze pins the mesh at the exact swap pose
+      // (front-faced, no tilt, no motion) so the fallback and WebGL silhouettes
+      // can be compared pixel-for-pixel. Inert in normal use.
+      const freeze = window.location.search.includes("logo3d-freeze");
 
       let raf = 0;
       let scrollRaf = 0;
@@ -134,12 +165,13 @@ export function Logo3D({
         // front-faced — while spinning continuously in between. The turn count
         // tracks page length (~one turn per 1571px, matching the original feel)
         // and rounds so the bottom always resolves to front. Rendered on change.
+        let settleEase = 0; // reaches 1 after SETTLE_S, then stays
         const applyScroll = () => {
           scrollRaf = 0;
           const max = document.documentElement.scrollHeight - window.innerHeight;
           const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
           const turns = Math.max(1, Math.round((max * 0.004) / (2 * Math.PI)));
-          group.rotation.y = progress * turns * 2 * Math.PI;
+          group.rotation.y = progress * turns * 2 * Math.PI * settleEase;
           renderer.render(scene, camera);
         };
         const onScroll = () => {
@@ -147,12 +179,24 @@ export function Logo3D({
         };
         window.addEventListener("scroll", onScroll, { passive: true });
         applyScroll();
+        // Ease tilt + scroll angle in over the first SETTLE_S (rendering each
+        // frame), then park; afterwards it renders only on scroll, as before.
+        const t0 = performance.now();
+        const settle = (now: number) => {
+          settleEase = freeze ? 0 : easedAt((now - t0) / 1000);
+          group.rotation.x = TILT * settleEase;
+          applyScroll();
+          if (now - t0 < SETTLE_S * 1000) raf = requestAnimationFrame(settle);
+        };
+        raf = requestAnimationFrame(settle);
         cleanup = () => window.removeEventListener("scroll", onScroll);
       } else {
         const clock = new THREE.Clock();
         let elapsed = 0;
         const tick = () => {
           elapsed += clock.getDelta();
+          if (freeze) elapsed = 0;
+          group.rotation.x = TILT * easedAt(elapsed);
           group.rotation.y = Math.sin(elapsed * 0.5) * 0.5; // gentle ±29° rock
           renderer.render(scene, camera);
           raf = requestAnimationFrame(tick);
@@ -212,12 +256,17 @@ export function Logo3D({
           static logo for reduced-motion / no-WebGL). */}
       <div
         ref={fallbackRef}
-        className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-700"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-300"
         aria-hidden="true"
       >
-        {/* Width matches the WebGL logo's on-screen size per mode (see FILL) so
-            the crossfade has no size jump. */}
-        <Logo className={cn(mode === "scroll" ? "w-[73%]" : "w-[90%]", "text-accent")} />
+        {/* Sized by HEIGHT so the DRAWN logo matches the WebGL silhouette at the
+            swap pose exactly. Base fraction = FILL × canvas inflation (0.69×1.30,
+            0.47×1.56), then ×1.058 because the SVG viewBox has ~5.8% internal
+            padding the mesh geometry doesn't (calibrated pixel-for-pixel against
+            the ?logo3d-freeze pose; silhouettes now agree within ~1%). */}
+        <Logo
+          className={cn(mode === "scroll" ? "h-[77.6%]" : "h-[94.9%]", "w-auto text-accent")}
+        />
       </div>
     </div>
   );
