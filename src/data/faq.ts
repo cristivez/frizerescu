@@ -81,8 +81,8 @@ export const faq: FaqItem[] = [
       en: "Are you open on weekends?",
     },
     answer: {
-      ro: "Da. Toate locațiile sunt deschise sâmbăta, iar cele din Kaufland (Pipera și Mega Mall) sunt deschise și duminica. Programul exact al fiecărei locații este pe pagina ei.",
-      en: "Yes. All locations are open on Saturdays, and the Kaufland shops (Pipera and Mega Mall) are open on Sundays too. Each location's exact hours are on its page.",
+      ro: "Da. Toate locațiile sunt deschise sâmbăta, iar cele din Kaufland (Pipera și Pantelimon) sunt deschise și duminica. Programul exact al fiecărei locații este pe pagina ei.",
+      en: "Yes. All locations are open on Saturdays, and the Kaufland shops (Pipera and Pantelimon) are open on Sundays too. Each location's exact hours are on its page.",
     },
   },
   {
