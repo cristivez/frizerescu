@@ -103,8 +103,8 @@ export const faq: FaqItem[] = [
       en: "Is there parking?",
     },
     answer: {
-      ro: "Da. La locațiile din Kaufland (Pipera și Mega Mall) ai parcarea magazinului, iar la Bulevardul Pipera găsești parcare lângă biserică.",
-      en: "Yes. At the Kaufland locations (Pipera and Mega Mall) you have the store's car park, and at Bulevardul Pipera there's parking by the church.",
+      ro: "Da. La locațiile din Kaufland (Pipera și Pantelimon) ai parcarea magazinului, iar la Bulevardul Pipera găsești parcare lângă biserică.",
+      en: "Yes. At the Kaufland locations (Pipera and Pantelimon) you have the store's car park, and at Bulevardul Pipera there's parking by the church.",
     },
   },
   {
