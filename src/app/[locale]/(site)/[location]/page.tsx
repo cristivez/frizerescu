@@ -115,10 +115,16 @@ export default async function LocationPage({
                 <h1 className="font-display text-h1 tracking-[-0.015em] text-ink">{shop.name}</h1>
               </RazorWipe>
               <div className="mt-6">
+                {/* The rating links to MERO, where the full reviews live. */}
                 <RatingStars
                   value={shop.rating}
                   count={shop.reviewCount}
                   label={t("ratingLabel", { rating: shop.rating, count: shop.reviewCount })}
+                  href={shop.meroUrl}
+                  linkLabel={t("reviewsLinkLabel", {
+                    rating: shop.rating,
+                    count: shop.reviewCount,
+                  })}
                 />
               </div>
               <p className="mt-6 max-w-[60ch] text-body-lg text-ink-secondary">

@@ -1,3 +1,5 @@
+import { ArrowUpRight } from "lucide-react";
+
 /** Percentage of the five-star row that should render filled. Clamped to [0,100]. */
 export function fillPercent(value: number): number {
   return Math.max(0, Math.min(100, (value / 5) * 100));
@@ -35,14 +37,20 @@ export function RatingStars({
   value,
   count,
   label,
+  href,
+  linkLabel,
 }: {
   value: number;
   count?: number;
   /** e.g. "4,99 din 5, N de recenzii" — the accessible name (N = review count). */
   label: string;
+  /** When set, the rating becomes a link to the reviews source (e.g. MERO). */
+  href?: string;
+  /** Accessible name for the linked form (e.g. "… — vezi recenziile pe MERO"). */
+  linkLabel?: string;
 }) {
-  return (
-    <span className="inline-flex items-center gap-2" role="img" aria-label={label}>
+  const inner = (
+    <>
       {/* Two stacked star rows + a CSS clip, no ids anywhere: an empty row
           underneath, and a brass row on top clipped to the fill percentage.
           This makes the old bug class (every star rendering identically,
@@ -67,6 +75,33 @@ export function RatingStars({
           ({new Intl.NumberFormat("ro-RO").format(count)})
         </span>
       )}
+    </>
+  );
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={linkLabel ?? label}
+        className="group inline-flex items-center gap-2"
+      >
+        {inner}
+        {/* Signals it opens the reviews elsewhere. */}
+        <ArrowUpRight
+          size={15}
+          strokeWidth={1.5}
+          aria-hidden="true"
+          className="text-ink-secondary transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
+        />
+      </a>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-2" role="img" aria-label={label}>
+      {inner}
     </span>
   );
 }

@@ -27,7 +27,8 @@
     "directions": "Direcții",
     "call": "Sună",
     "ratingLabel": "{rating} din 5, {count} de recenzii",
-    "otherLocations": "Celelalte locații"
+    "otherLocations": "Celelalte locații",
+    "reviewsLinkLabel": "{rating} din 5, {count} de recenzii — vezi recenziile pe MERO"
   },
   "days": {
     "mon": "Luni",

@@ -27,7 +27,8 @@
     "directions": "Directions",
     "call": "Call",
     "ratingLabel": "{rating} out of 5, {count} reviews",
-    "otherLocations": "Other locations"
+    "otherLocations": "Other locations",
+    "reviewsLinkLabel": "{rating} out of 5, {count} reviews — see the reviews on MERO"
   },
   "days": {
     "mon": "Monday",
