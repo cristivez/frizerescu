@@ -31,7 +31,9 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 h-[var(--header-h)] transition-colors duration-200",
+        // Fixed elements ignore the body's safe-area padding, so the header
+        // carries its own left/right insets (landscape notch; 0 elsewhere).
+        "fixed inset-x-0 top-0 z-40 h-[var(--header-h)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] transition-colors duration-200",
         scrolled ? "border-b border-line bg-bg" : "bg-transparent",
       )}
     >

@@ -57,8 +57,10 @@ export function Footer({ locale }: { locale: "ro" | "en" }) {
 
   return (
     // pb-16 on mobile: the fixed BookingBar (md:hidden) would otherwise sit
-    // over the copyright/socials at the bottom of the page.
-    <footer className="border-t border-line bg-bg pb-16 md:pb-0">
+    // over the copyright/socials at the bottom of the page. Plus the safe-area
+    // inset so the last line never sits under the iPhone home indicator on
+    // pages without the BookingBar (env() is 0 outside iOS).
+    <footer className="border-t border-line bg-bg pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-[env(safe-area-inset-bottom)]">
       <Container className="py-compact">
         <div className="grid gap-10 md:grid-cols-3">
           {locations.map((l) => (
