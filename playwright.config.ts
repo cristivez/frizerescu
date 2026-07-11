@@ -10,7 +10,11 @@ export default defineConfig({
   use: { baseURL: "http://localhost:3003", trace: "on-first-retry" },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "npm run dev",
+    // CI serves the PRODUCTION build (created by the workflow's build step):
+    // dev-mode compiles routes on demand, which stalled client-side
+    // navigations long past their timeouts on CI runners — and prod is what
+    // ships anyway. Locally, dev + reuse keeps iteration fast.
+    command: process.env.CI ? "npx next start --port 3003" : "npm run dev",
     url: "http://localhost:3003",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

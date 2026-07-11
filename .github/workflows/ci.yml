@@ -32,19 +32,22 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
 
+      # Built BEFORE e2e: in CI, playwright's webServer serves this production
+      # build (`next start`) — dev-mode on-demand compilation stalled
+      # client-side navigations past their timeouts, and prod is what ships.
+      - name: Production build
+        run: npm run build
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      # Boots its own dev server (playwright.config webServer). In CI there is
-      # no GPU: Logo3D falls back to the flat logo, which the suite treats as
-      # first-class (a11y and content assertions don't require WebGL).
+      # Runs against the production build from the previous step. In CI there
+      # is no GPU: Logo3D falls back to the flat logo, which the suite treats
+      # as first-class (a11y and content assertions don't require WebGL).
       - name: E2E + accessibility (axe)
         run: npm run test:e2e
         env:
           CI: "true"
-
-      - name: Production build
-        run: npm run build
 
   # Ships to Cloudflare only after the full test job is green, only on main.
   # Runs the same two commands as the local `npm run deploy` (predeploy is
