@@ -52,7 +52,6 @@ The site owner is NOT a developer. In every response:
 - `src/components/ui/Logo.tsx` — the razor-blade wordmark, inline SVG, `fill="currentColor"`
 - `messages/{ro,en}.json` — all copy
 - `public/images/` — photos and share image; `src/app/favicon.ico` + `apple-icon.png`
-- `CNAME` — custom domain (frizerescu.ro)
 
 ## Development Rules
 
@@ -67,14 +66,13 @@ The site owner is NOT a developer. In every response:
 9. **Accessibility contract:** 44×44px min touch targets, visible focus rings, one H1 per page, strict H1→H2→H3 hierarchy. `npm run test:e2e` runs axe on every route × both locales; zero violations is the gate.
 10. **Do not migrate `middleware.ts` to `proxy.ts`** despite Next 16's deprecation warning — `@opennextjs/cloudflare` does not support it yet (opennextjs/opennextjs-cloudflare#962) and it would break the deploy.
 
-## ⚠️ Do NOT merge this branch into `main` until Cloudflare serves frizerescu.ro
+## Deployment (live since 2026-07-11)
 
-GitHub Pages deploys the LIVE site from the `main` branch, and this branch deletes
-`index.html`. Merging before the DNS cutover takes frizerescu.ro down (verified
-against the GitHub Pages API: `build_type: legacy`, `source: main`). Owner decision
-2026-07-10: leave Pages as-is and simply do not merge until Cloudflare is live.
-A `legacy-static` branch (cut at 549129c, byte-identical to production) exists
-locally as the fallback if Pages ever needs repointing.
+frizerescu.ro and www.frizerescu.ro are served by the Cloudflare Worker
+`frizerescu` (custom domains, DNS + certs managed by Cloudflare; www 301s to
+the apex via middleware). `npm run deploy` builds and ships it. GitHub Pages
+was disabled at cutover; the old static site survives on the local
+`legacy-static` branch (cut at 549129c) purely as an archive.
 
 ## Before declaring work done
 
