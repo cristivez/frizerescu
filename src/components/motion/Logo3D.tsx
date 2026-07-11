@@ -126,13 +126,16 @@ export function Logo3D({
       let raf = 0;
       let scrollRaf = 0;
       if (mode === "scroll") {
-        // Drive rotation from scroll; render only on change (idle = no GPU).
-        // tanh bounds the turn to ±0.5 rad (~29°) however far the page scrolls —
-        // without it, scrollY * k grows without limit and the logo spins past
-        // the angle its canvas can hold, clipping its own edges.
+        // Drive rotation from scroll PROGRESS (0 at the top, 1 at the bottom of
+        // the page), not raw pixels. sin(progress·π) is 0 at both ends and peaks
+        // mid-page, so the logo faces front at the top and the bottom and turns
+        // furthest — ±0.5 rad (~29°), the most its canvas holds — in between.
+        // Rendered only on change (idle = no GPU).
         const applyScroll = () => {
           scrollRaf = 0;
-          group.rotation.y = 0.5 * Math.tanh(window.scrollY / 500);
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          group.rotation.y = 0.5 * Math.sin(progress * Math.PI);
           renderer.render(scene, camera);
         };
         const onScroll = () => {
