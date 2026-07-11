@@ -5,5 +5,8 @@
   "compatibility_date": "2026-06-01",
   "compatibility_flags": ["nodejs_compat"],
   "keep_names": false,
+  // Explicit: adding custom-domain routes silently disables workers.dev
+  // otherwise (bit us on the first cutover attempt). Keep both live.
+  "workers_dev": true,
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" }
 }
