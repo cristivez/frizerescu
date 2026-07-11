@@ -91,7 +91,8 @@ export function Logo3D({
       const bb = geometry.boundingBox!;
       const cx = (bb.max.x + bb.min.x) / 2;
       const cy = (bb.max.y + bb.min.y) / 2;
-      const span = Math.max(bb.max.x - bb.min.x, bb.max.y - bb.min.y);
+      const geoW = bb.max.x - bb.min.x;
+      const geoH = bb.max.y - bb.min.y;
       geometry.translate(-cx, -cy, 0);
 
       const material = new THREE.MeshStandardMaterial({
@@ -104,7 +105,13 @@ export function Logo3D({
 
       const group = new THREE.Group();
       group.add(mesh);
-      const fit = 330 / span;
+      // Fit the logo to fill the same ~90% of the frame as the flat fallback
+      // (FILL, matched below) so there is no size "pop" when WebGL swaps in.
+      // 90% leaves margin for the extrude depth + rock so edges never clip.
+      const FILL = 0.9;
+      const visH = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
+      const visW = visH * (width / height);
+      const fit = Math.min(visW / geoW, visH / geoH) * FILL;
       group.scale.set(fit, -fit, fit); // flip Y: SVG is y-down
       group.rotation.x = mode === "scroll" ? 0.14 : 0.16;
       scene.add(group);
@@ -174,12 +181,14 @@ export function Logo3D({
   return (
     <div className={cn("relative", className)}>
       <div ref={mountRef} className="absolute inset-0" />
+      {/* Fallback centered at the SAME 90% width the WebGL logo fills, so the
+          swap is a pure crossfade with no size jump. */}
       <div
         ref={fallbackRef}
-        className="pointer-events-none transition-opacity duration-700"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-700"
         aria-hidden="true"
       >
-        <ExtrudedLogo depth={fallbackDepth} />
+        <ExtrudedLogo depth={fallbackDepth} className="w-[90%]" />
       </div>
     </div>
   );
