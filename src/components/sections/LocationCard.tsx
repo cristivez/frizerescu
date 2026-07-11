@@ -38,7 +38,10 @@ export function LocationCard({ location, locale }: { location: Location; locale:
         <div className="relative aspect-[3/2] w-full overflow-hidden border-b border-line">
           <Image
             src={location.image}
-            alt=""
+            // Named (not empty) so the shop photos are eligible for Google
+            // Images / image-based AI search. The card heading repeats the name
+            // for screen readers, a minor, accepted redundancy for the SEO gain.
+            alt={location.name}
             fill
             sizes="(min-width: 1024px) 420px, (min-width: 768px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
