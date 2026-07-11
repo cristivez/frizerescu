@@ -103,13 +103,16 @@ export function Logo3D({
 
       const group = new THREE.Group();
       group.add(mesh);
-      // The canvas is inflated well past the visible logo box (see CANVAS_PAD
-      // on the mount div), so FILL is the logo's fraction of that *larger*
-      // canvas — not of the visible box. FILL * (1 + 2*CANVAS_PAD) works out to
-      // ~90% of the visible box (matching the flat fallback so there is no size
-      // pop), while leaving a wide transparent margin the logo can rotate into
-      // without any edge ever crossing the canvas boundary and clipping.
-      const FILL = 0.64;
+      // The canvas is inflated 15% past the visible logo box on every side (the
+      // -inset on the mount div → a 130%-size canvas), so FILL is the logo's
+      // fraction of that *larger* canvas, not of the visible box.
+      //   rock (hero):   0.69 * 1.30 ≈ 0.90 → appears at ~90% of the box. At the
+      //     hero's size the leftover ~6% margin is tens of px — ample for ±29°.
+      //   scroll (header): a smaller 0.56 → appears at ~73% of the box. The
+      //     header canvas is only ~39px tall, where a 6% margin is ~2px and
+      //     antialiasing eats it, so the small mark is given a wider proportional
+      //     margin to turn inside. (The fallback width below matches, per mode.)
+      const FILL = mode === "scroll" ? 0.56 : 0.69;
       const visH = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
       const visW = visH * (width / height);
       const fit = Math.min(visW / geoW, visH / geoH) * FILL;
@@ -124,9 +127,12 @@ export function Logo3D({
       let scrollRaf = 0;
       if (mode === "scroll") {
         // Drive rotation from scroll; render only on change (idle = no GPU).
+        // tanh bounds the turn to ±0.5 rad (~29°) however far the page scrolls —
+        // without it, scrollY * k grows without limit and the logo spins past
+        // the angle its canvas can hold, clipping its own edges.
         const applyScroll = () => {
           scrollRaf = 0;
-          group.rotation.y = window.scrollY * 0.004;
+          group.rotation.y = 0.5 * Math.tanh(window.scrollY / 500);
           renderer.render(scene, camera);
         };
         const onScroll = () => {
@@ -181,11 +187,12 @@ export function Logo3D({
 
   return (
     <div className={cn("relative", className)}>
-      {/* The WebGL canvas is inflated 20% past the logo box on every side (a
-          140%-size, transparent, non-interactive layer) so the logo has room
-          to turn without its edges leaving the frame and clipping. The logo
-          itself is scaled (FILL) to still *appear* at ~90% of the visible box. */}
-      <div ref={mountRef} className="pointer-events-none absolute -inset-[20%]" />
+      {/* The WebGL canvas is inflated 15% past the logo box on every side (a
+          130%-size, transparent, non-interactive layer) so the logo has just
+          enough room to turn without its edges leaving the frame and clipping.
+          The logo itself is scaled (FILL) to still *appear* at ~90% of the
+          visible box. */}
+      <div ref={mountRef} className="pointer-events-none absolute -inset-[15%]" />
       {/* Flat brass logo, centered at the SAME ~90% width the WebGL logo fills,
           so the swap is a pure crossfade with no size/colour jump (and a clean
           static logo for reduced-motion / no-WebGL). */}
@@ -194,7 +201,9 @@ export function Logo3D({
         className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-700"
         aria-hidden="true"
       >
-        <Logo className="w-[90%] text-accent" />
+        {/* Width matches the WebGL logo's on-screen size per mode (see FILL) so
+            the crossfade has no size jump. */}
+        <Logo className={cn(mode === "scroll" ? "w-[73%]" : "w-[90%]", "text-accent")} />
       </div>
     </div>
   );
