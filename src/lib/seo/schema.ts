@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/routing";
 import { isOpenSpec, locations, type Location, type LocationSlug } from "@/data/locations";
+import { faq } from "@/data/faq";
 import { localizedUrl, SITE_URL } from "./metadata";
 
 const SAME_AS = [
@@ -116,6 +117,29 @@ export function websiteSchema(locale: Locale) {
     url: localizedUrl(locale, ""),
     inLanguage: locale,
     publisher: { "@id": `${SITE_URL}#org` },
+  };
+}
+
+/**
+ * FAQPage for the homepage. Text comes from `faq` (src/data/faq.ts) — the same
+ * source the visible accordion renders, which Google requires to match.
+ *
+ * Like the aggregateRating note above: Google restricted FAQ *rich results* to
+ * authoritative gov/health sites in 2023, so this will NOT render an FAQ snippet
+ * for a barbershop. It is kept because Google still parses it and it feeds AI
+ * Overviews / Gemini local summaries, and the answers themselves are strong
+ * long-tail content ("cât costă tuns", "program frizerie duminică").
+ */
+export function faqSchema(locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${localizedUrl(locale, "")}#faq`,
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question[locale],
+      acceptedAnswer: { "@type": "Answer", text: item.answer[locale] },
+    })),
   };
 }
 

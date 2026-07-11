@@ -56,6 +56,10 @@
     "reviews": {
       "overline": "Reviews",
       "title": "What clients say"
+    },
+    "faq": {
+      "overline": "FAQ",
+      "title": "Good to know"
     }
   },
   "footer": {

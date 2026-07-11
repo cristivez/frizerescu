@@ -4,7 +4,7 @@ import { locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { reviews } from "@/data/reviews";
 import { alternates } from "@/lib/seo/metadata";
-import { jsonLd, organizationSchema, websiteSchema } from "@/lib/seo/schema";
+import { faqSchema, jsonLd, organizationSchema, websiteSchema } from "@/lib/seo/schema";
 import type { Locale } from "@/i18n/routing";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -16,6 +16,7 @@ import { StatBand } from "@/components/sections/StatBand";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { ServiceRow } from "@/components/sections/ServiceRow";
 import { ReviewCard } from "@/components/sections/ReviewCard";
+import { Faq } from "@/components/sections/Faq";
 import { ScrollOnArrival } from "@/components/layout/ScrollOnArrival";
 
 export async function generateMetadata({
@@ -56,6 +57,10 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(websiteSchema(locale)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema(locale)) }}
       />
 
       <ScrollOnArrival />
@@ -111,6 +116,17 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
             {reviews.map((r) => (
               <ReviewCard key={r.author} review={r} locale={locale} />
             ))}
+          </Reveal>
+        </Container>
+      </Section>
+
+      <Section id="faq" muted>
+        <Container>
+          <RazorWipe>
+            <SectionHeading overline={t("faq.overline")} title={t("faq.title")} />
+          </RazorWipe>
+          <Reveal>
+            <Faq locale={locale} />
           </Reveal>
         </Container>
       </Section>
