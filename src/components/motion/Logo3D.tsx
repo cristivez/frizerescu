@@ -118,11 +118,22 @@ export function Logo3D({
       const visW = visH * (width / height);
       const fit = Math.min(visW / geoW, visH / geoH) * FILL;
       group.scale.set(fit, -fit, fit); // flip Y: SVG is y-down
-      group.rotation.x = mode === "scroll" ? 0.14 : 0.16;
       scene.add(group);
 
-      // Reveal once WebGL has a frame up.
+      // The mesh enters EXACTLY as the flat fallback looks — front-faced, no
+      // tilt, same on-screen size — and the fallback only starts fading after
+      // this first frame is painted, so the crossfade swaps two identical
+      // silhouettes (invisible). The resting tilt then eases in below and the
+      // logo "wakes up", instead of jump-cutting between two projections.
+      renderer.render(scene, camera);
       if (fallbackRef.current) fallbackRef.current.style.opacity = "0";
+
+      const TILT = mode === "scroll" ? 0.14 : 0.16;
+      const SETTLE_S = 1.2;
+      const settledTilt = (t: number) => {
+        const s = Math.min(1, t / SETTLE_S);
+        return TILT * (1 - (1 - s) ** 3); // easeOutCubic
+      };
 
       let raf = 0;
       let scrollRaf = 0;
@@ -147,12 +158,22 @@ export function Logo3D({
         };
         window.addEventListener("scroll", onScroll, { passive: true });
         applyScroll();
+        // Ease the resting tilt in over the first SETTLE_S (rendering each
+        // frame), then park; afterwards it renders only on scroll, as before.
+        const t0 = performance.now();
+        const settle = (now: number) => {
+          group.rotation.x = settledTilt((now - t0) / 1000);
+          renderer.render(scene, camera);
+          if (now - t0 < SETTLE_S * 1000) raf = requestAnimationFrame(settle);
+        };
+        raf = requestAnimationFrame(settle);
         cleanup = () => window.removeEventListener("scroll", onScroll);
       } else {
         const clock = new THREE.Clock();
         let elapsed = 0;
         const tick = () => {
           elapsed += clock.getDelta();
+          group.rotation.x = settledTilt(elapsed);
           group.rotation.y = Math.sin(elapsed * 0.5) * 0.5; // gentle ±29° rock
           renderer.render(scene, camera);
           raf = requestAnimationFrame(tick);
@@ -212,12 +233,15 @@ export function Logo3D({
           static logo for reduced-motion / no-WebGL). */}
       <div
         ref={fallbackRef}
-        className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-700"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-300"
         aria-hidden="true"
       >
-        {/* Width matches the WebGL logo's on-screen size per mode (see FILL) so
-            the crossfade has no size jump. */}
-        <Logo className={cn(mode === "scroll" ? "w-[73%]" : "w-[90%]", "text-accent")} />
+        {/* Sized by HEIGHT to the exact fraction the (height-constrained) WebGL
+            logo occupies per mode — FILL × canvas inflation: 0.69×1.30 and
+            0.47×1.56 — so the crossfade has no size jump at all. */}
+        <Logo
+          className={cn(mode === "scroll" ? "h-[73.3%]" : "h-[89.7%]", "w-auto text-accent")}
+        />
       </div>
     </div>
   );
