@@ -20,9 +20,13 @@ import { ReviewCard } from "@/components/sections/ReviewCard";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { BookingBar } from "@/components/layout/BookingBar";
 
-// Any slug outside generateStaticParams is a build-time 404, so a typo can
-// never ship as a live empty page.
-export const dynamicParams = false;
+// dynamicParams MUST stay true (the default) on @opennextjs/cloudflare: with
+// `false`, the Worker 404s even VALID prerendered slugs on a runtime cache MISS
+// (it can't re-validate generateStaticParams at the edge), which took down every
+// location page on the first Cloudflare deploy. generateStaticParams still
+// prerenders the three real shops at build; an unknown slug is caught at runtime
+// by the `if (!shop) notFound()` guard below, so a typo still 404s cleanly.
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return locations.map((l) => ({ location: l.slug }));
