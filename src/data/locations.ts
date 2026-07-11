@@ -34,6 +34,14 @@ export interface Location {
     postalCode: string;
   };
   landmark: { ro: string; en: string };
+  /**
+   * ~100 words of on-page copy for the location hero. Substantive, indexable
+   * text for Google + AI answer engines (the pages were otherwise text-light).
+   * Strictly factual: only what's verifiable from this file + owner-confirmed
+   * policy (walk-ins, parking, card/cash, kids). No invented history, team, or
+   * superlatives; no review-count literals (a unit test forbids them here too).
+   */
+  intro: { ro: string; en: string };
   geo: { lat: number; lng: number };
   hours: OpeningHours[];
   meroUrl: string;
@@ -71,6 +79,10 @@ export const locations: Location[] = [
       ro: "Kaufland Pantelimon, lângă Mega Mall",
       en: "Kaufland Pantelimon, next to Mega Mall",
     },
+    intro: {
+      ro: "Cea mai nouă locație Frizerescu este în Kaufland Pantelimon, lângă Mega Mall, pe Șoseaua Pantelimon din București. Dacă ești în zona Pantelimon sau vii la mall, poți combina cumpărăturile cu un tuns sau un aranjat de barbă — ai parcarea Kaufland chiar la intrare. Suntem deschiși șapte zile din șapte, inclusiv duminica. Poți trece fără programare sau îți rezervi ora online pe MERO. Facem servicii clasice de bărbier — tuns, barbă, spălat și frecție — tundem și copiii, iar plata se face cu cardul sau cash.",
+      en: "Our newest location is in Kaufland Pantelimon, next to Mega Mall, on Șoseaua Pantelimon in Bucharest. If you're around Pantelimon or heading to the mall, pair the shopping with a haircut or a beard trim — the Kaufland car park is right at the door. We're open seven days a week, Sundays included. Walk in any time, or book your slot online on MERO. We offer classic barbering — haircut, beard, wash and massage — cut kids' hair too, and take card or cash.",
+    },
     geo: { lat: 44.442743, lng: 26.153322 },
     hours: [
       { days: [...WEEK, "Saturday"], opens: "09:00", closes: "20:00" },
@@ -97,6 +109,10 @@ export const locations: Location[] = [
     landmark: {
       ro: "Lângă Biserica Adormirea Maicii Domnului",
       en: "Next to the Adormirea Maicii Domnului church",
+    },
+    intro: {
+      ro: "Pe Bulevardul Pipera, lângă Biserica Adormirea Maicii Domnului, găsești frizeria Frizerescu din Voluntari. Facem tuns, aranjat de barbă, spălat și frecție — servicii clasice de bărbier, lucrate cu grijă pentru fiecare detaliu. Poți veni fără programare sau îți rezervi ora online pe MERO, ca să prinzi frizerul și intervalul care ți se potrivesc. Suntem deschiși de luni până sâmbătă, cu parcare chiar lângă biserică. Plătești cu cardul sau cash, iar dacă vii cu cel mic, îl tundem și pe el. Ești în Voluntari sau în nordul Bucureștiului? E ușor de ajuns, la câțiva pași de Bulevardul Pipera.",
+      en: "On Bulevardul Pipera, next to the Adormirea Maicii Domnului church, you'll find the Frizerescu barbershop in Voluntari. We do haircuts, beard work, washes and massages — classic barbering, done with care for every detail. Walk in any time, or book your slot online on MERO to get the barber and time that suit you. We're open Monday to Saturday, with parking right by the church. Pay by card or cash, and if you bring the little one, we'll cut his hair too. In Voluntari or north Bucharest? We're an easy trip, just off Bulevardul Pipera.",
     },
     geo: { lat: 44.5046616, lng: 26.1367048 },
     hours: [
@@ -125,6 +141,10 @@ export const locations: Location[] = [
     landmark: {
       ro: "KAUFLAND Pipera, lângă reprezentanța Volkswagen",
       en: "KAUFLAND Pipera, next to the Volkswagen dealership",
+    },
+    intro: {
+      ro: "Frizeria Frizerescu din Kaufland Pipera este chiar în incinta magazinului, lângă reprezentanța Volkswagen, pe Bulevardul Pipera în Voluntari. E locul potrivit pentru un tuns sau un aranjat de barbă atunci când oricum treci pe la cumpărături — parchezi la Kaufland și intri direct la noi. Suntem deschiși șapte zile din șapte, inclusiv duminica, așa că prinzi un loc și în weekend. Vino fără programare sau rezervă-ți ora pe MERO ca să nu aștepți. Facem tuns, barbă, spălat și frecție, tundem și copiii, iar plata se face cu cardul sau cash.",
+      en: "The Frizerescu barbershop in Kaufland Pipera is right inside the store, next to the Volkswagen dealership on Bulevardul Pipera in Voluntari. It's the easy choice for a haircut or a beard trim while you're already out shopping — park at Kaufland and walk straight in. We're open seven days a week, Sundays included, so you can get a chair at the weekend too. Walk in, or book on MERO so you don't wait. We do haircuts, beards, washes and massages, cut kids' hair too, and take card or cash.",
     },
     geo: { lat: 44.4983, lng: 26.1271 },
     hours: [

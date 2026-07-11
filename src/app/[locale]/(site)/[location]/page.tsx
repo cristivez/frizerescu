@@ -131,6 +131,10 @@ export default async function LocationPage({
                 {shop.address.street}, {shop.address.locality} · {shop.landmark[locale]}
               </p>
 
+              {/* Substantive, indexable copy (content depth for Google + AI).
+                  Strictly factual — see the intro note in locations.ts. */}
+              <p className="mt-6 max-w-[60ch] text-ink-secondary">{shop.intro[locale]}</p>
+
               <dl className="mt-10 max-w-md border-t border-line">
                 {shop.hours.map((h) => (
                   <div key={h.days.join()} className="flex justify-between border-b border-line py-3">
