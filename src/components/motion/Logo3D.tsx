@@ -12,8 +12,20 @@ import { cn } from "@/lib/cn";
  * (client-only, after paint) so it never touches the critical path. The flat
  * ExtrudedLogo shows as the fallback and stays put under reduced motion, where
  * WebGL is skipped entirely.
+ *
+ * mode "rock"   — a gentle continuous ±29° sway (the hero centerpiece).
+ * mode "scroll" — rotationY driven by scroll position, rendered only while
+ *                 scrolling (idle = no GPU work); used for the small header logo.
  */
-export function Logo3D({ className }: { className?: string }) {
+export function Logo3D({
+  className,
+  mode = "rock",
+  fallbackDepth = 10,
+}: {
+  className?: string;
+  mode?: "rock" | "scroll";
+  fallbackDepth?: number;
+}) {
   const mountRef = useRef<HTMLDivElement>(null);
   const fallbackRef = useRef<HTMLDivElement>(null);
 
@@ -94,22 +106,38 @@ export function Logo3D({ className }: { className?: string }) {
       group.add(mesh);
       const fit = 330 / span;
       group.scale.set(fit, -fit, fit); // flip Y: SVG is y-down
-      group.rotation.x = 0.16;
+      group.rotation.x = mode === "scroll" ? 0.14 : 0.16;
       scene.add(group);
 
       // Reveal once WebGL has a frame up.
       if (fallbackRef.current) fallbackRef.current.style.opacity = "0";
 
-      const clock = new THREE.Clock();
       let raf = 0;
-      let elapsed = 0;
-      const tick = () => {
-        elapsed += clock.getDelta();
-        group.rotation.y = Math.sin(elapsed * 0.5) * 0.5; // gentle ±29° rock
-        renderer.render(scene, camera);
-        raf = requestAnimationFrame(tick);
-      };
-      tick();
+      let scrollRaf = 0;
+      if (mode === "scroll") {
+        // Drive rotation from scroll; render only on change (idle = no GPU).
+        const applyScroll = () => {
+          scrollRaf = 0;
+          group.rotation.y = window.scrollY * 0.004;
+          renderer.render(scene, camera);
+        };
+        const onScroll = () => {
+          if (!scrollRaf) scrollRaf = requestAnimationFrame(applyScroll);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        applyScroll();
+        cleanup = () => window.removeEventListener("scroll", onScroll);
+      } else {
+        const clock = new THREE.Clock();
+        let elapsed = 0;
+        const tick = () => {
+          elapsed += clock.getDelta();
+          group.rotation.y = Math.sin(elapsed * 0.5) * 0.5; // gentle ±29° rock
+          renderer.render(scene, camera);
+          raf = requestAnimationFrame(tick);
+        };
+        tick();
+      }
 
       const onResize = () => {
         const w = mount.clientWidth;
@@ -117,12 +145,16 @@ export function Logo3D({ className }: { className?: string }) {
         renderer.setSize(w, h);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
+        renderer.render(scene, camera);
       };
       window.addEventListener("resize", onResize);
 
+      const disposeGl = cleanup;
       cleanup = () => {
+        disposeGl();
         window.removeEventListener("resize", onResize);
         if (raf) cancelAnimationFrame(raf);
+        if (scrollRaf) cancelAnimationFrame(scrollRaf);
         geometry.dispose();
         material.dispose();
         pmrem.dispose();
@@ -137,7 +169,7 @@ export function Logo3D({ className }: { className?: string }) {
       disposed = true;
       cleanup();
     };
-  }, []);
+  }, [mode]);
 
   return (
     <div className={cn("relative", className)}>
@@ -147,7 +179,7 @@ export function Logo3D({ className }: { className?: string }) {
         className="pointer-events-none transition-opacity duration-700"
         aria-hidden="true"
       >
-        <ExtrudedLogo depth={10} />
+        <ExtrudedLogo depth={fallbackDepth} />
       </div>
     </div>
   );
