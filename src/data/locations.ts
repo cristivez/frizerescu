@@ -64,10 +64,9 @@ export const locations: Location[] = [
     name: "Frizerescu Kaufland Mega Mall",
     isNew: true,
     rating: 5.0,
-    reviewCount: 25,
-    // UNVERIFIED. CLAUDE.md claimed 25, but the other two counts were stale by
-    // 600+ each, so this one is not trusted. Set the date once checked.
-    reviewsVerifiedOn: null,
+    reviewCount: 44,
+    // Verified against MERO by the owner on 2026-07-11 (5.00 from 44 reviews).
+    reviewsVerifiedOn: "2026-07-11",
     phone: "+40750265228",
     address: {
       street: "Șos. Pantelimon 244-246",

@@ -86,5 +86,4 @@ Six service pages (`tuns`, `barbă`, etc.). Deferred until ~400 words of real RO
 
 ## Open items
 
-- **Photography**: the hero and cards use an intentional razor-mark empty state until real photos land. Flip `HERO_IMAGE` in `src/components/sections/Hero.tsx` once `public/images/hero.jpg` (2560×1440) exists. Shot list: `docs/design/DESIGN-SYSTEM.md` §12.
-- **Mega Mall review count**: currently `reviewsVerifiedOn: null` in `locations.ts` (unverified, excluded from the stat-band total). Set the date once checked against MERO.
+- **Photography**: the hero uses an intentional razor-mark/3D-logo empty state until a real hero photo lands. Flip `HERO_IMAGE` in `src/components/sections/Hero.tsx` once `public/images/hero.jpg` (2560×1440) exists. Shot list: `docs/design/DESIGN-SYSTEM.md` §12. (The location cards and pages already show real photos.)

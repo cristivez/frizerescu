@@ -27,9 +27,14 @@ describe("locations data", () => {
     ]);
   });
 
-  /** Helper: build a regex that matches a standalone number token (not preceded/followed by digit or decimal). */
+  /**
+   * Build a regex that matches a standalone number token: not preceded/followed
+   * by a digit or decimal (so 1025, 1.25 aren't matches), and not a CSS
+   * measurement like "44px" (the 44px minimum touch target recurs in design
+   * comments and is never a review count).
+   */
   const literalRe = (lit: string) =>
-    new RegExp(String.raw`(?<![\d.])${lit}(?![\d.])`);
+    new RegExp(String.raw`(?<![\d.])${lit}(?!px|[\d.])`);
 
   it("no review count is hard-coded outside src/data/locations.ts", () => {
     // The regression this guards: the old site hard-coded review counts
@@ -39,6 +44,14 @@ describe("locations data", () => {
     // catch that — so this scans the actual source tree for the literals.
     const projectRoot = resolve(__dirname, "..", "..");
     const locationsFile = resolve(projectRoot, "src", "data", "locations.ts");
+    // The logo is stored as SVG path data — coordinates like "L44 311.091" that
+    // collide with a small review count (44) but are never counts. Both the
+    // shared path constant and the inline Logo SVG are excluded, like
+    // locations.ts itself.
+    const svgFiles = new Set([
+      resolve(projectRoot, "src", "components", "ui", "logo-path.ts"),
+      resolve(projectRoot, "src", "components", "ui", "Logo.tsx"),
+    ]);
     const forbidden = locations.map((l) => String(l.reviewCount));
 
     const files = [
@@ -49,6 +62,7 @@ describe("locations data", () => {
     const offenses: string[] = [];
     for (const file of files) {
       if (resolve(file) === locationsFile) continue;
+      if (svgFiles.has(resolve(file))) continue;
       const lines = readFileSync(file, "utf8").split("\n");
       for (const literal of forbidden) {
         // Matches a standalone number token: rejects when preceded/followed
@@ -77,6 +91,7 @@ describe("locations data", () => {
     expect(re.test("transition: 0.25s")).toBe(false);
     expect(re.test("v0.25.0")).toBe(false);
     expect(re.test("250")).toBe(false);
+    expect(re.test("gap: 25px")).toBe(false); // a CSS measurement, not a count
 
     // Should match when it's a standalone token
     expect(re.test("reviewCount: 25")).toBe(true);
@@ -100,17 +115,22 @@ describe("locations data", () => {
     expect(verifiedTotals().rating).toBeCloseTo(weighted, 4);
   });
 
-  it("totalsFrom() on the real data returns the review-weighted rating, not a naive mean", () => {
+  it("weights the rating by review count, not a naive mean of the ratings", () => {
+    // On the real data, totalsFrom returns the review-weighted mean.
     const verified = locations.filter((l) => l.reviewsVerifiedOn !== null);
-    const naiveMean =
-      verified.reduce((s, l) => s + l.rating, 0) / verified.length;
     const weighted =
       verified.reduce((s, l) => s + l.rating * l.reviewCount, 0) /
       verified.reduce((s, l) => s + l.reviewCount, 0);
+    expect(totalsFrom(locations).rating).toBeCloseTo(weighted, 4);
 
-    const { rating } = totalsFrom(locations);
-    expect(rating).toBeCloseTo(weighted, 4);
-    expect(rating).not.toBeCloseTo(naiveMean, 2);
+    // Prove the weighting is genuine on a divergent fixture — the real ratings
+    // are now all ~5.0, too close to tell a weighted mean from a naive one. A
+    // naive mean of the fixture would be 3.0; the 1000-review shop must dominate.
+    const fixture: Location[] = [
+      { ...locations[0], rating: 5.0, reviewCount: 1000, reviewsVerifiedOn: "2026-01-01" },
+      { ...locations[0], rating: 1.0, reviewCount: 1, reviewsVerifiedOn: "2026-01-01" },
+    ];
+    expect(totalsFrom(fixture).rating).toBeGreaterThan(4.9);
   });
 
   it("totalsFrom() throws rather than dividing by zero when nothing is verified", () => {

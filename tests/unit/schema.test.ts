@@ -35,15 +35,21 @@ describe("hairSalonSchema", () => {
     expect(schema.aggregateRating.reviewCount).toBe(4988);
   });
 
-  it("omits aggregateRating for a location whose count was never verified", () => {
+  it("publishes aggregateRating only for a verified count (the reviewsVerifiedOn gate)", () => {
     // Owner policy: don't publish machine-readable numbers we can't stand
-    // behind. Mega Mall's count is reviewsVerifiedOn: null until checked.
-    const unverified = locations.filter((l) => l.reviewsVerifiedOn === null);
-    expect(unverified.length).toBeGreaterThan(0); // policy is actually exercised
-    for (const loc of unverified) {
-      const s = hairSalonSchema(loc, "ro") as Record<string, any>;
-      expect(s.aggregateRating).toBeUndefined();
-    }
+    // behind. Tested via synthetic locations so it holds no matter which real
+    // shops happen to be verified (all three now are).
+    const unverified = hairSalonSchema(
+      { ...pipera, reviewsVerifiedOn: null },
+      "ro",
+    ) as Record<string, any>;
+    expect(unverified.aggregateRating).toBeUndefined();
+
+    const verified = hairSalonSchema(
+      { ...pipera, reviewsVerifiedOn: "2026-01-01" },
+      "ro",
+    ) as Record<string, any>;
+    expect(verified.aggregateRating).toBeDefined();
   });
 
   it("uses an E.164 telephone", () => {
