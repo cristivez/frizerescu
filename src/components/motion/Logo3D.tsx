@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ExtrudedLogo } from "@/components/ui/ExtrudedLogo";
+import { Logo } from "@/components/ui/Logo";
 import { LOGO_PATH } from "@/components/ui/logo-path";
 import { cn } from "@/lib/cn";
 
@@ -9,9 +9,10 @@ import { cn } from "@/lib/cn";
  * The logo as a real solid 3D object: the SVG shape is extruded into a beveled
  * brass mesh (not lines on a plate) and lit by a studio environment so it reads
  * as milled metal with genuine thickness and edges. three.js is loaded lazily
- * (client-only, after paint) so it never touches the critical path. The flat
- * ExtrudedLogo shows as the fallback and stays put under reduced motion, where
- * WebGL is skipped entirely.
+ * (client-only, after paint) so it never touches the critical path. A flat
+ * brass Logo shows as the fallback — same colour, size and orientation as the
+ * mesh, so the swap is invisible — and stays put under reduced motion / no
+ * WebGL, where three.js is never fetched.
  *
  * mode "rock"   — a gentle continuous ±29° sway (the hero centerpiece).
  * mode "scroll" — rotationY driven by scroll position, rendered only while
@@ -20,11 +21,9 @@ import { cn } from "@/lib/cn";
 export function Logo3D({
   className,
   mode = "rock",
-  fallbackDepth = 10,
 }: {
   className?: string;
   mode?: "rock" | "scroll";
-  fallbackDepth?: number;
 }) {
   const mountRef = useRef<HTMLDivElement>(null);
   const fallbackRef = useRef<HTMLDivElement>(null);
@@ -56,8 +55,7 @@ export function Logo3D({
 
       const scene = new THREE.Scene();
 
-      // Procedural studio environment → the metal has something to reflect
-      // (metalness 1 without an env map renders black).
+      // Procedural studio environment → the metal has something to reflect.
       const pmrem = new THREE.PMREMGenerator(renderer);
       scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
@@ -105,10 +103,13 @@ export function Logo3D({
 
       const group = new THREE.Group();
       group.add(mesh);
-      // Fit the logo to fill the same ~90% of the frame as the flat fallback
-      // (FILL, matched below) so there is no size "pop" when WebGL swaps in.
-      // 90% leaves margin for the extrude depth + rock so edges never clip.
-      const FILL = 0.9;
+      // The canvas is inflated well past the visible logo box (see CANVAS_PAD
+      // on the mount div), so FILL is the logo's fraction of that *larger*
+      // canvas — not of the visible box. FILL * (1 + 2*CANVAS_PAD) works out to
+      // ~90% of the visible box (matching the flat fallback so there is no size
+      // pop), while leaving a wide transparent margin the logo can rotate into
+      // without any edge ever crossing the canvas boundary and clipping.
+      const FILL = 0.64;
       const visH = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
       const visW = visH * (width / height);
       const fit = Math.min(visW / geoW, visH / geoH) * FILL;
@@ -180,15 +181,20 @@ export function Logo3D({
 
   return (
     <div className={cn("relative", className)}>
-      <div ref={mountRef} className="absolute inset-0" />
-      {/* Fallback centered at the SAME 90% width the WebGL logo fills, so the
-          swap is a pure crossfade with no size jump. */}
+      {/* The WebGL canvas is inflated 20% past the logo box on every side (a
+          140%-size, transparent, non-interactive layer) so the logo has room
+          to turn without its edges leaving the frame and clipping. The logo
+          itself is scaled (FILL) to still *appear* at ~90% of the visible box. */}
+      <div ref={mountRef} className="pointer-events-none absolute -inset-[20%]" />
+      {/* Flat brass logo, centered at the SAME ~90% width the WebGL logo fills,
+          so the swap is a pure crossfade with no size/colour jump (and a clean
+          static logo for reduced-motion / no-WebGL). */}
       <div
         ref={fallbackRef}
         className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-700"
         aria-hidden="true"
       >
-        <ExtrudedLogo depth={fallbackDepth} className="w-[90%]" />
+        <Logo className="w-[90%] text-accent" />
       </div>
     </div>
   );

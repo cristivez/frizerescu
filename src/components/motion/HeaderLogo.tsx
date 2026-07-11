@@ -8,5 +8,5 @@ import { Logo3D } from "@/components/motion/Logo3D";
  * under reduced motion / no-WebGL (see Logo3D). Kept as the home link's mark.
  */
 export function HeaderLogo() {
-  return <Logo3D mode="scroll" fallbackDepth={5} className="aspect-[56/30] w-14" />;
+  return <Logo3D mode="scroll" className="aspect-[56/30] w-14" />;
 }
