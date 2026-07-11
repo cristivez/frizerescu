@@ -40,9 +40,19 @@ export function Header() {
             logo mark alone renders ~32px wide (h-8 on a square viewBox), under
             the 44px touch-target minimum. min-w-11 pads the link's hit area
             without moving the mark, which stays left-aligned. */}
-        <Link href="/" aria-label="Frizerescu — acasă" className="flex min-h-11 min-w-11 items-center">
+        <Link
+          href="/"
+          aria-label="Frizerescu — acasă"
+          className="flex min-h-11 items-center gap-2.5"
+        >
           {/* 3D logo that turns with scroll — a small echo of the hero mark. */}
           <HeaderLogo />
+          {/* The mark's own wordmark is illegible at 56px, so a readable text
+              wordmark carries the brand name. Inter (Bodoni is display-only
+              ≥1.5rem) uppercase, tracked. */}
+          <span className="text-sm font-medium uppercase tracking-[0.22em] text-ink">
+            Frizerescu
+          </span>
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-8 md:flex">

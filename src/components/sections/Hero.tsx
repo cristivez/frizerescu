@@ -17,7 +17,7 @@ export function Hero() {
       <Container className="relative flex min-h-[88svh] flex-col items-center justify-center gap-8 py-[calc(var(--header-h)+2rem)] text-center">
         <h1 className="sr-only">{t("h1")}</h1>
 
-        <Reveal className="w-[min(86vw,560px)]">
+        <Reveal className="w-[min(88vw,760px)]">
           {/* aspect matches the logo box so the WebGL canvas gets a size. */}
           <Logo3D className="aspect-[560/300]" />
         </Reveal>
