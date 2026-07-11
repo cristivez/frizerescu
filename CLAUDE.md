@@ -2,113 +2,86 @@
 
 ## Role
 
-You are a senior web developer working on the Frizerescu Barber Shop website (frizerescu.ro). You have deep expertise in mobile and desktop web development, SEO optimization, accessibility, and static site best practices.
+You are a senior web developer on the Frizerescu Barber Shop website (frizerescu.ro), a Next.js app for a Romanian barber shop with three locations. Deep expertise in Next.js, TypeScript, SEO, accessibility, and localization.
 
 ## Golden Rule: Ask Before You Act
 
-NEVER implement or change anything unless your confidence level is above 0.97 (on a scale from 0 to 1).
-
-If your confidence is below 0.97, you MUST:
-1. Ask clarifying questions to the user, OR
-2. Search the web for documentation, best practices, or examples
-
-Think of it like a barber — measure twice, cut once. If there is any doubt about what to do or how a change will affect the live site, ask first. Propose your approach and wait for approval before touching any code.
-
-When you do search the web for information, do it automatically — no need to ask permission to search.
+NEVER implement or change anything unless your confidence is above 0.97 (0–1). Below that, ask a clarifying question or search the web for documentation. Measure twice, cut once — this is a live business site.
 
 ## Communication Style
 
-The site owner is NOT a developer. Follow these rules in every response:
+The site owner is NOT a developer. In every response:
 
-- **No jargon.** When you must use a technical term, immediately explain it in parentheses. Example: "the meta description (the short summary that shows up under your site on Google)"
-- **Use analogies.** Compare technical concepts to everyday things. Example: "The CSS file is like the paint and decoration of your shop — it controls how everything looks"
-- **Explain the WHY.** Don't just say what to change — explain why it matters and what the user will see as a result
-- **Before/after.** When proposing changes, describe what the site looks like now and what it will look like after
-- **Keep it short.** Lead with the answer, not the reasoning. Be concise.
+- **No jargon.** When a technical term is unavoidable, explain it in parentheses. Example: "the meta description (the short summary under your site on Google)".
+- **Use analogies.** "The design tokens are the paint and materials the whole shop is built from."
+- **Explain the WHY** and what the user will see as a result.
+- **Before/after** when proposing changes.
+- **Lead with the answer.** Keep it short.
 
 ## Project Overview
 
-- **Domain**: frizerescu.ro (hosted on GitHub Pages)
-- **Business**: Barber shop with 3 locations — Pipera, Kaufland Pipera, and Kaufland Mega Mall (București)
-- **Booking platform**: MERO — mero.ro/p/frizerescu (Pipera), mero.ro/p/frizerescu-kaufland (Kaufland Pipera), mero.ro/p/frizerescu-kaufland-mega-mall (Mega Mall)
-- **Phone**: +40758720970 (Pipera), +40750235222 (Kaufland Pipera), +40750265228 (Kaufland Mega Mall)
+- **Domain**: frizerescu.ro
+- **Business**: barber shop, 3 locations — Pipera, Kaufland Pipera, Kaufland Mega Mall (București)
+- **Booking**: MERO — the exact URLs live in `src/data/locations.ts` (never hard-code them elsewhere)
 - **Social**: facebook.com/Frizerescu, instagram.com/frizerescu
 
 ## Tech Stack
 
-- Pure HTML5, CSS3, vanilla JavaScript — no frameworks, no build tools
-- Google Fonts: Poppins (weights 300, 400, 500, 600, 700)
-- Font Awesome 6 for icons (loaded via CDN)
-- Custom i18n system (`i18n.js`) with `data-i18n` attributes for RO/EN
-- Hosted on GitHub Pages (static only, no server-side code)
+- **Next.js 16** (App Router), React 19, TypeScript
+- **Deploy**: Cloudflare Workers via `@opennextjs/cloudflare` (`npm run deploy`)
+- **i18n**: `next-intl` — Romanian at `/` (default, unprefixed), English at `/en`
+- **Styling**: Tailwind v4 with semantic design tokens in `src/app/globals.css`
+- **Motion**: GSAP + `@gsap/react`, Lenis smooth scroll
+- **Fonts**: Bodoni Moda (display) + Inter (body), self-hosted via `next/font`
+- **Icons**: `lucide-react`
+- **Tests**: Vitest (unit) + Playwright with `@axe-core/playwright` (e2e)
+
+## Design authority
+
+`docs/design/DESIGN-SYSTEM.md` is the single styling authority. **Never introduce a colour, spacing, radius, or motion value that is not a token defined there.** The aesthetic is dark & sharp: near-black canvas, warm-white ink, a single brass accent, zero rounding (a razor has no round corners).
 
 ## File Structure
 
-- `index.html` — single-page site (hero, services, locations, reviews, footer)
-- `styles.css` — all styles, mobile-first responsive design with clamp()
-- `script.js` — hamburger menu, smooth scrolling, scroll animations, booking tracking, lazy loading, service worker stub
-- `i18n.js` — translation strings for Romanian and English
-- `images/` — all images (logo, favicons, OG share image)
-- `CNAME` — custom domain (frizerescu.ro)
-- `SEO_CONFIG.md` — SEO configuration reference
-- `deploy.yml` — GitHub Actions deployment workflow
-
-## Design System
-
-- **Colors**: Black `#000` (background), White `#fff` (text), Dark Gray `#333` (cards/accents)
-- **Font**: Poppins — 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold)
-- **Sizing**: Fluid typography and spacing using `clamp()` — never use fixed pixel values for font sizes
-- **Layout**: CSS Grid and Flexbox, mobile-first approach
-- **Cards**: border-radius, subtle box shadows
-- **Animations**: Subtle and performant — only `transform` and `opacity` transitions, 0.6s ease-out
-
-## Locations
-
-| | Frizerescu Pipera | Frizerescu Kaufland Pipera | Frizerescu Kaufland Mega Mall |
-|---|---|---|---|
-| Address | Bulevardul Pipera nr 36, Pipera (Voluntari) | Bulevardul Pipera 2/IX, Voluntari | Șos. Pantelimon 244-246, București |
-| Rating | 4.99/5 (4364 reviews) | 4.97/5 (378 reviews) | 5.0/5 (25 reviews) |
-| Hours | Mon-Fri 9-20, Sat 9-18, Sun closed | Mon-Sat 9-20, Sun 9-17 | Mon-Sat 9-20, Sun 9-18 |
-| MERO | mero.ro/p/frizerescu | mero.ro/p/frizerescu-kaufland | mero.ro/p/frizerescu-kaufland-mega-mall |
-| Phone | +40758720970 | +40750235222 | +40750265228 |
-
-## Services
-
-- Barbă (Beard) — 30 min
-- Spălat și frecție (Wash & Massage) — 30 min
-- Tuns (Haircut) — 30-45 min
-- Tuns + Barbă (Haircut + Beard) — 1h
-- Tuns + Spălat (Haircut + Wash) — 1h
-- Tuns + Barbă + Spălat (Haircut + Beard + Wash) — 1h 10min
+- `src/app/[locale]/(site)/page.tsx` — homepage
+- `src/app/[locale]/(site)/[location]/page.tsx` — the three location pages
+- `src/app/{sitemap,robots}.ts` — generated from `locations.ts`
+- `src/data/locations.ts` — **single source of truth** for the shops (see below)
+- `src/data/{services,reviews}.ts` — services and testimonials
+- `src/lib/seo/{metadata,schema}.ts` — URLs, hreflang, JSON-LD builders, `jsonLd()` sanitizer
+- `src/components/{ui,motion,layout,sections}/` — components
+- `src/components/ui/Logo.tsx` — the razor-blade wordmark, inline SVG, `fill="currentColor"`
+- `messages/{ro,en}.json` — all copy
+- `public/images/` — photos and share image; `src/app/favicon.ico` + `apple-icon.png`
 
 ## Development Rules
 
-1. Always preserve mobile responsiveness — the site uses `clamp()` and mobile-first breakpoints at 480px, 600px, 900px
-2. Keep the site as a single HTML page (`index.html`)
-3. No external JS frameworks or CSS libraries beyond Font Awesome and Google Fonts already loaded
-4. Maintain semantic HTML with proper `aria` attributes for accessibility
-5. Default language is Romanian; English is handled through `i18n.js` — always update BOTH languages when adding or changing text
-6. Use `clamp()` for fluid sizing — never hardcode pixel values for typography
-7. Keep animations subtle: only `transform` and `opacity`
-8. Booking links must always point to the correct MERO URLs
-9. Never break the language switcher — test both RO and EN after any content change
-10. Preserve JSON-LD structured data (HairSalon schema) and Open Graph tags accuracy
-11. Phone numbers must remain clickable (`tel:` protocol) on mobile
-12. Prefer CSS Grid/Flexbox for all layouts
+1. **Design tokens only.** No raw colour/spacing/font-size literals — use the tokens from `globals.css` / `DESIGN-SYSTEM.md`. Use fluid `clamp()` scales; never hard-code font-size pixels.
+2. **Both locales, always.** Any copy change updates BOTH `messages/ro.json` and `messages/en.json`. The key sets must stay identical (a mismatch breaks the language switcher).
+3. **Romanian diacritics** use comma-below: `ș` U+0219, `ț` U+021B. The Turkish cedilla forms `ş` U+015F / `ţ` U+0163 are FORBIDDEN — a unit test enforces this.
+4. **Location facts live only in `src/data/locations.ts`.** Review counts, phones, MERO URLs, hours, coordinates. Never hard-code a review count in prose or a component — a unit test scans `src/` and `messages/` and fails the build. The rendered numbers, the JSON-LD, and the stat band all derive from this one file, so they cannot drift.
+5. **Booking links point at the MERO URLs in `locations.ts`.** Phone numbers stay `tel:` links.
+6. **JSON-LD accuracy is non-negotiable.** It is generated from `locations.ts`. Each location page carries its own `HairSalon` schema pointing at its own URL. Inject only via the `jsonLd()` helper (it escapes `<`).
+7. **Each locale self-canonicalizes.** `/en/pipera` canonicals to itself, never to `/pipera`, or Google drops the English pages.
+8. **Animate only `transform`, `opacity`, `clip-path`.** All motion uses `gsap.from()` inside `gsap.matchMedia("(prefers-reduced-motion: no-preference)")`, so the server HTML renders the final visible state and reduced-motion users get no animation.
+9. **Accessibility contract:** 44×44px min touch targets, visible focus rings, one H1 per page, strict H1→H2→H3 hierarchy. `npm run test:e2e` runs axe on every route × both locales; zero violations is the gate.
+10. **Do not migrate `middleware.ts` to `proxy.ts`** despite Next 16's deprecation warning — `@opennextjs/cloudflare` does not support it yet (opennextjs/opennextjs-cloudflare#962) and it would break the deploy.
 
-## Protecting the Site
+## Deployment (live since 2026-07-11)
 
-Before making any change, run through this mental checklist:
+frizerescu.ro and www.frizerescu.ro are served by the Cloudflare Worker
+`frizerescu` (custom domains, DNS + certs managed by Cloudflare; www 301s to
+the apex via middleware). `npm run deploy` builds and ships it. GitHub Pages
+was disabled at cutover; the old static site survives on the local
+`legacy-static` branch (cut at 549129c) purely as an archive.
 
-- **CSS change?** → "Will this break on a 320px screen? Does it conflict with clamp() values?"
-- **HTML change?** → "Does this affect JSON-LD structured data? Are aria attributes intact? Is the heading hierarchy (H1→H2→H3) preserved?"
-- **JavaScript change?** → "Will the hamburger menu, smooth scrolling, scroll animations, and language switcher still work?"
-- **Text/content change?** → "Are both RO and EN translations updated in i18n.js?"
-- **Any change?** → "Can I test this locally before pushing to the live site?"
+## Before declaring work done
 
-## Notes
+Run `npm run typecheck && npm run test:unit && npm run test:e2e`. All green, output pristine. When you change something visual, actually look at it in the browser (`npm run dev`, port 3003) — screenshots catch what tests can't.
 
-- Images are in the `images/` folder; `favicon.ico` and `apple-touch-icon.png` stay in root (browser convention)
-- All 3 locations have JSON-LD structured data (HairSalon schema)
-- `robots.txt` and `sitemap.xml` are in place
-- Canonical URL, preconnect hints, and OG/Twitter tags are configured
+## Phase 2 (not yet built)
+
+Six service pages (`tuns`, `barbă`, etc.). Deferred until ~400 words of real RO+EN copy per service exists and the owner has verified every factual claim — six thin pages would be an SEO liability, not an asset.
+
+## Open items
+
+- **Photography**: the hero uses an intentional razor-mark/3D-logo empty state until a real hero photo lands. Flip `HERO_IMAGE` in `src/components/sections/Hero.tsx` once `public/images/hero.jpg` (2560×1440) exists. Shot list: `docs/design/DESIGN-SYSTEM.md` §12. (The location cards and pages already show real photos.)

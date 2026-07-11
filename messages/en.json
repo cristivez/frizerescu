@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "locations": "Locations",
+    "services": "Services",
+    "reviews": "Reviews",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skipToContent": "Skip to content"
+  },
+  "hero": {
+    "tagline": "Barber Shop",
+    "description": "Haircuts, beard work and grooming, with real attention to detail. Three locations across Bucharest and Voluntari, quick online booking.",
+    "book": "Book now",
+    "h1": "Frizerescu Barber Shop — barbershop in Bucharest and Voluntari"
+  },
+  "stats": {
+    "reviews": "Verified reviews",
+    "rating": "Average rating",
+    "locations": "Locations"
+  },
+  "location": {
+    "new": "NEW",
+    "hours": "Hours",
+    "closed": "Closed",
+    "book": "Book",
+    "directions": "Directions",
+    "call": "Call",
+    "ratingLabel": "{rating} out of 5, {count} reviews",
+    "otherLocations": "Other locations",
+    "reviewsLinkLabel": "{rating} out of 5, {count} reviews — see the reviews on MERO"
+  },
+  "days": {
+    "mon": "Monday",
+    "tue": "Tuesday",
+    "wed": "Wednesday",
+    "thu": "Thursday",
+    "fri": "Friday",
+    "sat": "Saturday",
+    "sun": "Sunday"
+  },
+  "services": {
+    "duration": "{minutes} min"
+  },
+  "home": {
+    "breadcrumbHome": "Home",
+    "locations": {
+      "overline": "Locations",
+      "title": "Where to find us"
+    },
+    "services": {
+      "overline": "Services",
+      "title": "What we do",
+      "lead": "Classic barbering, done with care. Booking and prices are on MERO."
+    },
+    "reviews": {
+      "overline": "Reviews",
+      "title": "What clients say"
+    },
+    "faq": {
+      "overline": "FAQ",
+      "title": "Good to know"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 Frizerescu Barber Shop. All rights reserved."
+  },
+  "cta": {
+    "book": "Book now",
+    "call": "Call"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist. One of our locations might help:",
+    "home": "Back home"
+  },
+  "meta": {
+    "home": {
+      "title": "Frizerescu — Barbershop in Pipera, Voluntari & Bucharest",
+      "description": "Frizerescu Barber Shop — barbershop in Kaufland Pantelimon (next to Mega Mall), Kaufland Pipera and Bvd Pipera, Voluntari. Haircut & beard, book on MERO."
+    },
+    "location": {
+      "title": "{name} — Barber Shop · Online booking",
+      "description": "{name} — {landmark}. Haircuts, beard work and grooming. Quick online booking via MERO."
+    }
+  }
+}

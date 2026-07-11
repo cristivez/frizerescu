@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "locations": "Locații",
+    "services": "Servicii",
+    "reviews": "Recenzii",
+    "openMenu": "Deschide meniul",
+    "closeMenu": "Închide meniul",
+    "skipToContent": "Sari la conținut"
+  },
+  "hero": {
+    "tagline": "Frizerie · Barber Shop",
+    "description": "Tuns, barbă și îngrijire, cu grijă pentru detalii. Trei locații în București și Voluntari, programare online rapidă.",
+    "book": "Programează-te",
+    "h1": "Frizerescu Barber Shop — frizerie în București și Voluntari"
+  },
+  "stats": {
+    "reviews": "Recenzii verificate",
+    "rating": "Rating mediu",
+    "locations": "Locații"
+  },
+  "location": {
+    "new": "NOU",
+    "hours": "Program",
+    "closed": "Închis",
+    "book": "Programare",
+    "directions": "Direcții",
+    "call": "Sună",
+    "ratingLabel": "{rating} din 5, {count} de recenzii",
+    "otherLocations": "Celelalte locații",
+    "reviewsLinkLabel": "{rating} din 5, {count} de recenzii — vezi recenziile pe MERO"
+  },
+  "days": {
+    "mon": "Luni",
+    "tue": "Marți",
+    "wed": "Miercuri",
+    "thu": "Joi",
+    "fri": "Vineri",
+    "sat": "Sâmbătă",
+    "sun": "Duminică"
+  },
+  "services": {
+    "duration": "{minutes} min"
+  },
+  "home": {
+    "breadcrumbHome": "Acasă",
+    "locations": {
+      "overline": "Locații",
+      "title": "Unde ne găsești"
+    },
+    "services": {
+      "overline": "Servicii",
+      "title": "Ce facem",
+      "lead": "Servicii clasice de frizerie, executate cu grijă. Programarea și prețurile sunt pe MERO."
+    },
+    "reviews": {
+      "overline": "Recenzii",
+      "title": "Ce spun clienții"
+    },
+    "faq": {
+      "overline": "Întrebări frecvente",
+      "title": "Bun de știut"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 Frizerescu Barber Shop. Toate drepturile rezervate."
+  },
+  "cta": {
+    "book": "Programează-te",
+    "call": "Sună"
+  },
+  "notFound": {
+    "title": "Pagina nu există",
+    "description": "Pagina pe care o cauți nu a fost găsită. Poate te ajută una dintre locațiile noastre:",
+    "home": "Înapoi acasă"
+  },
+  "meta": {
+    "home": {
+      "title": "Frizerescu — Frizerie în Pipera, Voluntari și București",
+      "description": "Frizerescu — frizerie în Kaufland Pantelimon (lângă Mega Mall), Kaufland Pipera și Bvd Pipera, Voluntari. Tuns și barbă, programare online pe MERO."
+    },
+    "location": {
+      "title": "{name} — Frizerie · Programări online",
+      "description": "{name} — {landmark}. Tuns, barbă și îngrijire. Programare online rapidă prin MERO."
+    }
+  }
+}
