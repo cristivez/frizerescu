@@ -103,8 +103,8 @@ export const locations: Location[] = [
     name: "Frizerescu Pipera",
     isNew: false,
     rating: 4.99,
-    reviewCount: 4988,
-    reviewsVerifiedOn: "2026-07-10",
+    reviewCount: 6377,
+    reviewsVerifiedOn: "2026-07-11",
     phone: "+40758720970",
     address: {
       street: "Bulevardul Pipera, nr 36",
@@ -135,9 +135,9 @@ export const locations: Location[] = [
     slug: "kaufland-pipera",
     name: "Frizerescu Kaufland Pipera",
     isNew: false,
-    rating: 4.97,
-    reviewCount: 813,
-    reviewsVerifiedOn: "2026-07-10",
+    rating: 4.98,
+    reviewCount: 2143,
+    reviewsVerifiedOn: "2026-07-11",
     phone: "+40750235222",
     address: {
       street: "Bulevardul Pipera 2/IX",
@@ -156,7 +156,8 @@ export const locations: Location[] = [
     geo: { lat: 44.4983, lng: 26.1271 },
     hours: [
       { days: [...WEEK, "Saturday"], opens: "09:00", closes: "20:00" },
-      { days: ["Sunday"], opens: "09:00", closes: "17:00" },
+      // Sunday 18:00 per MERO + owner, 2026-07-11 (was wrongly 17:00).
+      { days: ["Sunday"], opens: "09:00", closes: "18:00" },
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland",
     mapsUrl: "https://maps.app.goo.gl/CNMmHybu19wTyam49",
