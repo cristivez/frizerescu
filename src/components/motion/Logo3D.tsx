@@ -127,15 +127,18 @@ export function Logo3D({
       let scrollRaf = 0;
       if (mode === "scroll") {
         // Drive rotation from scroll PROGRESS (0 at the top, 1 at the bottom of
-        // the page), not raw pixels. sin(progress·π) is 0 at both ends and peaks
-        // mid-page, so the logo faces front at the top and the bottom and turns
-        // furthest — ±0.5 rad (~29°), the most its canvas holds — in between.
-        // Rendered only on change (idle = no GPU).
+        // the page), not raw pixels. sin(progress·2π) is one full sway over the
+        // page: 0 at BOTH ends (so the logo faces front at the top and the
+        // bottom) with a clearly visible turn each way in between — +0.5 rad a
+        // quarter down, back through front at the middle, −0.5 rad three-quarters
+        // down. A single half-sine spread the turn so thinly over a tall page it
+        // read as motionless; ±0.5 rad (~29°) is the most the canvas holds either
+        // way, and the sway count doesn't change that. Rendered only on change.
         const applyScroll = () => {
           scrollRaf = 0;
           const max = document.documentElement.scrollHeight - window.innerHeight;
           const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-          group.rotation.y = 0.5 * Math.sin(progress * Math.PI);
+          group.rotation.y = 0.5 * Math.sin(progress * Math.PI * 2);
           renderer.render(scene, camera);
         };
         const onScroll = () => {
