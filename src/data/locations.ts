@@ -94,9 +94,7 @@ export const locations: Location[] = [
       { days: ["Sunday"], opens: "09:00", closes: "18:00" },
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland-mega-mall",
-    // The business listing (not a bare coordinate pin) — the other two shops'
-    // mapsUrl already point at their listing; this matches them.
-    mapsUrl: "https://share.google/7SxnH9u96Pz1Xn9tz",
+    mapsUrl: "https://maps.app.goo.gl/sVoAbuc8JSdFmxQN9",
     googleUrl: "https://share.google/7SxnH9u96Pz1Xn9tz",
     image: "/images/locations/kaufland-mega-mall.jpg",
   },
