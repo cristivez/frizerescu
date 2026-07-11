@@ -47,6 +47,12 @@ export interface Location {
   meroUrl: string;
   mapsUrl: string;
   /**
+   * The shop's Google Business Profile / Maps listing (owner-provided). Fed into
+   * the HairSalon JSON-LD `sameAs` so Google and AI engines tie the website to
+   * the verified Google listing — a strong local-entity signal.
+   */
+  googleUrl: string;
+  /**
    * Path under /public to a real photo of this shop (interior or storefront),
    * or null. When null, the location hero shows the razor-mark empty state.
    * Set once the owner supplies photos (see source-content/location-photos).
@@ -89,6 +95,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland-mega-mall",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=44.442743,26.153322",
+    googleUrl: "https://share.google/7SxnH9u96Pz1Xn9tz",
     image: "/images/locations/kaufland-mega-mall.jpg",
   },
   {
@@ -121,6 +128,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu",
     mapsUrl: "https://maps.app.goo.gl/Z9QD9q46qRpDf7e28",
+    googleUrl: "https://share.google/QdLgVBjd91tG19nOE",
     image: "/images/locations/pipera.jpg",
   },
   {
@@ -152,6 +160,7 @@ export const locations: Location[] = [
     ],
     meroUrl: "https://mero.ro/p/frizerescu-kaufland",
     mapsUrl: "https://maps.app.goo.gl/CNMmHybu19wTyam49",
+    googleUrl: "https://share.google/IYLJD4Zjd1ieAGgap",
     image: "/images/locations/kaufland-pipera.jpg",
   },
 ];

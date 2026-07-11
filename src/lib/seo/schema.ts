@@ -48,7 +48,9 @@ export function hairSalonSchema(loc: Location, locale: Locale) {
     description: loc.landmark[locale],
     // Each salon points at its OWN page. The old site pointed all three at "/".
     url: localizedUrl(locale, `/${loc.slug}`),
-    sameAs: SAME_AS,
+    // Shared socials + THIS shop's own Google listing — ties the page to the
+    // verified Google Business Profile (a strong local-entity signal).
+    sameAs: [...SAME_AS, loc.googleUrl],
     // Links the entity to its Google Maps presence — the association that
     // actually drives local-pack ranking.
     hasMap: loc.mapsUrl,
