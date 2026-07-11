@@ -1,0 +1,46 @@
+# CI: every PR and every push to main must pass the same gate the local
+# `npm run deploy` enforces via predeploy (typecheck + unit + e2e) plus a
+# production build. Deploys stay manual (`npm run deploy`, gated locally) —
+# there is deliberately no CD job here: it would need a CLOUDFLARE_API_TOKEN
+# repo secret, and the owner deploys from a wrangler-authenticated machine.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Boots its own dev server (playwright.config webServer). In CI there is
+      # no GPU: Logo3D falls back to the flat logo, which the suite treats as
+      # first-class (a11y and content assertions don't require WebGL).
+      - name: E2E + accessibility (axe)
+        run: npm run test:e2e
+        env:
+          CI: "true"
+
+      - name: Production build
+        run: npm run build
