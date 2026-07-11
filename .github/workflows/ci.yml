@@ -1,8 +1,9 @@
 # CI: every PR and every push to main must pass the same gate the local
 # `npm run deploy` enforces via predeploy (typecheck + unit + e2e) plus a
-# production build. Deploys stay manual (`npm run deploy`, gated locally) —
-# there is deliberately no CD job here: it would need a CLOUDFLARE_API_TOKEN
-# repo secret, and the owner deploys from a wrangler-authenticated machine.
+# production build. On main, a deploy job then ships to Cloudflare — it needs
+# the CLOUDFLARE_API_TOKEN repo secret (set by the owner; never committed).
+# Manual `npm run deploy` (locally gated) still works from an authenticated
+# machine.
 name: CI
 
 on:
@@ -44,3 +45,31 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+  # Ships to Cloudflare only after the full test job is green, only on main.
+  # Runs the same two commands as the local `npm run deploy` (predeploy is
+  # skipped here on purpose — the `needs: test` gate above already ran it).
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (OpenNext)
+        run: NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 npx opennextjs-cloudflare build
+
+      - name: Deploy to Cloudflare
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: d7a79d408455711841333f4422b3684a
