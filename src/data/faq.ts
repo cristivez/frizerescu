@@ -81,8 +81,8 @@ export const faq: FaqItem[] = [
       en: "Are you open on weekends?",
     },
     answer: {
-      ro: "Da. Toate locațiile sunt deschise sâmbăta, iar cele din Kaufland (Pipera și Pantelimon) sunt deschise și duminica. Programul exact al fiecărei locații este pe pagina ei.",
-      en: "Yes. All locations are open on Saturdays, and the Kaufland shops (Pipera and Pantelimon) are open on Sundays too. Each location's exact hours are on its page.",
+      ro: "Da. Toate locațiile sunt deschise sâmbăta, iar cele din Kaufland (Pipera și Pantelimon, lângă Mega Mall) sunt deschise și duminica. Programul exact al fiecărei locații este pe pagina ei.",
+      en: "Yes. All locations are open on Saturdays, and the Kaufland shops (Pipera and Pantelimon, next to Mega Mall) are open on Sundays too. Each location's exact hours are on its page.",
     },
   },
   {
@@ -103,8 +103,8 @@ export const faq: FaqItem[] = [
       en: "Is there parking?",
     },
     answer: {
-      ro: "Da. La locațiile din Kaufland (Pipera și Pantelimon) ai parcarea magazinului, iar la Bulevardul Pipera găsești parcare lângă biserică.",
-      en: "Yes. At the Kaufland locations (Pipera and Pantelimon) you have the store's car park, and at Bulevardul Pipera there's parking by the church.",
+      ro: "Da. La locațiile din Kaufland (Pipera și Pantelimon, lângă Mega Mall) ai parcarea magazinului, iar la Bulevardul Pipera găsești parcare lângă biserică.",
+      en: "Yes. At the Kaufland locations (Pipera and Pantelimon, next to Mega Mall) you have the store's car park, and at Bulevardul Pipera there's parking by the church.",
     },
   },
   {
