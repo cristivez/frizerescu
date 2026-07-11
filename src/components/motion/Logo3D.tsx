@@ -103,16 +103,17 @@ export function Logo3D({
 
       const group = new THREE.Group();
       group.add(mesh);
-      // The canvas is inflated 15% past the visible logo box on every side (the
-      // -inset on the mount div → a 130%-size canvas), so FILL is the logo's
-      // fraction of that *larger* canvas, not of the visible box.
-      //   rock (hero):   0.69 * 1.30 ≈ 0.90 → appears at ~90% of the box. At the
-      //     hero's size the leftover ~6% margin is tens of px — ample for ±29°.
-      //   scroll (header): a smaller 0.56 → appears at ~73% of the box. The
-      //     header canvas is only ~39px tall, where a 6% margin is ~2px and
-      //     antialiasing eats it, so the small mark is given a wider proportional
-      //     margin to turn inside. (The fallback width below matches, per mode.)
-      const FILL = mode === "scroll" ? 0.56 : 0.69;
+      // The canvas is inflated past the visible logo box (the -inset on the mount
+      // div) so the logo has room to turn inside it; FILL is the logo's fraction
+      // of that *larger* canvas, paired with the inset so the logo still appears
+      // at the intended size while never crossing the canvas edge as it rotates.
+      //   rock (hero):   130% canvas, 0.69 → appears ~90% of the box; the hero is
+      //     large, so its margin is ample for the ±29° rock.
+      //   scroll (header): 156% canvas, 0.47 → still appears ~73% of the box, but
+      //     the wider canvas gives the small mark enough clearance to spin through
+      //     FULL 360° turns (perspective magnifies its edge most around 45–60°)
+      //     without clipping. (The fallback width below matches, per mode.)
+      const FILL = mode === "scroll" ? 0.47 : 0.69;
       const visH = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
       const visW = visH * (width / height);
       const fit = Math.min(visW / geoW, visH / geoH) * FILL;
@@ -126,19 +127,19 @@ export function Logo3D({
       let raf = 0;
       let scrollRaf = 0;
       if (mode === "scroll") {
-        // Drive rotation from scroll PROGRESS (0 at the top, 1 at the bottom of
-        // the page), not raw pixels. sin(progress·2π) is one full sway over the
-        // page: 0 at BOTH ends (so the logo faces front at the top and the
-        // bottom) with a clearly visible turn each way in between — +0.5 rad a
-        // quarter down, back through front at the middle, −0.5 rad three-quarters
-        // down. A single half-sine spread the turn so thinly over a tall page it
-        // read as motionless; ±0.5 rad (~29°) is the most the canvas holds either
-        // way, and the sway count doesn't change that. Rendered only on change.
+        // Spin the logo through several FULL turns as the page scrolls, landing
+        // front-faced at both ends. Driving off scroll PROGRESS (0 at the top, 1
+        // at the bottom) times a whole number of turns means the angle is 0 at
+        // the top and turns·2π at the bottom — both exact multiples of 360°, i.e.
+        // front-faced — while spinning continuously in between. The turn count
+        // tracks page length (~one turn per 1571px, matching the original feel)
+        // and rounds so the bottom always resolves to front. Rendered on change.
         const applyScroll = () => {
           scrollRaf = 0;
           const max = document.documentElement.scrollHeight - window.innerHeight;
           const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-          group.rotation.y = 0.5 * Math.sin(progress * Math.PI * 2);
+          const turns = Math.max(1, Math.round((max * 0.004) / (2 * Math.PI)));
+          group.rotation.y = progress * turns * 2 * Math.PI;
           renderer.render(scene, camera);
         };
         const onScroll = () => {
@@ -193,12 +194,19 @@ export function Logo3D({
 
   return (
     <div className={cn("relative", className)}>
-      {/* The WebGL canvas is inflated 15% past the logo box on every side (a
-          130%-size, transparent, non-interactive layer) so the logo has just
-          enough room to turn without its edges leaving the frame and clipping.
-          The logo itself is scaled (FILL) to still *appear* at ~90% of the
-          visible box. */}
-      <div ref={mountRef} className="pointer-events-none absolute -inset-[15%]" />
+      {/* The WebGL canvas is inflated past the logo box on every side (a
+          transparent, non-interactive layer) so the logo has room to rotate
+          without its edges leaving the frame and clipping — wider for the header
+          (28%), whose logo spins through full 360° turns, than for the hero
+          (15%), which only rocks. FILL (above) scales the logo to still appear at
+          the intended size within whichever canvas. */}
+      <div
+        ref={mountRef}
+        className={cn(
+          "pointer-events-none absolute",
+          mode === "scroll" ? "-inset-[28%]" : "-inset-[15%]",
+        )}
+      />
       {/* Flat brass logo, centered at the SAME ~90% width the WebGL logo fills,
           so the swap is a pure crossfade with no size/colour jump (and a clean
           static logo for reduced-motion / no-WebGL). */}
