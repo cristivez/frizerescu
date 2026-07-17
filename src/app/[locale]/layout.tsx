@@ -10,6 +10,7 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { CloudflareAnalytics } from "@/components/analytics/CloudflareAnalytics";
 import "../globals.css";
 
 // Resolves relative OG/Twitter image URLs (e.g. /images/og-image.jpg) against
@@ -50,6 +51,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <Chrome locale={locale}>{children}</Chrome>
         </NextIntlClientProvider>
+        <CloudflareAnalytics />
       </body>
     </html>
   );

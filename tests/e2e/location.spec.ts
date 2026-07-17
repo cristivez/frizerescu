@@ -35,7 +35,14 @@ test("each location page links to the other two", async ({ page }) => {
 
 test("language switch preserves the location route", async ({ page }) => {
   await page.goto("/pipera");
-  await page.getByRole("link", { name: "English" }).click();
-  await expect(page).toHaveURL("/en/pipera");
+  // Clicking a Next Link while React is still hydrating drops the click (the
+  // client router isn't attached yet). On CI's dev server that window is wide
+  // enough to hit reliably, so retry click+assert as a unit until navigation
+  // sticks — a genuine routing regression still fails: the URL never becomes
+  // /en/pipera no matter how many clicks.
+  await expect(async () => {
+    await page.getByRole("link", { name: "English" }).click();
+    await expect(page).toHaveURL("/en/pipera", { timeout: 2_000 });
+  }).toPass({ timeout: 15_000 });
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 });

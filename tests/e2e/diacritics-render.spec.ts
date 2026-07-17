@@ -60,18 +60,24 @@ for (const [family, cssVar] of [
     // Sole signal: canvas advance width, measured against the resolved
     // family alone (not the fallback-bearing stack). A comma-below glyph is
     // the base letter plus a non-spacing mark, so a face that truly ships it
-    // measures identically to the base letter. Tolerance is deliberate:
-    // toBeCloseTo(x, 0) allows up to 0.5px, tight enough that Arvo's
-    // measured ~3px fallback gap (ș vs s) still fails loudly, loose enough
-    // to absorb canvas sub-pixel rounding.
-    expect(result.sCommaWidth).toBeCloseTo(result.sWidth, 0);
-    expect(result.tCommaWidth).toBeCloseTo(result.tWidth, 0);
+    // measures (nearly) identically to the base letter. Tolerance 1.5px:
+    // Linux FreeType hinting quantizes advances to whole pixels, so on CI the
+    // same face can measure t=11 vs ț=10 (macOS returns fractional widths and
+    // differs by ~0). Still far below the ~3px gap a genuine fallback face
+    // produces (measured with Arvo), so substitution keeps failing loudly.
+    const GLYPH_TOLERANCE_PX = 1.5;
+    expect(Math.abs(result.sCommaWidth - result.sWidth)).toBeLessThan(GLYPH_TOLERANCE_PX);
+    expect(Math.abs(result.tCommaWidth - result.tWidth)).toBeLessThan(GLYPH_TOLERANCE_PX);
 
     // Whole-string check: some font-matching paths substitute an entire run
     // once any glyph in it is missing, which the isolated single-character
     // checks above wouldn't catch. Swapping ș/ț for their base letters in
     // the real probe sentence must not change its rendered width — if it
     // does, the sentence (or part of it) fell back to a substitute face.
-    expect(result.probeWidth).toBeCloseTo(result.probeAsciiWidth, 0);
+    // Slightly wider budget: the sentence has two substituted characters,
+    // each allowed the per-glyph hinting wobble.
+    expect(Math.abs(result.probeWidth - result.probeAsciiWidth)).toBeLessThan(
+      2 * GLYPH_TOLERANCE_PX,
+    );
   });
 }
