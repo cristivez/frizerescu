@@ -70,15 +70,14 @@ The site owner is NOT a developer. In every response:
 
 frizerescu.ro and www.frizerescu.ro are served by the Cloudflare Worker
 `frizerescu` (custom domains, DNS + certs managed by Cloudflare; www 301s to
-the apex via middleware). `npm run deploy` builds and ships it — its
-`predeploy` hook runs typecheck + unit + e2e first, so a deploy cannot start
-on red tests. CI (`.github/workflows/ci.yml`) runs the same gate plus a
-production build on every PR and push to main; on main it then auto-deploys
-via the `CLOUDFLARE_API_TOKEN` repo secret. In CI, e2e runs against the
-production build (`next start`) — dev-mode compile-on-demand stalls
-navigations on runners. GitHub Pages was disabled at cutover; the old static
-site survives on the local `legacy-static` branch (cut at 549129c) purely as
-an archive.
+the apex via middleware). Deploys are MANUAL: `npm run deploy` from an
+authenticated machine builds and ships it — its `predeploy` hook runs
+typecheck + unit + e2e first (the LOCAL test gate), so a deploy cannot start
+on red tests. There is NO GitHub Actions CI/CD — it was removed in favour of
+this local gate, so nothing runs on GitHub and there is no auto-deploy. Run
+`npm run predeploy` (or `npm run deploy`) locally before shipping. GitHub Pages
+was disabled at cutover; the old static site survives on the local
+`legacy-static` branch (cut at 549129c) purely as an archive.
 
 ## Before declaring work done
 
