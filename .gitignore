@@ -6,5 +6,6 @@ node_modules/
 .open-next/
 .wrangler/
 test-results/
+.lighthouseci/
 *.tsbuildinfo
 .env*.local

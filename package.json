@@ -14,8 +14,9 @@
     "typecheck": "tsc --noEmit",
     "test:unit": "vitest run",
     "test:e2e": "playwright test --project=chromium",
+    "test:lighthouse": "next build && lhci autorun",
     "preview": "opennextjs-cloudflare build && wrangler dev",
-    "predeploy": "npm run typecheck && npm run test:unit && npm run test:e2e",
+    "predeploy": "npm run typecheck && npm run test:unit && npm run test:e2e && npm run test:lighthouse",
     "deploy": "NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 NEXT_PUBLIC_CF_BEACON_TOKEN=8bc7c7d546524c83b45a7f67205471e1 opennextjs-cloudflare build && wrangler deploy"
   },
   "dependencies": {
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
+    "@lhci/cli": "^0.15.1",
     "@opennextjs/cloudflare": "^1.20.1",
     "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
