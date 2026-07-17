@@ -16,7 +16,7 @@
     "test:e2e": "playwright test --project=chromium",
     "preview": "opennextjs-cloudflare build && wrangler dev",
     "predeploy": "npm run typecheck && npm run test:unit && npm run test:e2e",
-    "deploy": "NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 opennextjs-cloudflare build && wrangler deploy"
+    "deploy": "NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 NEXT_PUBLIC_CF_BEACON_TOKEN=8bc7c7d546524c83b45a7f67205471e1 opennextjs-cloudflare build && wrangler deploy"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
