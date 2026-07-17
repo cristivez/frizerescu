@@ -69,7 +69,11 @@ jobs:
         run: npm ci
 
       - name: Build (OpenNext)
-        run: NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 npx opennextjs-cloudflare build
+        # NEXT_PUBLIC_CF_BEACON_TOKEN must match package.json's `deploy` script:
+        # it is inlined at build time to render the Cloudflare Web Analytics
+        # beacon and open the CSP. Omitting it here would ship a build with
+        # analytics silently OFF. Token is public (ships in client HTML).
+        run: NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 NEXT_PUBLIC_CF_BEACON_TOKEN=8bc7c7d546524c83b45a7f67205471e1 npx opennextjs-cloudflare build
 
       - name: Deploy to Cloudflare
         run: npx wrangler deploy
