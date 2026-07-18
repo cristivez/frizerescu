@@ -15,9 +15,8 @@ export interface UpcomingLocation {
    * shop or its actual site (the Kaufland is not built yet). The alt text
    * (`upcoming.imageAlt`) says so, so it cannot read as a real photo of the
    * location. Replace with a real photo once the shop exists. null → no image.
-   * Source: Pexels photo 18672134 ("Average GUY") — an empty commercial
-   * interior shell mid-fit-out, chosen to mirror this shop's real situation
-   * (a unit being built inside a new Kaufland). Free for commercial use.
+   * Source: Pexels photo 10143241 (Felix Haumann) — construction cranes at
+   * dusk; owner-selected. Free for commercial use.
    */
   image: string | null;
 }
