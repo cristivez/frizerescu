@@ -41,6 +41,25 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         ],
       },
+      {
+        // HTML pages only — NOT /_next/* or /images/*, whose own caching is
+        // handled by the assets layer and must not be shortened here.
+        //
+        // Next's default for a prerendered page is `s-maxage=31536000` (ONE
+        // YEAR). Cloudflare honours it, so the edge kept serving stale HTML
+        // after a deploy — an owner-visible content change (new wording, a
+        // price, hours) never appeared until someone manually purged the zone.
+        // 60s + stale-while-revalidate keeps responses instant (the edge serves
+        // the cached copy and refreshes in the background) while making a
+        // deploy visible within about a minute, with no manual purge.
+        source: "/((?!_next/|images/).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=60, stale-while-revalidate=86400",
+          },
+        ],
+      },
     ];
   },
 };
