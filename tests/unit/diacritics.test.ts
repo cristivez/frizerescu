@@ -3,6 +3,7 @@ import { locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { reviews } from "@/data/reviews";
 import { faq } from "@/data/faq";
+import { upcomingLocations } from "@/data/upcoming-locations";
 import ro from "../../messages/ro.json";
 
 // Romanian takes comma-below: ș U+0219, ț U+021B.
@@ -24,6 +25,7 @@ describe("Romanian diacritics", () => {
     ["data/services", services],
     ["data/reviews", reviews],
     ["data/faq", faq],
+    ["data/upcoming-locations", upcomingLocations],
   ])("%s uses comma-below ș/ț, never the Turkish cedilla", (_name, source) => {
     const offenders = strings(source).filter((s) => CEDILLA.test(s));
     expect(offenders).toEqual([]);
