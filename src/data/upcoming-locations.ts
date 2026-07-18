@@ -37,11 +37,11 @@ export const upcomingLocations: UpcomingLocation[] = [
     },
     geo: { lat: 44.5511, lng: 26.0999 },
     opening: {
-      ro: "Ne deschidem toamna 2026",
+      ro: "Deschidem în toamna lui 2026",
       en: "Opening Autumn 2026",
     },
     intro: {
-      ro: "Frizerescu vine în Otopeni. Deschidem o nouă locație în viitorul Kaufland de pe Strada 23 August, lângă Lidl — aceleași servicii clasice de bărbier: tuns, barbă, spălat și frecție. Momentan locația este în construcție și ne deschidem toamna anului 2026. Urmărește-ne pe Instagram ca să afli primul când te poți programa.",
+      ro: "Frizerescu vine în Otopeni. Pregătim o locație nouă în viitorul Kaufland de pe Strada 23 August, lângă Lidl — aceleași servicii clasice de bărbier: tuns, barbă, spălat și frecție. Momentan locația este în construcție și deschidem în toamna lui 2026. Urmărește-ne pe Instagram ca să afli primul când te poți programa.",
       en: "Frizerescu is coming to Otopeni. We're opening a new location in the upcoming Kaufland on Strada 23 August, next to Lidl — the same classic barbering: haircut, beard, wash and massage. The location is under construction and we open in autumn 2026. Follow us on Instagram to be the first to know when you can book.",
     },
     followUrl: "https://www.instagram.com/frizerescu",
