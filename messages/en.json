@@ -77,7 +77,8 @@
   "upcoming": {
     "badge": "Coming soon",
     "follow": "Follow us",
-    "directions": "See location"
+    "directions": "See location",
+    "imageAlt": "Illustrative image — construction site"
   },
   "meta": {
     "home": {

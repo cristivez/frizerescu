@@ -77,7 +77,8 @@
   "upcoming": {
     "badge": "În curând",
     "follow": "Urmărește-ne",
-    "directions": "Vezi locația"
+    "directions": "Vezi locația",
+    "imageAlt": "Imagine ilustrativă — șantier în construcție"
   },
   "meta": {
     "home": {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getUpcomingLocation } from "@/data/upcoming-locations";
 import { alternates } from "@/lib/seo/metadata";
@@ -79,6 +80,21 @@ export default async function OtopeniPage({
                 {t("directions")}
               </Button>
             </div>
+
+            {shop.image && (
+              // ILLUSTRATIVE construction photo, not this shop's own site —
+              // the alt text states that, so it cannot read as a real photo
+              // of the (not yet built) location.
+              <div className="relative mt-12 aspect-[3/2] w-full overflow-hidden border border-line">
+                <Image
+                  src={shop.image}
+                  alt={t("imageAlt")}
+                  fill
+                  sizes="(min-width: 1024px) 700px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            )}
           </div>
         </Container>
       </Section>

@@ -10,7 +10,13 @@ export interface UpcomingLocation {
   intro: { ro: string; en: string };
   followUrl: string;
   mapsUrl: string;
-  /** null → the card/page show a branded placeholder, no stock imagery. */
+  /**
+   * ILLUSTRATIVE stock photo of a construction site — NOT a photo of this
+   * shop or its actual site (the Kaufland is not built yet). The alt text
+   * (`upcoming.imageAlt`) says so, so it cannot read as a real photo of the
+   * location. Replace with a real photo once the shop exists. null → no image.
+   * Source: Pexels (Felix Haumann), free for commercial use.
+   */
   image: string | null;
 }
 
@@ -39,7 +45,7 @@ export const upcomingLocations: UpcomingLocation[] = [
     },
     followUrl: "https://www.instagram.com/frizerescu",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=44.5511,26.0999",
-    image: null,
+    image: "/images/locations/kaufland-otopeni-construction.jpg",
   },
 ];
 
