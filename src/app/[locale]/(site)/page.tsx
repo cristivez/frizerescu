@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { locations } from "@/data/locations";
+import { upcomingLocations } from "@/data/upcoming-locations";
 import { services } from "@/data/services";
 import { reviews } from "@/data/reviews";
 import { alternates } from "@/lib/seo/metadata";
@@ -14,6 +15,7 @@ import { RazorWipe } from "@/components/motion/RazorWipe";
 import { Hero } from "@/components/sections/Hero";
 import { StatBand } from "@/components/sections/StatBand";
 import { LocationCard } from "@/components/sections/LocationCard";
+import { ComingSoonCard } from "@/components/sections/ComingSoonCard";
 import { ServiceRow } from "@/components/sections/ServiceRow";
 import { ReviewCard } from "@/components/sections/ReviewCard";
 import { Faq } from "@/components/sections/Faq";
@@ -83,6 +85,9 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
           <Reveal staggerChildren className="mt-16 grid gap-6 lg:grid-cols-3">
             {locations.map((l) => (
               <LocationCard key={l.slug} location={l} locale={locale} />
+            ))}
+            {upcomingLocations.map((l) => (
+              <ComingSoonCard key={l.slug} location={l} locale={locale} />
             ))}
           </Reveal>
         </Container>
