@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { locations } from "@/data/locations";
+import { upcomingLocations } from "@/data/upcoming-locations";
 import { localizedUrl } from "@/lib/seo/metadata";
 
 // Pinned, not `new Date()`: a dynamic date drifts on every Worker cold start
@@ -9,7 +10,11 @@ const LAST_MODIFIED = new Date(
 );
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["", ...locations.map((l) => `/${l.slug}`)];
+  const paths = [
+    "",
+    ...locations.map((l) => `/${l.slug}`),
+    ...upcomingLocations.map((l) => `/${l.slug}`),
+  ];
 
   return paths.flatMap((path) =>
     (["ro", "en"] as const).map((locale) => ({

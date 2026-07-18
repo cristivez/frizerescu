@@ -6,10 +6,12 @@ const ROUTES = [
   "/pipera",
   "/kaufland-pipera",
   "/kaufland-mega-mall",
+  "/kaufland-otopeni",
   "/en",
   "/en/pipera",
   "/en/kaufland-pipera",
   "/en/kaufland-mega-mall",
+  "/en/kaufland-otopeni",
 ];
 
 for (const route of ROUTES) {
