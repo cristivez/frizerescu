@@ -74,6 +74,11 @@
     "description": "Pagina pe care o cauți nu a fost găsită. Poate te ajută una dintre locațiile noastre:",
     "home": "Înapoi acasă"
   },
+  "upcoming": {
+    "badge": "În curând",
+    "follow": "Urmărește-ne",
+    "directions": "Vezi locația"
+  },
   "meta": {
     "home": {
       "title": "Frizerescu — Frizerie în Pipera, Voluntari și București",
@@ -82,6 +87,10 @@
     "location": {
       "title": "{name} — Frizerie · Programări online",
       "description": "{name} — {landmark}. Tuns, barbă și îngrijire. Programare online rapidă prin MERO."
+    },
+    "otopeni": {
+      "title": "Frizerie Otopeni — Frizerescu Kaufland Otopeni",
+      "description": "Frizerescu deschide o frizerie în noul Kaufland Otopeni, pe Strada 23 August, lângă Lidl. Ne deschidem toamna 2026 — tuns, barbă, spălat. Urmărește-ne pentru noutăți."
     }
   }
 }
