@@ -33,7 +33,7 @@ Copied verbatim from CLAUDE.md / the spec — every task must honor these:
 **Interfaces:**
 - Produces: `interface UpcomingLocation`, `const upcomingLocations: UpcomingLocation[]`, `function getUpcomingLocation(slug: string): UpcomingLocation | undefined`.
 
-- [ ] **Step 1: Write the failing unit test**
+- [x] **Step 1: Write the failing unit test**
 
 Create `tests/unit/upcoming-locations.test.ts`:
 
@@ -64,12 +64,12 @@ describe("upcomingLocations", () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [ ] ESCALATED: NOT RE-RUNNABLE. TDD red-phase gate; the implementation is committed so it now PASSES where FAIL is the expected result. Original: **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/unit/upcoming-locations.test.ts`
 Expected: FAIL — cannot resolve `@/data/upcoming-locations`.
 
-- [ ] **Step 3: Create the data file**
+- [x] **Step 3: Create the data file**
 
 Create `src/data/upcoming-locations.ts` (use comma-below `ș`/`ț` exactly as written):
 
@@ -124,7 +124,7 @@ export function getUpcomingLocation(slug: string): UpcomingLocation | undefined 
 }
 ```
 
-- [ ] **Step 4: Add the file to the diacritics test sources**
+- [x] **Step 4: Add the file to the diacritics test sources**
 
 In `tests/unit/diacritics.test.ts`, add the import and the source row:
 
@@ -137,12 +137,12 @@ import { upcomingLocations } from "@/data/upcoming-locations";
     ["data/upcoming-locations", upcomingLocations],
 ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `npx vitest run tests/unit/upcoming-locations.test.ts tests/unit/diacritics.test.ts`
 Expected: PASS (both files).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/data/upcoming-locations.ts tests/unit/upcoming-locations.test.ts tests/unit/diacritics.test.ts
@@ -160,12 +160,12 @@ git commit -m "feat(otopeni): add isolated UpcomingLocation data model"
 **Interfaces:**
 - Produces: `upcoming.{badge,follow,directions}` and `meta.otopeni.{title,description}` in both locales.
 
-- [ ] **Step 1: Run the parity test to confirm it currently passes (baseline)**
+- [x] **Step 1: Run the parity test to confirm it currently passes (baseline)**
 
 Run: `npx vitest run tests/unit/messages.test.ts`
 Expected: PASS (identical key sets before the change).
 
-- [ ] **Step 2: Add the `upcoming` namespace and `meta.otopeni` to `messages/ro.json`**
+- [x] **Step 2: Add the `upcoming` namespace and `meta.otopeni` to `messages/ro.json`**
 
 Add a top-level `"upcoming"` key (comma-below diacritics):
 
@@ -186,7 +186,7 @@ Inside the existing `"meta"` object, add:
 }
 ```
 
-- [ ] **Step 3: Add the SAME keys to `messages/en.json`**
+- [x] **Step 3: Add the SAME keys to `messages/en.json`**
 
 Top-level `"upcoming"`:
 
@@ -207,12 +207,12 @@ Inside `"meta"`:
 }
 ```
 
-- [ ] **Step 4: Run parity + diacritics tests to verify they pass**
+- [x] **Step 4: Run parity + diacritics tests to verify they pass**
 
 Run: `npx vitest run tests/unit/messages.test.ts tests/unit/diacritics.test.ts`
 Expected: PASS — key sets still identical; no cedilla in ro.json.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add messages/ro.json messages/en.json
@@ -232,7 +232,7 @@ git commit -m "feat(otopeni): add coming-soon i18n copy (ro + en)"
 - Consumes: `UpcomingLocation` (Task 1); `upcoming.*` messages (Task 2); `Button` (`@/components/ui/Button`).
 - Produces: `ComingSoonCard({ location, locale }: { location: UpcomingLocation; locale: "ro" | "en" })`.
 
-- [ ] **Step 1: Write the failing e2e test (homepage card)**
+- [x] **Step 1: Write the failing e2e test (homepage card)**
 
 Create `tests/e2e/upcoming-location.spec.ts`:
 
@@ -250,12 +250,12 @@ test("homepage shows the Otopeni coming-soon card, after the open shops", async 
 });
 ```
 
-- [ ] **Step 2: Run it to verify it fails**
+- [ ] ESCALATED: NOT RE-RUNNABLE, same red-phase inversion as line 67. Original: **Step 2: Run it to verify it fails**
 
 Run: `npx playwright test tests/e2e/upcoming-location.spec.ts --project=chromium`
 Expected: FAIL — no `a[href="/kaufland-otopeni"]` on the homepage yet.
 
-- [ ] **Step 3: Create `ComingSoonCard.tsx`**
+- [x] **Step 3: Create `ComingSoonCard.tsx`**
 
 Mirrors `LocationCard`'s stretched-link pattern (whole card links to the page; the Follow button is raised with `relative z-10`). Dashed border distinguishes "not open yet". Tokens only.
 
@@ -324,7 +324,7 @@ export function ComingSoonCard({
 }
 ```
 
-- [ ] **Step 4: Render it on the homepage**
+- [x] **Step 4: Render it on the homepage**
 
 In `src/app/[locale]/(site)/page.tsx`, add imports beside the existing ones:
 
@@ -346,12 +346,12 @@ In the locations `<Reveal>` grid, add the coming-soon cards after the open-shop 
           </Reveal>
 ```
 
-- [ ] **Step 5: Run the e2e test to verify it passes**
+- [x] **Step 5: Run the e2e test to verify it passes**
 
 Run: `npx playwright test tests/e2e/upcoming-location.spec.ts --project=chromium`
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/components/sections/ComingSoonCard.tsx "src/app/[locale]/(site)/page.tsx" tests/e2e/upcoming-location.spec.ts
@@ -373,7 +373,7 @@ git commit -m "feat(otopeni): coming-soon card on the homepage"
 - Consumes: `getUpcomingLocation` (Task 1); `upcoming.*` + `meta.otopeni.*` messages (Task 2); `jsonLd` (`@/lib/seo/schema`); `alternates`, `SITE_URL`, `localizedUrl` (`@/lib/seo/metadata`).
 - Produces: `upcomingHairSalonSchema(loc: UpcomingLocation, locale: Locale)`; the route `/kaufland-otopeni` (+ `/en/kaufland-otopeni`).
 
-- [ ] **Step 1: Add failing page-level e2e assertions**
+- [x] **Step 1: Add failing page-level e2e assertions**
 
 Append to `tests/e2e/upcoming-location.spec.ts`:
 
@@ -398,12 +398,12 @@ test("/en/kaufland-otopeni self-canonicals to the en URL", async ({ page }) => {
 });
 ```
 
-- [ ] **Step 2: Run to verify they fail**
+- [ ] ESCALATED: NOT RE-RUNNABLE, same red-phase inversion as line 67. Original: **Step 2: Run to verify they fail**
 
 Run: `npx playwright test tests/e2e/upcoming-location.spec.ts --project=chromium`
 Expected: FAIL — `/kaufland-otopeni` 404s (route does not exist yet).
 
-- [ ] **Step 3: Create the minimal schema builder**
+- [x] **Step 3: Create the minimal schema builder**
 
 Create `src/lib/seo/upcoming-schema.ts`:
 
@@ -450,7 +450,7 @@ export function upcomingHairSalonSchema(loc: UpcomingLocation, locale: Locale) {
 }
 ```
 
-- [ ] **Step 4: Create the page**
+- [x] **Step 4: Create the page**
 
 Create `src/app/[locale]/(site)/kaufland-otopeni/page.tsx`. This static segment takes precedence over the sibling `[location]` dynamic route, so the open-shop page logic is untouched. (If the build warns of a route conflict, rename this segment to `otopeni` and update the slug/tests accordingly — no other location uses that path.)
 
@@ -544,7 +544,7 @@ export default async function OtopeniPage({
 }
 ```
 
-- [ ] **Step 5: Add the slug to the sitemap**
+- [x] **Step 5: Add the slug to the sitemap**
 
 In `src/app/sitemap.ts`, add the import and extend `paths`:
 
@@ -559,7 +559,7 @@ import { upcomingLocations } from "@/data/upcoming-locations";
   ];
 ```
 
-- [ ] **Step 6: Add the two routes to the a11y sweep**
+- [x] **Step 6: Add the two routes to the a11y sweep**
 
 In `tests/e2e/a11y.spec.ts`, add to the `ROUTES` array:
 
@@ -568,12 +568,12 @@ In `tests/e2e/a11y.spec.ts`, add to the `ROUTES` array:
   "/en/kaufland-otopeni",
 ```
 
-- [ ] **Step 7: Run the e2e (page + a11y) to verify pass**
+- [x] **Step 7: Run the e2e (page + a11y) to verify pass**
 
 Run: `npx playwright test tests/e2e/upcoming-location.spec.ts tests/e2e/a11y.spec.ts --project=chromium`
 Expected: PASS — page loads with one H1, self-canonical (both locales), follow link, no booking; zero axe violations on the two new routes.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/lib/seo/upcoming-schema.ts "src/app/[locale]/(site)/kaufland-otopeni/page.tsx" src/app/sitemap.ts tests/e2e/a11y.spec.ts tests/e2e/upcoming-location.spec.ts
@@ -586,17 +586,17 @@ git commit -m "feat(otopeni): dedicated /kaufland-otopeni page + sitemap + a11y"
 
 **Files:** none (verification + git)
 
-- [ ] **Step 1: Run the full local gate**
+- [x] **Step 1: Run the full local gate**
 
 Run: `npm run predeploy`
 Expected: PASS — typecheck clean, all unit tests green (incl. new upcoming + messages parity + diacritics), all e2e green (incl. new page + a11y), Lighthouse assertions pass (perf ≥ 65, a11y/best-practices/seo ≥ 95). If Lighthouse SEO dips due to the new page, confirm the `canonical` skip in `lighthouserc.json` still applies (it only tests `/`; the new page is not in the LH URL list, so no change expected).
 
-- [ ] **Step 2: Confirm isolation — the three open shops are untouched**
+- [x] **Step 2: Confirm isolation — the three open shops are untouched**
 
 Run: `git diff --name-only main -- src/data/locations.ts src/components/sections/LocationCard.tsx src/lib/seo/schema.ts`
 Expected: empty output (none of these changed).
 
-- [ ] **Step 3: Push the branch and open a PR (do NOT deploy yet)**
+- [ ] ESCALATED: PREMISE DEAD. `git push origin redesign` is a no-op (origin/redesign == redesign) and `gh pr create --base main --head redesign` ERRORS with 'No commits between main and redesign' -- main already carries every Otopeni commit. This work reached main without a PR. Amend to 'already integrated'. Original: **Step 3: Push the branch and open a PR (do NOT deploy yet)**
 
 ```bash
 git push origin redesign
@@ -623,3 +623,7 @@ gh pr create --base main --head redesign --title "feat: coming-soon Kaufland Oto
 **2. Placeholder scan:** No TBD/TODO; every code step has complete code. ✓
 
 **3. Type consistency:** `UpcomingLocation` fields (`slug`, `name`, `address.{street,locality,region,postalCode?}`, `landmark`, `geo.{lat,lng}`, `opening`, `intro`, `followUrl`, `mapsUrl`, `image`) are defined in Task 1 and used identically in the card (Task 3), page + schema (Task 4). `getUpcomingLocation`, `upcomingLocations`, `upcomingHairSalonSchema` names match across tasks. Message keys `upcoming.{badge,follow,directions}` and `meta.otopeni.{title,description}` defined in Task 2, consumed in Tasks 3–4. ✓
+
+- [ ] **Execute [2026-07-10-frizerescu-redesign-phase1.md](2026-07-10-frizerescu-redesign-phase1.md)** -- queued by harness-plan-activate.
+  It was written while this list still had open steps, so it joined the
+  queue rather than repointing ACTIVE.md away from unfinished work.
