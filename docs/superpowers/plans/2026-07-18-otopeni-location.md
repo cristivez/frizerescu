@@ -596,7 +596,7 @@ Expected: PASS — typecheck clean, all unit tests green (incl. new upcoming + m
 Run: `git diff --name-only main -- src/data/locations.ts src/components/sections/LocationCard.tsx src/lib/seo/schema.ts`
 Expected: empty output (none of these changed).
 
-- [ ] ESCALATED: PREMISE DEAD. `git push origin redesign` is a no-op (origin/redesign == redesign) and `gh pr create --base main --head redesign` ERRORS with 'No commits between main and redesign' -- main already carries every Otopeni commit. This work reached main without a PR. Amend to 'already integrated'. Original: **Step 3: Push the branch and open a PR (do NOT deploy yet)**
+- [x] **Step 3: Push the branch and open a PR** -- ALREADY INTEGRATED, no PR needed. Verified 2026-10-14: `git branch --contains 6ef3091` lists `main`, and main's log carries all 8 Otopeni commits. The work also reached production: the live worker version `0aafc699` (deployed 2026-07-18T15:53Z, after the last Otopeni commit at 15:52Z) serves `/kaufland-otopeni` with HTTP 200.
 
 ```bash
 git push origin redesign
@@ -624,6 +624,13 @@ gh pr create --base main --head redesign --title "feat: coming-soon Kaufland Oto
 
 **3. Type consistency:** `UpcomingLocation` fields (`slug`, `name`, `address.{street,locality,region,postalCode?}`, `landmark`, `geo.{lat,lng}`, `opening`, `intro`, `followUrl`, `mapsUrl`, `image`) are defined in Task 1 and used identically in the card (Task 3), page + schema (Task 4). `getUpcomingLocation`, `upcomingLocations`, `upcomingHairSalonSchema` names match across tasks. Message keys `upcoming.{badge,follow,directions}` and `meta.otopeni.{title,description}` defined in Task 2, consumed in Tasks 3–4. ✓
 
-- [ ] **Execute [2026-07-10-frizerescu-redesign-phase1.md](2026-07-10-frizerescu-redesign-phase1.md)** -- queued by harness-plan-activate.
+- [ ] PAUSED: **Execute [2026-07-10-frizerescu-redesign-phase1.md](2026-07-10-frizerescu-redesign-phase1.md)** -- queued by harness-plan-activate.
   It was written while this list still had open steps, so it joined the
   queue rather than repointing ACTIVE.md away from unfinished work.
+  **Paused 2026-10-14:** a live-site defect took priority -- the worker was
+  returning `exceededCpu` 503s on 3 of 18 uncached page views (Workers Free
+  10 ms CPU cap vs 54-235 ms per render). That work has its own plan,
+  [2026-10-14-worker-cpu-page-cache.md](2026-10-14-worker-cpu-page-cache.md),
+  and is blocked on an owner deploy. **What would unblock this one:** the CPU
+  plan reaching its post-deploy measurement (Task 5), after which phase 1 can
+  be re-activated. Nothing in phase 1 is started, so nothing is half-done.
