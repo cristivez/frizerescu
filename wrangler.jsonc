@@ -16,6 +16,11 @@
   // (prerender cache MISS) would otherwise fall back to unoptimised image URLs
   // even though the build was made with the flag. Build-time env is not enough.
   "vars": { "NEXT_PUBLIC_CF_IMAGE_RESIZING": "1" },
+  // Workers Cache: Cloudflare answers from its cache WITHOUT running the
+  // Worker. Zone Cache Rules do not apply to a Worker's own responses, so this
+  // is the only edge cache that does. The key includes the Worker version, so
+  // each deploy invalidates it; pages send s-maxage=60 (next.config.ts).
+  "cache": { "enabled": true },
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   // Custom domains: Cloudflare manages the DNS records + certs for both.
   "routes": [
