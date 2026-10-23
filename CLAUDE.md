@@ -77,8 +77,9 @@ typecheck + unit + e2e first (the LOCAL test gate), so a deploy cannot start
 on red tests. There is NO GitHub Actions CI/CD — it was removed in favour of
 this local gate, so nothing runs on GitHub and there is no auto-deploy. Run
 `npm run predeploy` (or `npm run deploy`) locally before shipping. GitHub Pages
-was disabled at cutover; the old static site survives on the local
-`legacy-static` branch (cut at 549129c) purely as an archive.
+was disabled at cutover; the old static site survives as the tag
+`archive/legacy-static` (549129c, pushed to GitHub) purely as an archive.
+`main` is the only long-lived branch and is what production runs; deploy from it.
 
 ## Before declaring work done
 
