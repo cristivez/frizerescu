@@ -634,3 +634,8 @@ gh pr create --base main --head redesign --title "feat: coming-soon Kaufland Oto
   and is blocked on an owner deploy. **What would unblock this one:** the CPU
   plan reaching its post-deploy measurement (Task 5), after which phase 1 can
   be re-activated. Nothing in phase 1 is started, so nothing is half-done.
+
+## Discovered work (2026-10-23, bot-filter review — see 2026-10-23-bot-filter-and-page-cpu.md)
+
+- [ ] **Worker entry wiring untested:** `worker/index.ts` (delegation to `.open-next/worker.js`, Durable Object re-exports) is only checked by a manual `npm run preview`; e2e runs against `next dev` and bypasses it. Add an automated smoke check against the built Worker (pages 200, `/login` 404, POST 405).
+- [ ] **Stop probes earlier than the Worker:** a Cloudflare WAF custom rule (Free plan allows 5) blocks scanner paths before the Worker runs, and a prerendered not-found response would make human typos (`/contact`, ~40 ms) cheap too. Owner decision for the WAF rule (dashboard change).
