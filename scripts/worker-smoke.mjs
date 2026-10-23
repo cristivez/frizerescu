@@ -15,12 +15,18 @@ const checks = [
   { path: "/robots.txt", status: 200 },
   { path: "/sitemap.xml", status: 200 },
   { path: "/icon.png", status: 200 },
-  // A human typo: must still get Next's styled 404 page, not the bare one.
-  { path: "/contact", status: 404, type: "text/html" },
+  // A human typo: must still get the styled 404 page, not the bare one. The Worker
+  // serves it without Next, so it carries no scripts.
+  { path: "/contact", status: 404, type: "text/html", contains: "Pagina nu există", noScripts: true },
+  { path: "/en/nu-exista", status: 404, type: "text/html", contains: "Page not found", noScripts: true },
+  { path: "/static-404", status: 404, type: "text/html", contains: "Pagina nu există" },
   // Scanner probes: the filter answers before Next boots.
   { path: "/login", status: 404, body: "Not Found" },
   { path: "/.git/config", status: 404, body: "Not Found" },
   { path: "/wp-login.php", status: 404, body: "Not Found" },
+  { path: "/Dockerfile", status: 404, body: "Not Found" },
+  { path: "/docker-compose", status: 404, body: "Not Found" },
+  { path: "/aws-exports.js", status: 404, body: "Not Found" },
   { path: "/", method: "POST", status: 405, body: "Method Not Allowed" },
 ];
 
@@ -62,6 +68,8 @@ try {
     if (c.type && !(res.headers.get("content-type") ?? "").startsWith(c.type)) {
       problems.push(`content-type ${res.headers.get("content-type")}, want ${c.type}`);
     }
+    if (c.contains && !body.includes(c.contains)) problems.push(`body lacks ${JSON.stringify(c.contains)}`);
+    if (c.noScripts && /<script\b/.test(body)) problems.push("body has <script>");
     if (c.body !== undefined && body !== c.body) problems.push(`body ${JSON.stringify(body.slice(0, 40))}, want ${JSON.stringify(c.body)}`);
     console.log(`${problems.length ? "FAIL" : "ok  "} ${label}${problems.length ? ` — ${problems.join("; ")}` : ""}`);
     if (problems.length) failures.push(label);

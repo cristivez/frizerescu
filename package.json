@@ -16,9 +16,9 @@
     "test:e2e": "playwright test --project=chromium",
     "test:worker": "node scripts/worker-smoke.mjs",
     "test:lighthouse": "next build && lhci autorun",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "preview": "opennextjs-cloudflare build && node scripts/build-static-404.mjs && opennextjs-cloudflare preview",
     "predeploy": "npm run typecheck && npm run test:unit && npm run test:e2e && npm run test:lighthouse",
-    "deploy": "NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 NEXT_PUBLIC_CF_BEACON_TOKEN=ae5c3dfac68b41bab6396a4aab568c59 opennextjs-cloudflare build && npm run test:worker && opennextjs-cloudflare deploy"
+    "deploy": "NEXT_PUBLIC_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) NEXT_PUBLIC_CF_IMAGE_RESIZING=1 NEXT_PUBLIC_CF_BEACON_TOKEN=ae5c3dfac68b41bab6396a4aab568c59 opennextjs-cloudflare build && node scripts/build-static-404.mjs && npm run test:worker && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -9,9 +9,11 @@
   // Workers Logs. Off until 2026-10-14, which is why three months of `exceededCpu`
   // 503s left no trail in Cloudflare's log store and only surfaced via `wrangler tail`.
   "observability": { "enabled": true },
-  // Explicit: adding custom-domain routes silently disables workers.dev
-  // otherwise (bit us on the first cutover attempt). Keep both live.
-  "workers_dev": true,
+  // The site is served only on frizerescu.ro + www (custom domains below), never
+  // on *.workers.dev. Both must be explicit: leaving either unset lets the next
+  // `wrangler deploy` turn the public workers.dev / preview URLs back on.
+  "workers_dev": false,
+  "preview_urls": false,
   // The image loader checks this at RUNTIME too: pages re-rendered at the edge
   // (prerender cache MISS) would otherwise fall back to unoptimised image URLs
   // even though the build was made with the flag. Build-time env is not enough.
