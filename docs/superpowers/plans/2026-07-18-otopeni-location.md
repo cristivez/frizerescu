@@ -637,5 +637,5 @@ gh pr create --base main --head redesign --title "feat: coming-soon Kaufland Oto
 
 ## Discovered work (2026-10-23, bot-filter review — see 2026-10-23-bot-filter-and-page-cpu.md)
 
-- [ ] **Worker entry wiring untested:** `worker/index.ts` (delegation to `.open-next/worker.js`, Durable Object re-exports) is only checked by a manual `npm run preview`; e2e runs against `next dev` and bypasses it. Add an automated smoke check against the built Worker (pages 200, `/login` 404, POST 405).
+- [x] **Worker entry wiring untested:** (done 2026-10-24: `scripts/worker-smoke.mjs` / `npm run test:worker`, wired into `npm run deploy`; fails 4/13 checks when `main` points straight at `.open-next/worker.js`) `worker/index.ts` (delegation to `.open-next/worker.js`, Durable Object re-exports) is only checked by a manual `npm run preview`; e2e runs against `next dev` and bypasses it. Add an automated smoke check against the built Worker (pages 200, `/login` 404, POST 405).
 - [ ] **Stop probes earlier than the Worker:** a Cloudflare WAF custom rule (Free plan allows 5) blocks scanner paths before the Worker runs, and a prerendered not-found response would make human typos (`/contact`, ~40 ms) cheap too. Owner decision for the WAF rule (dashboard change).

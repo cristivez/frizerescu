@@ -45,7 +45,7 @@ The site owner is NOT a developer. In every response:
 - `src/app/[locale]/(site)/page.tsx` — homepage
 - `src/app/[locale]/(site)/[location]/page.tsx` — the three location pages
 - `src/app/{sitemap,robots}.ts` — generated from `locations.ts`
-- `worker/` — custom Worker entry: answers scanner probes with a bare 404 and **any non-GET/HEAD request with 405** before Next runs. Adding a form, server action or route handler means updating `worker/bot-filter.ts` (`next dev` and e2e bypass it — check with `npm run preview`)
+- `worker/` — custom Worker entry: answers scanner probes with a bare 404 and **any non-GET/HEAD request with 405** before Next runs. Adding a form, server action or route handler means updating `worker/bot-filter.ts` (`next dev` and e2e bypass it; `npm run test:worker` checks the built Worker and runs inside `npm run deploy` between build and upload)
 - `src/data/locations.ts` — **single source of truth** for the shops (see below)
 - `src/data/{services,reviews}.ts` — services and testimonials
 - `src/lib/seo/{metadata,schema}.ts` — URLs, hreflang, JSON-LD builders, `jsonLd()` sanitizer
