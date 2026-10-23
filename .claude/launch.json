@@ -4,8 +4,20 @@
     {
       "name": "frizerescu-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3003
+    },
+    {
+      "name": "frizerescu-worker-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "opennextjs-cloudflare",
+        "preview"
+      ],
+      "port": 8787
     }
   ]
 }
