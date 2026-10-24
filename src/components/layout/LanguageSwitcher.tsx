@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "@/i18n/navigation";
-import { Link } from "@/i18n/navigation";
+import NextLink from "next/link";
+import { getPathname, usePathname } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { routing, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
@@ -15,10 +15,11 @@ export function LanguageSwitcher() {
   return (
     <div className="flex items-center gap-1">
       {routing.locales.map((locale) => (
-        <Link
+        // Plain next/link with the final URL: next-intl's Link prefixes the default
+        // locale when switching to it (/ro/pipera), which costs a 307 to /pipera.
+        <NextLink
           key={locale}
-          href={pathname}
-          locale={locale}
+          href={getPathname({ href: pathname, locale })}
           hrefLang={locale}
           lang={locale}
           aria-label={LABELS[locale]}
@@ -29,7 +30,7 @@ export function LanguageSwitcher() {
           )}
         >
           {locale}
-        </Link>
+        </NextLink>
       ))}
     </div>
   );

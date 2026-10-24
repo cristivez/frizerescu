@@ -59,7 +59,8 @@ for (const locale of LOCALES) {
     .replace(/<link\b[^>]*\brel="modulepreload"[^>]*>/g, "");
   // The language switcher links to this page in each locale; send it to that locale's home.
   for (const l of LOCALES) {
-    html = replaceExactly(html, `href="/${l}/static-404"`, `href="${l === "ro" ? "/" : `/${l}`}"`, 1, file);
+    const prefix = l === "ro" ? "" : `/${l}`; // as-needed: the default locale is unprefixed
+    html = replaceExactly(html, `href="${prefix}/static-404"`, `href="${prefix || "/"}"`, 1, file);
   }
   // The mobile menu button cannot open without scripts: remove it rather than ship a dead
   // control. Phones keep the logo, the home button and the shop links in the page body.
