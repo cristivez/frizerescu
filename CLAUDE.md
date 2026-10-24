@@ -70,8 +70,10 @@ The site owner is NOT a developer. In every response:
 ## Deployment (live since 2026-07-11)
 
 frizerescu.ro and www.frizerescu.ro are served by the Cloudflare Worker
-`frizerescu` (custom domains, DNS + certs managed by Cloudflare; www 301s to
-the apex via middleware). Deploys are MANUAL: `npm run deploy` from an
+`frizerescu` (custom domains, DNS + certs managed by Cloudflare). www 301s to the apex via a
+zone Redirect Rule (dashboard → Rules → Redirect Rules), which runs before the Worker:
+Workers Cache ignores the hostname, so a middleware-only redirect let www serve cached
+apex pages. The middleware's www branch stays as the fallback for `next dev`/e2e. Deploys are MANUAL: `npm run deploy` from an
 authenticated machine builds and ships it — its `predeploy` hook runs
 typecheck + unit + e2e first (the LOCAL test gate), so a deploy cannot start
 on red tests. There is NO GitHub Actions CI/CD — it was removed in favour of
