@@ -46,3 +46,14 @@ test("language switch preserves the location route", async ({ page }) => {
   }).toPass({ timeout: 15_000 });
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 });
+
+test("switching back to Romanian links to the unprefixed URL, not via a redirect", async ({ page }) => {
+  await page.goto("/en/pipera");
+  const ro = page.getByRole("link", { name: "Română" });
+  await expect(ro).toHaveAttribute("href", "/pipera");
+  await expect(async () => {
+    await ro.click();
+    await expect(page).toHaveURL("/pipera", { timeout: 2_000 });
+  }).toPass({ timeout: 15_000 });
+  await expect(page.locator("html")).toHaveAttribute("lang", "ro");
+});
