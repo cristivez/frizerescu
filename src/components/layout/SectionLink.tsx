@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
+import { getPathname, usePathname, useRouter } from "@/i18n/navigation";
 
 /** sessionStorage key: which homepage section to scroll to after navigating home. */
 const SCROLL_KEY = "frz:scrollTo";
@@ -13,7 +14,8 @@ const SCROLL_KEY = "frz:scrollTo";
  * hash routes "bad formatted". From a location page (where the section doesn't
  * exist) it navigates home first, then scrolls once the homepage mounts
  * (see ScrollOnArrival). The real `href` is kept for accessibility, middle-click
- * / open-in-new-tab, and the no-JS fallback.
+ * / open-in-new-tab, and the no-JS fallback, so it points at the home of the
+ * current locale (`/en#locations`), not always the Romanian one.
  */
 export function SectionLink({
   section,
@@ -28,6 +30,7 @@ export function SectionLink({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const locale = useLocale();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // Let modified clicks (new tab, etc.) use the real href.
@@ -46,7 +49,11 @@ export function SectionLink({
   };
 
   return (
-    <a href={pathname === "/" ? `#${section}` : `/#${section}`} onClick={handleClick} className={className}>
+    <a
+      href={pathname === "/" ? `#${section}` : `${getPathname({ href: "/", locale })}#${section}`}
+      onClick={handleClick}
+      className={className}
+    >
       {children}
     </a>
   );

@@ -1,25 +1,43 @@
 /**
- * Every address the Next.js app answers with a real page. Anything else is a 404, and
- * the Worker serves that 404 itself (worker/index.ts) instead of letting Next render it.
+ * Decides, before Next boots, whether an address is a real page. Anything else is a 404,
+ * and the Worker serves that 404 itself (worker/index.ts) instead of letting Next render it.
  *
- * Why: an unknown path used to go middleware → `[locale]/[...rest]` (dynamic) → a full
- * server render of the layout + not-found page, 212–587 ms CPU per request against the
- * 10 ms Free-plan budget.
+ * Why: an unknown path went middleware → `[locale]/[...rest]` (dynamic) → a full server
+ * render of the layout + not-found page. Cloudflare's dashboard showed 212–529 ms CPU per
+ * unknown path (587 ms for /Dockerfile) after deploy 55eadc13 (owner report, 2026-10-24),
+ * against the 10 ms Free-plan budget.
  *
- * Adding a page means adding it here; `npm run test:worker` checks the real pages.
+ * `pages` comes from the build (scripts/build-static-404.mjs reads Next's prerender
+ * manifest), so a new page is covered without editing this file.
  */
-import { locations } from "../src/data/locations";
-import { upcomingLocations } from "../src/data/upcoming-locations";
 import { DOTTED_ROUTES } from "./bot-filter";
 
-const PAGES = new Set(["", ...[...locations, ...upcomingLocations].map((l) => `/${l.slug}`)]);
+export type Route = { type: "page" } | { type: "redirect"; location: string } | { type: "not-found" };
 
-export function isPageRoute(pathname: string): boolean {
-  if (pathname.startsWith("/_next/") || pathname.startsWith("/cdn-cgi/")) return true;
-  // Metadata routes (robots.txt, sitemap.xml, icons) are Next routes too.
-  if (DOTTED_ROUTES.has(pathname)) return true;
-  // `/pipera/` and `/ro/pipera` are real too: Next redirects them to the canonical URL.
-  const path = pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
-  const unprefixed = path.replace(/^\/(ro|en)(?=\/|$)/, "");
-  return PAGES.has(unprefixed === "/" ? "" : unprefixed);
+const LOCALE_PREFIX = /^\/(ro|en)(?=\/|$)/;
+
+/** `pages`: unprefixed page paths, "" for the homepage ("", "/pipera", …). */
+export function resolveRoute(pathname: string, pages: ReadonlySet<string>): Route {
+  // Served by Next but not page routes: image optimisation, Cloudflare's image resizing
+  // (reaches the Worker only in local dev), metadata routes (robots.txt, sitemap.xml, icons).
+  if (pathname === "/_next/image" || pathname.startsWith("/cdn-cgi/") || DOTTED_ROUTES.has(pathname)) {
+    return { type: "page" };
+  }
+  // `/ro/pipera` is real too: next-intl redirects it to the unprefixed URL.
+  if (pages.has(pathname.replace(LOCALE_PREFIX, "").replace(/^\/$/, ""))) return { type: "page" };
+
+  // A page address with a trailing slash, doubled slashes, stray whitespace or needless
+  // percent-encoding (`/pipera/`, `//pipera`, `/pipera%20`, `/%70ipera`) gets a redirect to
+  // the canonical one, as Next would, instead of a 404.
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(pathname);
+  } catch {
+    return { type: "not-found" };
+  }
+  const canonical = decoded.trim().replace(/\/{2,}/g, "/").replace(/(.)\/$/, "$1");
+  if (canonical !== pathname && pages.has(canonical.replace(LOCALE_PREFIX, "").replace(/^\/$/, ""))) {
+    return { type: "redirect", location: canonical };
+  }
+  return { type: "not-found" };
 }

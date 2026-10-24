@@ -1,13 +1,19 @@
 // Smoke test for the BUILT Worker (worker/index.ts + .open-next), run between
-// `opennextjs-cloudflare build` and `deploy`. `next dev` and the Playwright suite never
-// go through the custom entry, so this is the only automated check that the bot filter
-// is wired in front of Next and that real pages still reach it.
-// Usage: node scripts/worker-smoke.mjs   (needs a fresh `opennextjs-cloudflare build`)
+// `npm run build:worker` and `deploy`. `next dev` and the Playwright suite never go
+// through the custom entry, so this is the only automated check that the bot filter
+// and the 404 gate are wired in front of Next and that every real page still reaches it.
+// Usage: node scripts/worker-smoke.mjs   (needs a fresh `npm run build:worker`)
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
+// The page list the Worker itself was built with (scripts/build-static-404.mjs).
+import { pages } from "../.open-next/static-404.mjs";
+
+const notFoundTitle = (locale) =>
+  JSON.parse(readFileSync(`messages/${locale}.json`, "utf8")).notFound.title;
 
 const checks = [
-  // Real pages and metadata routes: must reach Next and succeed.
-  ...["/", "/en", "/pipera", "/en/kaufland-mega-mall", "/kaufland-otopeni"].map((path) => ({
+  // Every page Next built, in both locales: must reach Next and succeed.
+  ...pages.flatMap((p) => [p || "/", `/en${p}`]).map((path) => ({
     path,
     status: 200,
     type: "text/html",
@@ -17,9 +23,23 @@ const checks = [
   { path: "/icon.png", status: 200 },
   // A human typo: must still get the styled 404 page, not the bare one. The Worker
   // serves it without Next, so it carries no scripts.
-  { path: "/contact", status: 404, type: "text/html", contains: "Pagina nu există", noScripts: true },
-  { path: "/en/nu-exista", status: 404, type: "text/html", contains: "Page not found", noScripts: true },
-  { path: "/static-404", status: 404, type: "text/html", contains: "Pagina nu există" },
+  ...[
+    ["/contact", "ro"],
+    ["/en/nu-exista", "en"],
+    ["/static-404", "ro"],
+    ["/_next/foo", "ro"],
+  ].map(([path, locale]) => ({
+    path,
+    status: 404,
+    type: "text/html",
+    contains: notFoundTitle(locale),
+    noScripts: true,
+    headers: { "content-security-policy": "frame-ancestors 'self'" },
+  })),
+  // Page addresses Next used to normalise: a redirect, not a 404.
+  { path: "//pipera", status: 308, location: "/pipera" },
+  { path: "/pipera/", status: 308, location: "/pipera" },
+  { path: "/en/pipera%20?x=1", status: 308, location: "/en/pipera?x=1" },
   // Scanner probes: the filter answers before Next boots.
   { path: "/login", status: 404, body: "Not Found" },
   { path: "/.git/config", status: 404, body: "Not Found" },
@@ -70,6 +90,12 @@ try {
     }
     if (c.contains && !body.includes(c.contains)) problems.push(`body lacks ${JSON.stringify(c.contains)}`);
     if (c.noScripts && /<script\b/.test(body)) problems.push("body has <script>");
+    if (c.location && new URL(res.headers.get("location") ?? "", BASE).href !== new URL(c.location, BASE).href) {
+      problems.push(`location ${res.headers.get("location")}, want ${c.location}`);
+    }
+    for (const [name, part] of Object.entries(c.headers ?? {})) {
+      if (!(res.headers.get(name) ?? "").includes(part)) problems.push(`${name} lacks ${JSON.stringify(part)}`);
+    }
     if (c.body !== undefined && body !== c.body) problems.push(`body ${JSON.stringify(body.slice(0, 40))}, want ${JSON.stringify(c.body)}`);
     console.log(`${problems.length ? "FAIL" : "ok  "} ${label}${problems.length ? ` — ${problems.join("; ")}` : ""}`);
     if (problems.length) failures.push(label);
