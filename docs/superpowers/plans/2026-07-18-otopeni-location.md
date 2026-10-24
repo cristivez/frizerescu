@@ -639,3 +639,9 @@ gh pr create --base main --head redesign --title "feat: coming-soon Kaufland Oto
 
 - [x] **Worker entry wiring untested:** (done 2026-10-24: `scripts/worker-smoke.mjs` / `npm run test:worker`, wired into `npm run deploy`; fails 4/13 checks when `main` points straight at `.open-next/worker.js`) `worker/index.ts` (delegation to `.open-next/worker.js`, Durable Object re-exports) is only checked by a manual `npm run preview`; e2e runs against `next dev` and bypasses it. Add an automated smoke check against the built Worker (pages 200, `/login` 404, POST 405).
 - [ ] PAUSED: awaiting owner decision (Cloudflare dashboard change on the live zone; not part of the 2026-10-24 merge+deploy request). **Stop probes earlier than the Worker:** a Cloudflare WAF custom rule (Free plan allows 5) blocks scanner paths before the Worker runs, and a prerendered not-found response would make human typos (`/contact`, ~40 ms) cheap too. Owner decision for the WAF rule (dashboard change).
+
+## Worker 404 + workers.dev (2026-10-24, branch fix/cf-404-workersdev — see 2026-10-24-cf-404-review-fixes.md)
+
+- [x] **workers.dev and preview URLs off, unknown paths served the static 404 without Next** (b4b4d9e; not deployed). This also covers the "human typos cheap too" half of the WAF item above.
+- [x] **Fix the 15 `/code-review max` findings on b4b4d9e:** (done 2026-10-24: 27/27 smoke, 156 unit, 43 e2e, dry-run green) follow-up commit on the same branch; steps in 2026-10-24-cf-404-review-fixes.md.
+- [ ] **Real pages still cost ~24 ms CPU (owner report, 2026-10-24):** all are SSG and served from the build cache, so the cost is OpenNext's own work (middleware, routing, cache read) plus cold starts. Candidate: have the Worker serve the prerendered page HTML directly, as it now does for the 404. Report only so far; owner to decide.

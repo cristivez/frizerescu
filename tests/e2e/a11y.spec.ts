@@ -12,6 +12,9 @@ const ROUTES = [
   "/en/kaufland-pipera",
   "/en/kaufland-mega-mall",
   "/en/kaufland-otopeni",
+  // What every unknown address shows (served by the Worker without its scripts).
+  "/static-404",
+  "/en/static-404",
 ];
 
 for (const route of ROUTES) {

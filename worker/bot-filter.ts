@@ -16,7 +16,7 @@
 
 // The only dotted paths the app itself serves (src/app/{robots,sitemap,manifest}.ts
 // and the icon.png/apple-icon.png metadata routes).
-const DOTTED_ROUTES = new Set([
+export const DOTTED_ROUTES = new Set([
   "/robots.txt",
   "/sitemap.xml",
   "/manifest.webmanifest",
@@ -72,6 +72,9 @@ export function isBotProbe(method: string, pathname: string): boolean {
   // /phpinfo.php, /config.json, /backup.sql, /api%2F.env, … — no page route has a dot.
   const last = segments.at(-1) ?? "";
   if (last.includes(".") && !DOTTED_ROUTES.has(pathname)) return true;
+  // Deployment files, also probed without an extension: /Dockerfile, /docker-compose,
+  // /docker-compose.prod.yml, /aws-exports.js, /app/Dockerfile, …
+  if (/^(dockerfile|docker-compose|aws-exports)/.test(last)) return true;
 
   const first = segments[0] === "ro" || segments[0] === "en" ? segments[1] : segments[0];
   return first !== undefined && PROBE_SEGMENTS.has(first);
